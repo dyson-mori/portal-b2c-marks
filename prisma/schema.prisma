@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  category_id String
+
+  name        String
+  description String
+  price       Decimal
+
+  created_at DateTime @default(now())
+
+  category Category @relation(fields: [category_id], references: [id])
+
+  files Files[]
+
+  @@map("products")
+}
+
+model Files {
+  id String @id @default(cuid())
+
+  product_id String
+
+  url    String
+  width  String
+  height String
+  code   String
+
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@map("files")
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+
+  created_at DateTime  @default(now())
+  Product    Product[]
+
+  @@map("categories")
+}
+
+// model CategoryList {
+//   id          String  @id @default(cuid())
+//   category_id String?
+
+//   Category Category? @relation(fields: [category_id], references: [id])
+
+//   created_at DateTime @default(now())
+
+//   @@map("category_list")
+// }
+
+// model Seller {
+//   id         String  @id @default(cuid())
+//   status     String?
+//   session_id String
+
+//   @@map("sellers")
+// }
+
+// model Address {
+//   id String @id @default(cuid())
+
+//   firstname   String
+//   lastname    String
+//   description String?
+//   status      String // start and finish
+
+//   neighborhood String // Eldorado
+//   city         String // Contagem
+//   street       String // Rua Acacias
+//   cep          String // 32310370
+//   state        String // MG
+//   number       String // MG
+//   phone        String
+
+//   @@map("address")
+// }
+
+// model Payment {
+//   id         String @id @default(cuid())
+//   product_id String
+
+//   @@map("payments")
+// }
+
+// https://www.restapitutorial.com/httpstatuscodes.html
+
+// https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-scalar-lists-arrays
+// https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting
+// https://www.prisma.io/docs/reference/api-reference/error-reference
