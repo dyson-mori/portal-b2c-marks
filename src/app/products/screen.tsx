@@ -17,7 +17,6 @@ type Props = {
   }[];
 };
 
-
 export default function ProductsScreen({ data, cards }: Props) {
 
   // const handleSubmit = (event: SyntheticEvent) => {
@@ -46,7 +45,7 @@ export default function ProductsScreen({ data, cards }: Props) {
 
         <ProductsStyled>
           {data.map(item =>
-            <Product key={item.id} id={item.id} image={item.image} name={item.name} price={item.price} />
+            <Product key={item.id} id={item.id} image={item.files[0].url} name={item.name} price={item.price} />
           )}
         </ProductsStyled>
       </Content>

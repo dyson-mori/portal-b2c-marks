@@ -1,39 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/services/prisma";
-import { Product } from "@prisma/client";
-
-import data from '../../../services/mock.json';
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-  
-  const find = data.find(t => t.id === id);
-  
-  return NextResponse.json(find);
+
+  const product = await prisma.product.findFirst({
+    where: {
+      id: id!
+    },
+    include: {
+      files: true
+    }
+  });
+
+  return NextResponse.json(product);
 };
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
-  const body = Object.fromEntries(formData) as unknown as Product;
+  const body = await request.json();
 
-  const file = formData.get("file") as File;
+  const product = await prisma.product.create({
+    data: {
+      name: body.name,
+      description: body.description,
+      price: body.price,
+      category_id: body.category_id
+    }
+  });
 
-  // const product = await prisma.product.create({
-  //   data: {
-  //     name: body.name,
-  //     description: body.name,
-  //     price: body.price,
-  //     category_id: body.category_id
-  //   }
-  // });
+  if (!product) {
+    throw new Error('Product Server Error')
+  };
 
-  // if (!product) {
-  //   throw new Error('Product Server Error')
-  // };
+  return NextResponse.json(product);
+};
 
-  console.log(file);
+export async function DELETE(request: NextRequest) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
 
-  return NextResponse.json(body);
+  const data = await prisma.product.delete({
+    where: {
+      id: `${id}`,
+    },
+  });
+
+  if (!data) {
+    throw new Error('Register failed');
+  };
+
+  return NextResponse.json(`Question [${data.name}] has been deleted`);
 };

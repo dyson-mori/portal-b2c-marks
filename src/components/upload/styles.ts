@@ -3,8 +3,27 @@ import styled, { css } from "styled-components";
 export const Container = styled.div`
   display: flex;
 
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  width: 400px;
+
+  input[type="file"]{
+    display: none;
+  }
+`;
+
+export const MultiFiles = styled.div`
+  display: flex;
+
+  justify-content: space-between;
+
+  width: 400px;
+  height: 400px;
+
+  flex-wrap: wrap;
 
   label {
     display: flex;
@@ -12,8 +31,8 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
 
-    width: 400px;
-    height: 400px;
+    width: calc(400px / 3.1);
+    height: calc(400px / 3.1);
 
     color: #303030;
 
@@ -24,15 +43,11 @@ export const Container = styled.div`
       box-shadow: ${theme.settings.box.simple};
       border-radius: ${theme.settings.radius.small};
     `};
-  }
+  };
 
-  input[type="file"]{
-    display: none;
-  }
-
-  img {
-    width: 400px;
-    height: 400px;
+  #img {
+    width: calc(400px / 3.1);
+    height: calc(400px / 3.1);
 
     ${({ theme }) => css`
       background-color: ${theme.colors.white};
@@ -42,14 +57,4 @@ export const Container = styled.div`
 
     object-fit: cover;
   }
-`;
-
-export const Load = styled.div`
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  width: 400px;
-  height: 400px;
 `;

@@ -1,6 +1,7 @@
 const themes = {
   colors: {
     primary: '#FA0B5B',
+    primary_loading: '#962349',
 
     white: '#fff',
 

@@ -7,8 +7,6 @@ export const Container = styled.button<ButtonProps>`
   width: 100%;
   height: 50px;
 
-  cursor: pointer;
-
   ${({ theme, primary }) => primary === 'true' && css`
     color: ${theme.colors.white};
     background-color: ${theme.colors.primary};
@@ -22,8 +20,10 @@ export const Container = styled.button<ButtonProps>`
     font-weight: ${theme.font.weight[500]};
   `};
 
-  ${({ theme }) => css`
+  ${({ theme, disabled }) => css`
     box-shadow: ${theme.settings.box.simple};
     border-radius: ${theme.settings.radius.small};
+    background-color: ${theme.colors[disabled ? 'primary_loading' : 'primary']};
+    cursor: ${disabled ? 'default' : 'pointer'};
   `};
 `;

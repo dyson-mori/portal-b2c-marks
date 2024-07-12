@@ -15,7 +15,7 @@ type Props = {
 const Images: React.FC<Props> = ({ data }) => {
   const [select, setSelect] = useState(0);
 
-  const width = data.files[select].width / 2.2;
+  const width = Number(data.files[select].width) / 2.2;
 
   return (
     <Container>
@@ -38,7 +38,7 @@ const Images: React.FC<Props> = ({ data }) => {
       </Options>
       <Image
         width={width}
-        height={width * (data.files[select].height / data.files[select].width)}
+        height={width * (Number(data.files[select].height) / Number(data.files[select].width))}
         src={data.files[select].url}
         alt={data.name}
         style={{

@@ -20,3 +20,11 @@ export const Inputs = styled.div`
   flex-direction: column;
   margin: 5px 0;
 `;
+
+export const AnsOpt = styled.div`
+  display: flex;
+
+  span {
+    width: 20px;
+  }
+`;

@@ -21,9 +21,10 @@ model Product {
 
   created_at DateTime @default(now())
 
-  category Category @relation(fields: [category_id], references: [id])
+  // category Category @relation(fields: [category_id], references: [id])
 
-  files Files[]
+  files    Files[]
+  category Category[]
 
   @@map("products")
 }
@@ -48,8 +49,9 @@ model Category {
   id   String @id @default(cuid())
   name String @unique
 
-  created_at DateTime  @default(now())
-  Product    Product[]
+  product Product[]
+
+  created_at DateTime @default(now())
 
   @@map("categories")
 }
