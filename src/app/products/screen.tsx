@@ -7,7 +7,7 @@ import { ProductsProps } from "@/global/interfaces";
 
 import { Container, Content, Aside, Products as ProductsStyled } from './styles';
 
-import Search from '@/assets/svg/search-normal.svg';
+import { Search } from '@/assets/svg/icons';
 
 type Props = {
   data: ProductsProps[];

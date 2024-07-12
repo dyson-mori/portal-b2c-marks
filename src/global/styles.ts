@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
@@ -11,7 +11,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #f1f1f1;
+    ${({ theme }) => css`
+      background-color: ${theme.colors.background};
+    `};
   }
 `;
 

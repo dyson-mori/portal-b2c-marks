@@ -2,51 +2,28 @@
 
 import React, { SyntheticEvent, useState } from 'react';
 
-import { Container } from './styles';
+import { Container, Form } from './styles';
 
-import { Button } from '@/components/button';
+import { Select } from '@/components';
+
+import { Search, Close } from '@/assets/svg/icons';
 
 const data = [
   {
-    id: '0',
-    name: 'name 0',
+    id: 'clyispn3u000iopd3m67p6s3j',
+    name: 'Alina Becker',
     type: 'type 0'
   },
   {
-    id: '1',
-    name: 'name 1',
+    id: 'clyilsxpc000797dwforats4w',
+    name: 'wchew',
     type: 'type 1'
   },
   {
-    id: '2',
-    name: 'name 2',
+    id: 'clyi4fkmc0017jkddgi6j7m3s',
+    name: 'Songyuxin Himoti',
     type: 'type 2'
   },
-  {
-    id: '3',
-    name: 'name 3',
-    type: 'type 3'
-  },
-  {
-    id: '0',
-    name: 'name 0',
-    type: 'type 0'
-  },
-  {
-    id: '1',
-    name: 'name 1',
-    type: 'type 1'
-  },
-  {
-    id: '2',
-    name: 'name 2',
-    type: 'type 2'
-  },
-  {
-    id: '3',
-    name: 'name 3',
-    type: 'type 3'
-  }
 ];
 
 export default function Component() {
@@ -69,9 +46,9 @@ export default function Component() {
 
   return (
     <Container>
-      <Button primary>
-        click me
-      </Button>
+      <Form onSubmit={handleSubmit}>
+        <Select data={dropdown} leftIcon={Search} rightIcon={Close} multiple name='select' />
+      </Form>
     </Container>
   )
 }

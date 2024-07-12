@@ -9,14 +9,31 @@ import Logo from '../../assets/svg/logo.svg';
 import ShoppingCart from '../../assets/svg/shopping-cart.svg';
 
 export const Header: React.FC = () => {
+
+  const data = [
+    {
+      href: '/products',
+      label: 'Produtos'
+    },
+    // {
+    //   href: '/',
+    //   label: 'Rastreamento'
+    // },
+    {
+      href: '/panel/register',
+      label: 'Registro'
+    }
+  ];
+
   return (
     <Container>
       <Icon>
         <Image src={Logo} width={30} height={30} alt='logo' />
       </Icon>
       <Nav>
-        <LinkStyle href='/products'>Inicio</LinkStyle>
-        <LinkStyle href='#'>Rastreamento</LinkStyle>
+        {data.map((item, index) => (
+          <LinkStyle key={index} href={item.href}>{item.label}</LinkStyle>
+        ))}
       </Nav>
       <Icon>
         <Image src={ShoppingCart} width={30} height={30} alt='logo' />

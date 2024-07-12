@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Container, Payments } from './styles';
 
 import Logo from '../../assets/svg/full_logo.svg';
-import PaymentCheck from '../../assets/svg/payment-check.svg';
+import { PaymentCheck } from '@/assets/svg/icons';
 
 export interface FooterProps {
   primary?: boolean;

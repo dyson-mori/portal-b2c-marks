@@ -2,13 +2,13 @@
 
 import { SyntheticEvent, useState } from "react";
 
+import { Button, Input, Upload, UploadFileProps, Notification, Select } from "@/components";
+
 import { Container, Forms, Inputs } from './styles';
 
-import { Button, Input, Upload, UploadFileProps, Notification } from "@/components";
+import { Search, Text } from '@/assets/svg/icons';
 
-import Text from '@/assets/svg/text.svg';
-
-export default function Register() {
+export default function Register({ category }: { category: any }) {
   const [uploadFile, setUploadFile] = useState([] as UploadFileProps[]);
   const [loadingForm, setLoadingForm] = useState(false);
   const [notification, setNotification] = useState({
@@ -30,8 +30,8 @@ export default function Register() {
     };
 
     if (!target.name.value || !target.description.value || !target.price.value || !target.category_id.value) {
-      setNotification({ type: 'warning', message: 'Required fields', active: `${Math.random()}_show` });
       setLoadingForm(false);
+      setNotification({ type: 'warning', message: 'Required fields', active: `${Math.random()}_show` });
       throw new Error('Failed to send the form');
     };
 
@@ -41,7 +41,7 @@ export default function Register() {
         name: target.name.value,
         description: target.description.value,
         price: target.price.value,
-        category_id: target.category_id.value
+        category_id: 'clyisalxw0000opd31bt3zhb7'
       }),
     });
 
@@ -104,14 +104,11 @@ export default function Register() {
               <Input.Input placeholder="Price" name="price" />
             </Input.Root>
           <div style={{ width: 10 }} />
-            <Input.Root>
-              <Input.Icon icon={Text} />
-              <Input.Input placeholder="Category" name="category_id" />
-            </Input.Root>
+            <Select data={category} leftIcon={Search} name="category_id" />
           </div>
         </Inputs>
 
-        <Button type="submit" disabled={loadingForm}>
+        <Button type="submit" primary disabled={loadingForm}>
           {loadingForm ? 'Sending...' : 'Upload'}
         </Button>
       </Forms>

@@ -1,4 +1,6 @@
-interface DropDownProps {
+import { InputHTMLAttributes } from "react";
+
+interface DropDownProps extends InputHTMLAttributes<HTMLInputElement> {
   data: {
     id: string;
     label: string;

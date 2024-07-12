@@ -7,9 +7,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   secondary?: boolean | string;
 };
 
-const Button: React.FC<ButtonProps> = ({ children, primary = true, secondary, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({ children, primary = true, secondary = false, ...rest }) => {
   return (
-    <Container primary={String(primary && !secondary)} secondary={secondary} {...rest}>
+    <Container primary={String(primary)} secondary={String(secondary)} {...rest}>
       {children}
     </Container>
   )

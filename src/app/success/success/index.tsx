@@ -24,9 +24,9 @@ export default function Success({ product }: Props){
           <Image
             width={250}
             height={250}
-            alt={product.name}
-            src={product.image}
-            style={{ position: 'absolute', borderRadius: 150 }}
+            alt={product.files[0].url}
+            src={product.files[0].url}
+            style={{ position: 'absolute', borderRadius: 150, objectFit: 'cover' }}
           />
         </Banner>
 

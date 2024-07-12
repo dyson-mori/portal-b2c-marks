@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { getProductById } from './constants';
+import { ProductsProps } from "@/global/interfaces";
 
-import Success from './components/success';
+import Success from './success';
 
 type ProductParams = {
   params: object;
@@ -11,8 +11,26 @@ type ProductParams = {
   }
 };
 
+export const getProductById = async (id: string): Promise<ProductsProps> => {
+  const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
+    method: 'GET',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error('Product by Id')
+  };
+
+  const data = await res.json();
+
+  return data;
+};
+
 export default async function Page(params: ProductParams) {
-  const { data, loading } = await getProductById(params.searchParams.id);
+  const data = await getProductById(params.searchParams.id);
 
   return <Success product={data} />;
 };
