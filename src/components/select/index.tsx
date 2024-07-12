@@ -32,9 +32,13 @@ const Select: React.FC<DropDownProps> = ({ data, leftIcon, rightIcon, multiple, 
   };
 
   const handleSelect = (id: string, label: string, select: boolean) => {
+    const write = value !== '' ? value.split(',').reverse() : []
+    setValue(prev => write.length !== 0 ? prev.concat(`${label}, `) : `${label}, `);
+    
     const filter = selectData.map(data => data.id === id ? { ...data, select: !select} : data);
-
     setSelects(filter);
+
+    inputRef.current?.focus()
   };
 
   const handleClickOutside = (event: any) => {
@@ -59,6 +63,7 @@ const Select: React.FC<DropDownProps> = ({ data, leftIcon, rightIcon, multiple, 
       )}
       <Input
         ref={inputRef}
+        value={value}
         placeholder='Search'
         onFocus={() => setOpen(true)}
         onChange={evt => setValue(evt.target.value)}
@@ -75,7 +80,16 @@ const Select: React.FC<DropDownProps> = ({ data, leftIcon, rightIcon, multiple, 
       <DropDown style={styles}>
         {selects
           .filter(op =>
-            op.label.toLowerCase().includes(value.toLowerCase())
+            op
+              .label
+              .toLowerCase()
+              .includes(
+                value
+                  .split(',')
+                  .reverse()[0]
+                  .replace(' ', '')
+                  .toLowerCase()
+                )
           )
           .map(({ id, label, select }, index) => (
             <Button
