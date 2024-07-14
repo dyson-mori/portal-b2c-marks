@@ -7,8 +7,11 @@ export const Container = styled.div`
   flex-direction: column;
 
   width: 100%;
+  height: 50px;
 
   transition: .5s;
+
+  overflow: hidden;
 
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
@@ -18,18 +21,26 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.button`
+  display: flex;
+
+  align-items: center;
+
   border: 0;
   background-color: transparent;
 
   width: 100%;
-  height: 50px;
-
-  text-align: start;
+  min-height: 50px;
 
   cursor: pointer;
 
+  p {
+    margin-left: 10px;
+  };
+
   ${({ theme }) => css`
     padding: ${theme.settings.padding.button};
+    font-weight: ${theme.font.weight[600]};
+    font-size: ${theme.font.size.semiBold};
   `};
 `;
 
@@ -39,26 +50,29 @@ export const DropDown = styled.div`
   flex-wrap: wrap;
 
   width: 100%;
+`;
 
-  button {
-    border: 0;
+export const Button = styled.button`
+  border: 0;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    flex-grow: 1;
+  flex-grow: 1;
 
-    min-width: 80px;
+  min-width: 80px;
 
-    margin: 3px 6px;
-    padding: 2px 4px;
+  /* margin: 3px 6px; */
+  padding: 2px 4px;
 
-    ${({ theme }) => css`
-      background-color: ${theme.colors.white};
-      border-radius: ${theme.settings.radius.small};
+  height: 40px;
 
-      &:hover {
-        background-color: ${theme.colors.primary}aa;
-      }
-    `};
-  };
+  ${({ theme }) => css`
+    background-color: ${theme.colors.white};
+    border-radius: ${theme.settings.radius.small};
+    font-weight: ${theme.font.weight[400]};
+
+    &:hover {
+      background-color: ${theme.colors.hover};
+    }
+  `};
 `;

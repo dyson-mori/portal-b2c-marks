@@ -14,12 +14,23 @@ const themes = {
     // background: '#fff',
     background: '#f1f1f1',
 
+    hover: '#f1f1f1',
+
     success,
     warning,
   },
   font: {
     size: {
-      default: '12px',
+      thin: '6px',
+      extraLight: '8px',
+      light: '10px',
+      normal: '12px',
+      medium: '14px',
+      semiBold: '16px',
+      bold: '18px',
+      extraBold: '20px',
+      black: '22px',
+      extraBlack: '24px',
       large: '18px'
     },
     weight: {

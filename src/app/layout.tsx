@@ -9,7 +9,13 @@ import { themes } from "@/global/theme";
 import Global from "@/global/styles";
 import Notification from "@/hooks/notification";
 
-const inter = Montserrat({ subsets: ["latin"] });
+const font = Montserrat({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  style: ['italic', 'normal'],
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+});
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -18,9 +24,9 @@ const inter = Montserrat({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt">
+    <html lang="en" className={font.variable}>
       <ThemeProvider theme={themes}>
-          <body className={inter.className}>
+          <body >
             <Notification>
               {children}
             </Notification>

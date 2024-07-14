@@ -2,43 +2,53 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-import { Container, Title, DropDown } from './styles';
+import { Container, Title, DropDown, Button } from './styles';
 
-import { CardProps } from './types';
+interface CardProps {
+  title: string;
+  data: Array<any>;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+};
 
-export const Card: React.FC<CardProps> = ({ data, title }) => {
-  const dropdownRef = useRef<any>(null);
-
-  const [open, setOpen] = useState(false);
+export const Card: React.FC<CardProps> = ({ data, title, icon: Icon }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleOpen = (event: any) => {
-    event.preventDefault();
-    setOpen(!open);
+    if (dropdownRef.current && dropdownRef.current.contains(event.target)) {
+      dropdownRef.current.style.height = '210px'
+    }
   };
 
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setOpen(false);
+      dropdownRef.current.style.height = '50px'
     }
-  };
-
-  const styles = {
-    // height: open ? 'auto' : 'auto'
   };
 
   useEffect(() => {
+    buttonRef.current?.addEventListener('click', handleOpen);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
+      buttonRef.current?.addEventListener('click', handleOpen);
       document.removeEventListener('mousedown', handleClickOutside);
-    }
+    };
   }, []);
 
   return (
-    <Container style={styles} ref={dropdownRef}>
-      <Title onClick={handleOpen}>{title}</Title>
+    <Container ref={dropdownRef}>
+      <Title ref={buttonRef} onClick={event => event.preventDefault()}>
+        <Icon width={25} height={25} />
+        <p>{title}</p>
+      </Title>
       <DropDown>
         {data.map((item, index) => (
-          <button key={index.toString()}>{item.name}</button>
+          <Button
+            key={index.toString()}
+            onChange={e => {
+              e.preventDefault();
+            }}
+          >{item.name}</Button>
         ))}
       </DropDown>
     </Container>

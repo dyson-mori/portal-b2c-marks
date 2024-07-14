@@ -62,7 +62,7 @@ export const DropDown = styled.div`
   overflow-y: hidden;
 
   ${({ theme }) => css`
-    box-shadow: ${theme.settings.box.default};
+    box-shadow: ${theme.settings.box.normal};
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
   `};

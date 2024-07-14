@@ -48,7 +48,7 @@ export const DropDown = styled.div`
   min-height: 50px;
 
   ${({ theme }) => css`
-    box-shadow: ${theme.settings.box.default};
+    box-shadow: ${theme.settings.box.normal};
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
   `};

@@ -36,7 +36,7 @@ export const TextDescription = styled.div`
     ${({ theme }) => css`
       background-color: ${theme.colors.background};
       border-radius: ${theme.settings.radius.small};
-      box-shadow: ${theme.settings.box.default};
+      box-shadow: ${theme.settings.box.normal};
     `};
 
     transition: height 1s ease-out;
