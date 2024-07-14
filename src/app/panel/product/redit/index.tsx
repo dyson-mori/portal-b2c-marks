@@ -1,14 +1,15 @@
 "use client"
 
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import * as yup from 'yup';
 
-import { Button, Input, Upload, UploadFileProps, Select } from "@/components";
-import { Search, Text, Devolution, Warning } from '@/assets/svg/icons';
-import { ProductsProps, CategoryProps } from "@/global/interfaces";
 import { NotificationContext } from "@/hooks/notification";
+import { Button, Input, Upload, Select } from "@/components";
+import { ProductsProps, CategoryProps } from "@/global/interfaces";
+import { Search, Text, Devolution, Warning } from '@/assets/svg/icons';
 
 import { Container, Forms, Inputs, Row } from './styles';
 
@@ -22,23 +23,21 @@ const schema = yup.object().shape({
   name: yup.string().required('Required fields'),
   price: yup.string().required('Required fields'),
   description: yup.string().required('Required fields'),
-  // category: yup.string().required('Required fields'),
   category: yup.array().of(
     yup.object({
       id: yup.string(),
       name: yup.string()
     })
-  ),
-  files: yup.array()
-  // files: yup.array().of(
-  //   yup.object({
-  //     name: yup.string()
-  //   })
-  // )
+  ).required('Required fields'),
+  files: yup.array().required('Required fields')
 });
 
+type SchemaProps = yup.InferType<typeof schema>;
+
 export default function Register({ isUpdate, product, category: dropdownCategory }: Props) {
-  const { register, getValues, setValue, handleSubmit } = useForm({
+  const { setNotification } = useContext(NotificationContext);
+
+  const { getValues, setValue, handleSubmit } = useForm<SchemaProps>({
     defaultValues: {
       name: product?.name ?? '',
       description: product?.description ?? '',
@@ -50,16 +49,13 @@ export default function Register({ isUpdate, product, category: dropdownCategory
   });
 
   const { name, description, price, category, files } = getValues();
-
-  const { setNotification } = useContext(NotificationContext);
-
-  const [uploadFile, setUploadFile] = useState([] as UploadFileProps[]);
+  
   const [loadingForm, setLoadingForm] = useState(false);
 
-  const Submit = async (event: any) => {
+  const Submit = async (event: SchemaProps) => {
     setLoadingForm(true);
 
-    const { name, description, price, category } = event;
+    const { name, description, price, category, files } = event;
 
     const res = await fetch(isUpdate ? `/api/product?id=${product!.id}` : '/api/product', {
       method: isUpdate ? 'PUT' : 'POST',
@@ -71,7 +67,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
       return setNotification({ icon: Warning, type: 'failed', message: `Failed to ${isUpdate ? 'update' : 'upload'} the form`, active: `${Math.random()}_show` });
     };
 
-    if (product?.files?.length === uploadFile.length) {
+    if (product?.files?.length === files.length) {
       setLoadingForm(false);
       return setNotification({ icon: Warning, type: 'success', message: `Success`, active: `${Math.random()}_show` });
     };
@@ -82,8 +78,8 @@ export default function Register({ isUpdate, product, category: dropdownCategory
     formData.append("product_id", response.id);
     formData.append("code", `${name}_${Math.random()}`);
 
-    uploadFile.forEach((image, i) => {
-      formData.append(`file${i+1}`, image.file);
+    files.forEach((file, i) => {
+      formData.append(`file${i+1}`, file);
     });
 
     const file = await fetch('/api/files', {
@@ -97,8 +93,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
     };
 
     setLoadingForm(false);
-    // reset({ name: '', description: '', price: '', category: '' });
-    return setNotification({ icon: Warning, type: 'success', message: 'Successful', active: `${Math.random()}_show` });
+    return setNotification({ icon: Warning, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
   };
 
   return (
@@ -109,7 +104,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           files={files}
           isUpdate={isUpdate}
           uploading={loadingForm}
-          setFile={setUploadFile}
+          setFiles={evt => setValue('files', evt)}
         />
 
         <Inputs>
@@ -119,12 +114,8 @@ export default function Register({ isUpdate, product, category: dropdownCategory
               <Input.Icon icon={Devolution} width={20} height={20} stroke="#47C747" strokeWidth={1.6} />
               <Input.Input
                 placeholder="Name Product"
-                value={name}
-                {...register("name")}
-                // onChange={ evt => {
-                //   setValue('name', evt.target.value);
-                //   setValues({ ...values, name: evt.target.value })
-                // }}
+                defaultValue={name}
+                onChange={evt => setValue('name', evt.target.value)}
               />
             </Input.Root>
 
@@ -134,38 +125,33 @@ export default function Register({ isUpdate, product, category: dropdownCategory
               <Input.Icon icon={Text} width={20} height={20} stroke="#47C747" strokeWidth={2} />
               <Input.Input
                 placeholder="Description"
-                {...register("description")}
-                value={description}
-                // onChange={ evt => {
-                //   setValue('description', evt.target.value);
-                //   setValues({ ...values, description: evt.target.value })
-                // }}
+                defaultValue={description}
+                onChange={ evt => setValue('description', evt.target.value)}
               />
             </Input.Root>
+
           </Row>
-
         <div style={{ height: 5 }} />
-
           <Row>
+
             <Input.Root>
               <Input.Icon icon={Text} width={20} height={20} stroke="#47C747" strokeWidth={2} />
               <Input.Input
                 placeholder="Price"
-                {...register("price")}
-                value={price}
-                // onChange={ evt => {
-                //   setValue('price', evt.target.value);
-                //   setValues({ ...values, price: evt.target.value })
-                // }}
+                defaultValue={price}
+                onChange={ evt => setValue('price', evt.target.value)}
               />
             </Input.Root>
+
             <div style={{ width: 10 }} />
+
             <Select
               data={dropdownCategory}
               LeftIcon={Search}
-              defaultValue={category?.map(e => e.name).toString()}
+              defaultValue={category}
               onChangeValue={value => setValue('category', value)}
             />
+
           </Row>
         </Inputs>
 

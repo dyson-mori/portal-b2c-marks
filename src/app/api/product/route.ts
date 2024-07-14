@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { Product } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 
 import { prisma } from "@/services/prisma";
 import { cloudinary } from "@/services/cloudinary";
@@ -23,14 +23,7 @@ export async function GET(request: NextRequest) {
 };
 
 export async function POST(request: NextRequest) {
-  const body = await request.json() as Product & { categories: string };
-  const categoryArray = body.categories.slice(0, -2).split(',') as string[];
-
-  const categories = await prisma.category.findMany({
-    where: {
-      OR: categoryArray.map(name => ({ name }))
-    }
-  });
+  const body = await request.json() as Product & { category: Array<Category> };
 
   const product = await prisma.product.create({
     data: {
@@ -38,7 +31,7 @@ export async function POST(request: NextRequest) {
       description: body.description,
       price: body.price,
       category: {
-        connect: categories.map(({ id }) => ({ id }))
+        connect: body.category.map(({ id }) => ({ id }))
       },
     }
   });

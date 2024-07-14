@@ -5,24 +5,23 @@ import { Container, Icon, Input, DropDown, Button } from './styles';
 import { Close } from '@/assets/svg';
 import { CategoryProps } from '@/global/interfaces';
 
-// interface DropDownProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type ExportValue = {
+  id?: string;
+  name?: string;
+};
+
 interface DropDownProps {
   data: CategoryProps[];
   LeftIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  defaultValue?: string;
-  // RightIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  onChangeValue: (s: string) => void;
+  defaultValue?: ExportValue[];
+  onChangeValue: (s: ExportValue[]) => void;
 };
 
 const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChangeValue }) => {
   const dropContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [values, setValues] = useState(
-    [] as {
-      name: string;
-    }[]
-  );
+  const [values, setValues] = useState([] as ExportValue[]);
 
   const [search, setSearch] = useState<string>('');
   const [open, setOpen] = useState(false);
@@ -39,14 +38,14 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChang
     inputRef.current!.focus()
   };
 
-  const handleSelect = (label: string) => {
-    const items = values.find(e => e.name === label);
+  const handleSelect = (id: string, label: string) => {
+    const items = values.find(e => e.id === id);
 
     if (items) {
-      const c = values.filter((e) => e.name !== label);
+      const c = values.filter((e) => e.id !== id);
       setValues(c);
     } else {
-      setValues(prev => [...prev, { name: label }]);
+      setValues(prev => [...prev, { id, name: label }]);
     };
 
     setSearch('');
@@ -66,12 +65,12 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChang
   }, []);
 
   useEffect(() => {
-    inputRef.current!.value = values.map(e => e.name).toString() as string;
-    onChangeValue(inputRef.current!.value)
+    // inputRef.current!.value = values.map(e => e.name).toString() as string;
+    onChangeValue(values);
   }, [values])
 
   useEffect(() => {
-    inputRef.current!.value = defaultValue!
+    setValues(defaultValue!);
   }, [defaultValue]);
 
   return (
@@ -85,6 +84,7 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChang
       <Input
         ref={inputRef}
         placeholder='Search'
+        defaultValue={values.map(e => e.name).toString()}
         onFocus={() => setOpen(true)}
         onChange={evt => setSearch(evt.target.value)}
         // {...rest}
@@ -108,7 +108,7 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChang
               isSelected={String(!!values.find(e => e.name === name))}
               onClick={(evt) => {
                 evt.preventDefault();
-                handleSelect(name);
+                handleSelect(id, name);
               }}
             >
               <p>{name}</p>

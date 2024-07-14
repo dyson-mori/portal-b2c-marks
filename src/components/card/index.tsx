@@ -1,28 +1,33 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { Container, Title, DropDown, Button } from './styles';
 
 interface CardProps {
   title: string;
+  maxHeight: number;
   data: Array<any>;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
 };
 
-export const Card: React.FC<CardProps> = ({ data, title, icon: Icon }) => {
+export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon }) => {
+  console.log(`${data.length} * ${15} = ${data.length * 15}`);
+  
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleOpen = (event: any) => {
     if (dropdownRef.current && dropdownRef.current.contains(event.target)) {
-      dropdownRef.current.style.height = '210px'
-    }
+      dropdownRef.current.style.height = `${maxHeight}px`
+    };
   };
 
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      dropdownRef.current.style.height = '50px'
+      setTimeout(() => {
+        dropdownRef.current!.style.height = '50px'
+      }, 200);
     }
   };
 
@@ -38,7 +43,7 @@ export const Card: React.FC<CardProps> = ({ data, title, icon: Icon }) => {
   return (
     <Container ref={dropdownRef}>
       <Title ref={buttonRef} onClick={event => event.preventDefault()}>
-        <Icon width={25} height={25} />
+        <Icon width={20} height={20} />
         <p>{title}</p>
       </Title>
       <DropDown>

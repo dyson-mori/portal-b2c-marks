@@ -8,11 +8,14 @@ import { ProductsProps, CategoryProps } from "@/global/interfaces";
 import { Container, Aside, Products as ProductsStyled } from './styles';
 
 import { Search } from '@/assets/svg/icons';
-import { Replace } from '@/helpers/replace';
 
 type Props = {
   products: ProductsProps[];
-  cards: Omit<CategoryProps, 'name'>[];
+  cards: {
+    title: string;
+    maxHeight: number;
+    options: CategoryProps[]
+  }[];
 };
 
 export default function Products({ products, cards }: Props) {
@@ -34,7 +37,11 @@ export default function Products({ products, cards }: Props) {
           <Input.Input placeholder='Search' />
         </Input.Root>
         <span style={{ height: 10 }} />
-        <Card data={cards} title='Test' />
+        {
+          cards.map(({ title, options, maxHeight }, index) =>
+            <Card key={index} maxHeight={maxHeight} title={title} icon={Search} data={options} />
+          )
+        }
       </Aside>
 
       <ProductsStyled>

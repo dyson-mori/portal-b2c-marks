@@ -54,7 +54,7 @@ export const DropDown = styled.div`
   position: absolute;
 
   width: 100%;
-  min-height: 50px;
+  min-height: 45px;
   max-height: 250px;
 
   transition: .3s;
@@ -62,7 +62,7 @@ export const DropDown = styled.div`
   overflow-y: hidden;
 
   ${({ theme }) => css`
-    box-shadow: ${theme.settings.box.normal};
+    box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
   `};

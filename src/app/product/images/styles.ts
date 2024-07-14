@@ -2,13 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.section`
   display: flex;
-  /* justify-content: center; */
-
-  /* height: 100%; */
-
-  /* img {
-    margin: 5px 8px;
-  } */
 `;
 
 export const Options = styled.div`

@@ -13,7 +13,7 @@ export const getProduct = async (): Promise<ProductsProps[]> => {
   });
 
   if (!res.ok) {
-    throw new Error('Product by Id')
+    throw new Error('Product Panel by Id')
   };
 
   const data = await res.json();

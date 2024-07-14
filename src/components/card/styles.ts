@@ -9,6 +9,8 @@ export const Container = styled.div`
   width: 100%;
   height: 50px;
 
+  margin-bottom: 5px;
+
   transition: .5s;
 
   overflow: hidden;
@@ -39,8 +41,8 @@ export const Title = styled.button`
 
   ${({ theme }) => css`
     padding: ${theme.settings.padding.button};
-    font-weight: ${theme.font.weight[600]};
-    font-size: ${theme.font.size.semiBold};
+    font-weight: ${theme.font.weight[500]};
+    font-size: ${theme.font.size.medium};
   `};
 `;
 

@@ -10,6 +10,8 @@ export const Container = styled(Link)`
   padding: 0;
   margin: 0;
 
+  margin-bottom: 10px;
+
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};

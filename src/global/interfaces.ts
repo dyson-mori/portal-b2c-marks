@@ -1,10 +1,10 @@
 export type ProductsProps = {
-  id?: string;
+  id: string;
   name: string;
   description: string;
   price: string;
-  files?: FilesProps[];
-  category?: [];
+  files: FilesProps[];
+  category: [];
   // category?: CategoryProps[];
   created_at?: Date
 };

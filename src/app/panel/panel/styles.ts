@@ -4,11 +4,10 @@ import styled, { css } from 'styled-components';
 export const Container = styled.article`
   display: flex;
 
-  margin: 10px 50px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-  a {
-    margin: 0 2px;
-  }
+  margin: 10px 50px;
 `;
 
 export const UploadMore = styled(Link)`
@@ -16,7 +15,7 @@ export const UploadMore = styled(Link)`
 
   border: 0;
 
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 0;
 
   justify-content: center;

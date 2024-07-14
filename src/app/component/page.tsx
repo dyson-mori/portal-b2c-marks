@@ -28,61 +28,205 @@ import { Search } from '@/assets/svg/icons';
 
 const data = [
   {
-    id: 'clyispn3u000iopd3m67p6s3j',
-    name: 'big',
+    title: 'Breast',
+    maxHeight: 50 + 40 * 4,
+    options: [
+      {
+        id: 'clyispn3u000iopd3m67p6s3j',
+        name: 'big',
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'small',
+      },
+      {
+        id: 'clyi4fkmc0017jkddgi6j7m3s',
+        name: 'huge',
+      },
+      {
+        id: 'clyi4flry0019jkddcnw35q8h',
+        name: 'thin',
+      },
+      {
+        id: 'clyilsuge000197dw0ye7d91w',
+        name: 'big tits',
+      },
+      {
+        id: 'clyilsvfc000397dwnuqvblla',
+        name: 'breasts'
+      },
+      {
+        id: 'clyilswlu000597dwvmkjpfsf',
+        name: 'busty'
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'dressed'
+      },
+      {
+        id: 'clyilsyv5000997dwpxqx0b95',
+        name: 'squeeze'
+      },
+      {
+        id: 'clyilszrn000b97dwovl5ifjm',
+        name: 'squeeze boobs'
+      },
+      {
+        id: 'clyisp8bp0002opd3oj3t3clc',
+        name: 'squeeze tits'
+      },
+      {
+        id: 'clyispa5r0004opd3jveyy2fj',
+        name: 'shake'
+      },
+      {
+        id: 'clyispbpr0006opd3rgn2gpos',
+        name: 'shakes'
+      },
+      {
+        id: 'clyispdgx0008opd30w0pb1mg',
+        name: 'cleavage'
+      }
+    ]
   },
   {
-    id: 'clyilsxpc000797dwforats4w',
-    name: 'small',
+    title: 'Ass',
+    maxHeight: 50 + 40 * 2,
+    options: [
+      {
+        id: 'clyispn3u000iopd3m67p6s3j',
+        name: 'big',
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'small',
+      },
+      {
+        id: 'clyi4fkmc0017jkddgi6j7m3s',
+        name: 'huge',
+      },
+      {
+        id: 'clyi4flry0019jkddcnw35q8h',
+        name: 'thin',
+      },
+      {
+        id: 'clyilsuge000197dw0ye7d91w',
+        name: 'big tits',
+      },
+      {
+        id: 'clyilsvfc000397dwnuqvblla',
+        name: 'breasts'
+      },
+      {
+        id: 'clyilswlu000597dwvmkjpfsf',
+        name: 'busty'
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'dressed'
+      },
+    ]
   },
   {
-    id: 'clyi4fkmc0017jkddgi6j7m3s',
-    name: 'huge',
+    title: 'Breast',
+    maxHeight: 50 + 40 * 4,
+    options: [
+      {
+        id: 'clyispn3u000iopd3m67p6s3j',
+        name: 'big',
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'small',
+      },
+      {
+        id: 'clyi4fkmc0017jkddgi6j7m3s',
+        name: 'huge',
+      },
+      {
+        id: 'clyi4flry0019jkddcnw35q8h',
+        name: 'thin',
+      },
+      {
+        id: 'clyilsuge000197dw0ye7d91w',
+        name: 'big tits',
+      },
+      {
+        id: 'clyilsvfc000397dwnuqvblla',
+        name: 'breasts'
+      },
+      {
+        id: 'clyilswlu000597dwvmkjpfsf',
+        name: 'busty'
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'dressed'
+      },
+      {
+        id: 'clyilsyv5000997dwpxqx0b95',
+        name: 'squeeze'
+      },
+      {
+        id: 'clyilszrn000b97dwovl5ifjm',
+        name: 'squeeze boobs'
+      },
+      {
+        id: 'clyisp8bp0002opd3oj3t3clc',
+        name: 'squeeze tits'
+      },
+      {
+        id: 'clyispa5r0004opd3jveyy2fj',
+        name: 'shake'
+      },
+      {
+        id: 'clyispbpr0006opd3rgn2gpos',
+        name: 'shakes'
+      },
+      {
+        id: 'clyispdgx0008opd30w0pb1mg',
+        name: 'cleavage'
+      }
+    ]
   },
   {
-    id: 'clyi4flry0019jkddcnw35q8h',
-    name: 'thin',
+    title: 'Ass',
+    maxHeight: 50 + 40 * 2,
+    options: [
+      {
+        id: 'clyispn3u000iopd3m67p6s3j',
+        name: 'big',
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'small',
+      },
+      {
+        id: 'clyi4fkmc0017jkddgi6j7m3s',
+        name: 'huge',
+      },
+      {
+        id: 'clyi4flry0019jkddcnw35q8h',
+        name: 'thin',
+      },
+      {
+        id: 'clyilsuge000197dw0ye7d91w',
+        name: 'big tits',
+      },
+      {
+        id: 'clyilsvfc000397dwnuqvblla',
+        name: 'breasts'
+      },
+      {
+        id: 'clyilswlu000597dwvmkjpfsf',
+        name: 'busty'
+      },
+      {
+        id: 'clyilsxpc000797dwforats4w',
+        name: 'dressed'
+      },
+    ]
   },
-  {
-    id: 'clyilsuge000197dw0ye7d91w',
-    name: 'big tits',
-  },
-  {
-    id: 'clyilsvfc000397dwnuqvblla',
-    name: 'breasts'
-  },
-  {
-    id: 'clyilswlu000597dwvmkjpfsf',
-    name: 'busty'
-  },
-  {
-    id: 'clyilsxpc000797dwforats4w',
-    name: 'dressed'
-  },
-  {
-    id: 'clyilsyv5000997dwpxqx0b95',
-    name: 'squeeze'
-  },
-  {
-    id: 'clyilszrn000b97dwovl5ifjm',
-    name: 'squeeze boobs'
-  },
-  {
-    id: 'clyisp8bp0002opd3oj3t3clc',
-    name: 'squeeze tits'
-  },
-  {
-    id: 'clyispa5r0004opd3jveyy2fj',
-    name: 'shake'
-  },
-  {
-    id: 'clyispbpr0006opd3rgn2gpos',
-    name: 'shakes'
-  },
-  {
-    id: 'clyispdgx0008opd30w0pb1mg',
-    name: 'cleavage'
-  }
 ];
 
 export default function Component() {
@@ -98,15 +242,14 @@ export default function Component() {
     setState({ select: target.select.value});
   };
 
-  const dropdown = data.map(data => ({
-    id: data.id,
-    name: data.name
-  }))
-
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <Card title='Breasts' icon={Search} data={dropdown} />
+        {
+          data.map(({ title, options, maxHeight }, index) =>
+            <Card key={index} maxHeight={maxHeight} title={title} icon={Search} data={options} />
+          )
+        }
       </Form>
     </Container>
   )

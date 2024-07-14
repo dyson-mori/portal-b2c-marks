@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
-
 import { Input, Button } from '@/components';
 import { ProductsProps } from '@/global/interfaces';
 
@@ -33,12 +31,12 @@ const Info: React.FC<Props> = ({ data, setCard }) => {
       <h2>R$ {data.price}</h2>
 
       <DeliveryStyled>
-        <Image src={Delivery} width={20} height={20} alt='delivery.svg' /> &nbsp;
+        <Delivery width={20} height={20} fill="#47C747" /> &nbsp;&nbsp;
         <p>Enviamos para todo o Brasil</p>
       </DeliveryStyled>
 
       <DeliveryStyled>
-        <Image src={Devolution} width={20} height={20} alt='delivery.svg' /> &nbsp;
+        <Devolution width={20} height={20} stroke="#47C747" strokeWidth={1.8} /> &nbsp;&nbsp;
         <p>7 dias para trocas e devoluções</p>
       </DeliveryStyled>
 

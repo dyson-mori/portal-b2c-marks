@@ -18,7 +18,9 @@ export const Products = styled.section`
   display: flex;
 
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 
   width: 100%;
+
+  margin-left: 15px;
 `;

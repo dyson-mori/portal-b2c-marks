@@ -11,6 +11,8 @@ import { ReactComponent as Search} from './search-normal.svg';
 import { ReactComponent as Edit} from './edit.svg';
 import { ReactComponent as Warning} from './warning.svg';
 import { ReactComponent as Add } from './add.svg';
+import { ReactComponent as TextAlignLeft } from './textalign-left.svg';
+import { ReactComponent as Mobile } from './mobile.svg';
 
 export {
   ArrowDown,
@@ -25,5 +27,7 @@ export {
   Search,
   Edit,
   Add,
-  Warning
+  Warning,
+  TextAlignLeft,
+  Mobile
 };

@@ -13,6 +13,17 @@ export const Container = styled.div`
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
   `};
+
+  svg {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    margin: 0 10px;
+    /* left: 10%; */
+
+    /* transform: translate(-50%, -50%); */
+  };
 `;
 
 export const Input = styled.input`
@@ -23,6 +34,7 @@ export const Input = styled.input`
 
   ${({ theme }) => css`
     background-color: ${theme.colors.white};
+    font-size: ${theme.font.size.medium};
     border-radius: ${theme.settings.radius.small};
   `};
 `;

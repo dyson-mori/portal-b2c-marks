@@ -30,7 +30,6 @@ const Images: React.FC<Props> = ({ data }) => {
               style={{
                 objectFit: 'cover',
                 borderRadius: 3,
-                // opacity: .1
               }}
             />
           </Button>
@@ -44,8 +43,8 @@ const Images: React.FC<Props> = ({ data }) => {
         src={data.files[select].url}
         alt={data.name}
         style={{
-          objectFit: 'contain',
-          // objectFit: 'cover',
+          // objectFit: 'contain',
+          objectFit: 'cover',
           borderRadius: 3,
           // opacity: .1
         }}

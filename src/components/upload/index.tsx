@@ -17,10 +17,10 @@ interface UploadProps {
   isUpdate: boolean;
   files?: FilesProps[];
   uploading: boolean;
-  setFile: (UploadFile: UploadFileProps[]) => void;
+  setFiles: (f: File[]) => void;
 };
 
-const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFile }) => {
+const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFiles }) => {
   const [multiFiles, setMultiFiles] = useState([] as UploadFileProps[]);
 
   const styles = {
@@ -45,7 +45,6 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFile }) 
           };
 
           setMultiFiles(prev => [...prev, file]);
-          setFile(prev => [...prev, file]);
         };
       };
     };
@@ -56,7 +55,7 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFile }) 
   const handleRemoveImage = (i: number) => {
     const x = multiFiles.filter((item, index) => index !== i && item)
 
-    setFile(x);
+    setFiles(x.map(e => e.file));
     setMultiFiles(x);
   };
 
@@ -67,16 +66,20 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFile }) 
   }, [uploading]);
 
   useEffect(() => {
-    setMultiFiles(files)
+    return setMultiFiles(files);
   }, [files]);
+
+  useEffect(() => {
+    setFiles(multiFiles.map(e => e.file));
+  }, [multiFiles]);
 
   return (
     <Container>
       <MultiFiles>
         {
-          multiFiles?.map(({ url }, index) => (
+          multiFiles?.map((file, index) => (
             <label style={styles} key={index} onClick={() => handleRemoveImage(index)}>
-              <Image width={400 / 3.1} height={400 / 3.1} src={url!} alt="img" style={{ objectFit: 'cover' }} />
+              <Image width={400 / 3.1} height={400 / 3.1} src={file?.url} alt="img" style={{ objectFit: 'cover' }} />
             </label>
           ))
         }

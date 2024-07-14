@@ -45,10 +45,5 @@ export default async function Page(params: any) {
   const data = await getCategories();
   const product = await getProductById(params.searchParams.id);
 
-  const categories = data.map(item => ({
-    id: item.id,
-    label: item.name
-  }))
-
-  return <Redit isUpdate={params.searchParams.id} product={product} category={categories} />;
+  return <Redit isUpdate={params.searchParams.id} product={product} category={data} />;
 };
