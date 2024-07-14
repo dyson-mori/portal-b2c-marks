@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { Product } from "@prisma/client";
+
 import { prisma } from "@/services/prisma";
+import { cloudinary } from "@/services/cloudinary";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -11,7 +14,8 @@ export async function GET(request: NextRequest) {
       id: id!
     },
     include: {
-      files: true
+      files: true,
+      category: true
     }
   });
 
@@ -19,19 +23,62 @@ export async function GET(request: NextRequest) {
 };
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  const body = await request.json() as Product & { categories: string };
+  const categoryArray = body.categories.slice(0, -2).split(',') as string[];
+
+  const categories = await prisma.category.findMany({
+    where: {
+      OR: categoryArray.map(name => ({ name }))
+    }
+  });
 
   const product = await prisma.product.create({
     data: {
       name: body.name,
       description: body.description,
       price: body.price,
-      category_id: body.category_id
+      category: {
+        connect: categories.map(({ id }) => ({ id }))
+      },
     }
   });
 
   if (!product) {
-    throw new Error('Product Server Error')
+    throw new Error('Product Server Error');
+  };
+
+  return NextResponse.json(product);
+};
+
+export async function PUT(request: NextRequest) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+  const body = await request.json() as Product & { category: string };
+
+  const categoryArray = body.category?.split(',').length > 0 ? body.category?.split(',') : [body.category] as string[];
+
+  const categories = await prisma.category.findMany({
+    where: {
+      OR: categoryArray.map(name => ({ name }))
+    }
+  });
+
+  const product = await prisma.product.update({
+    where: {
+      id: `${id}`
+    },
+    data: {
+      name: body.name,
+      description: body.description,
+      price: body.price,
+      category: {
+        connect: categories.map(({ id }) => ({ id }))
+      },
+    }
+  });
+
+  if (!product) {
+    throw new Error('Product Server Error');
   };
 
   return NextResponse.json(product);
@@ -45,11 +92,21 @@ export async function DELETE(request: NextRequest) {
     where: {
       id: `${id}`,
     },
+    include: {
+      files: true
+    }
   });
 
   if (!data) {
     throw new Error('Register failed');
   };
 
-  return NextResponse.json(`Question [${data.name}] has been deleted`);
+  for (const key in data.files) {
+    if (Object.prototype.hasOwnProperty.call(data.files, key)) {
+      const element = data.files[key];
+      await cloudinary.uploader.destroy(element.cloudinary_id)
+    }
+  };
+
+  return NextResponse.json(`Product [${id}] has been deleted`);
 };

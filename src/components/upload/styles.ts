@@ -45,16 +45,11 @@ export const MultiFiles = styled.div`
     `};
   };
 
-  #img {
-    width: calc(400px / 3.1);
-    height: calc(400px / 3.1);
-
+  img {
     ${({ theme }) => css`
       background-color: ${theme.colors.white};
       box-shadow: ${theme.settings.box.simple};
       border-radius: ${theme.settings.radius.small};
     `};
-
-    object-fit: cover;
   }
 `;

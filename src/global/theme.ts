@@ -1,3 +1,6 @@
+const success = '#47C747';
+const warning = '#f9BE14';
+
 const themes = {
   colors: {
     primary: '#FA0B5B',
@@ -5,10 +8,20 @@ const themes = {
 
     white: '#fff',
 
-    background: '#fff',
-    // background: '#f1f1f1',
+    text: '#303030',
+
+    select: '#888',
+    // background: '#fff',
+    background: '#f1f1f1',
+
+    success,
+    warning,
   },
   font: {
+    size: {
+      default: '12px',
+      large: '18px'
+    },
     weight: {
       '100': 100,
       '200': 200,
@@ -34,6 +47,7 @@ const themes = {
       default: 'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
       border: 'rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
       simple: '1px 1px 5px #DEDEDE',
+      warning: `1px 1px 5px ${warning}`,
     }
   }
 };

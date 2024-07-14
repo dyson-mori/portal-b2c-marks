@@ -2,12 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.main`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-export const Content = styled.article`
-  display: flex;
 
   margin: 10px 50px;
 `;

@@ -38,7 +38,7 @@ export const Icon = styled.div`
     cursor: pointer;
   `};
 
-  img {
+  svg {
     position: relative;
     top: 50%;
     left: 50%;
@@ -68,10 +68,10 @@ export const DropDown = styled.div`
   `};
 `;
 
-export const Button = styled.button<{isSelected: string}>`
+export const Button = styled.button<{isSelected: any}>`
   border: 0;
 
-  height: 50px;
+  min-height: 50px;
 
   cursor: pointer;
 
@@ -80,7 +80,8 @@ export const Button = styled.button<{isSelected: string}>`
   padding: 0 10px;
 
   ${({ theme, isSelected }) => css`
-    background-color: ${theme.colors[isSelected === 'true' ? 'primary' : 'white']};
-    color: ${theme.colors[isSelected === 'true' ? 'white' : 'primary']};
+    background-color: ${theme.colors[isSelected === 'true' ? 'select' : 'white']};
+    color: ${theme.colors[isSelected === 'true' ? 'white' : 'text']};
+    font-weight: ${theme.font.weight[isSelected === 'true' ? 700 : 500]};
   `};
-`;
+  `;

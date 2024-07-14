@@ -3,21 +3,24 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { Container, MultiFiles } from './styles';
+import { FilesProps } from '@/global/interfaces';
+import { Add } from '@/assets/svg/icons';
 
-import Add from '@/assets/svg/add.svg';
+import { Container, MultiFiles } from './styles';
 
 type UploadFileProps = {
   file: File;
-  preview: string;
+  url: string;
 }
 
 interface UploadProps {
+  isUpdate: boolean;
+  files?: FilesProps[];
   uploading: boolean;
   setFile: (UploadFile: UploadFileProps[]) => void;
-}
+};
 
-const Upload: React.FC<UploadProps> = ({ uploading, setFile }) => {
+const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFile }) => {
   const [multiFiles, setMultiFiles] = useState([] as UploadFileProps[]);
 
   const styles = {
@@ -38,7 +41,7 @@ const Upload: React.FC<UploadProps> = ({ uploading, setFile }) => {
         reader.onload = (readerEvent: any) => {
           const file = {
             file: element,
-            preview: readerEvent.target.result
+            url: readerEvent.target.result
           };
 
           setMultiFiles(prev => [...prev, file]);
@@ -58,28 +61,29 @@ const Upload: React.FC<UploadProps> = ({ uploading, setFile }) => {
   };
 
   useEffect(() => {
-    if (!uploading) {
-      // setPreview(null);
-      // setLoadingFile('empty');
+    if (!uploading && !isUpdate) {
       setMultiFiles([]);
-    };
+    }
   }, [uploading]);
+
+  useEffect(() => {
+    setMultiFiles(files)
+  }, [files]);
 
   return (
     <Container>
       <MultiFiles>
         {
-          multiFiles.map(({ preview }, index) => (
+          multiFiles?.map(({ url }, index) => (
             <label style={styles} key={index} onClick={() => handleRemoveImage(index)}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img id='img' src={preview!} alt="img" />
+              <Image width={400 / 3.1} height={400 / 3.1} src={url!} alt="img" style={{ objectFit: 'cover' }} />
             </label>
           ))
         }
         {
-          Array.from({ length: (9 - multiFiles.length) }).map((_, index) => (
+          Array.from({ length: (9 - multiFiles?.length) }).map((_, index) => (
             <label htmlFor="file" key={index}>
-              <Image src={Add} width={20} height={20} alt='add.svg' />
+              <Add width={25} height={50} stroke='#292D32' strokeWidth={1.5} />
             </label>
           ))
         }

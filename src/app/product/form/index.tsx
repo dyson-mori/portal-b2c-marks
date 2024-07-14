@@ -79,7 +79,7 @@ const FormScreen: React.FC<Props> = ({ data, setCard }) => {
       <div style={{ height: 10 }} />
       <Input.Root>
         <Input.Icon icon={Delivery} />
-        <Input.Input placeholder='(xx)-x-xxxx-xxxx' />
+        <Input.Input placeholder='(00) 0 0000 0000' />
       </Input.Root>
 
       <div style={{ height: 10 }} />

@@ -1,20 +1,17 @@
 "use client"
 
 import React from 'react';
-import Image from 'next/image';
 
 import { Icon as IconStyle } from './styles';
 
-interface IconProps {
-  icon: any;
-  width?: number;
-  height?: number;
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
 };
 
-export const Icon: React.FC<IconProps> = ({ icon, height = 20, width = 20 }) => {
+export const Icon: React.FC<IconProps> = ({ icon: Icon, ...rest }) => {
   return (
     <IconStyle>
-      <Image src={icon} width={width} height={height} alt='svg' />
+      <Icon {...rest} />
     </IconStyle>
   )
 };

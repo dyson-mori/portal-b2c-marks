@@ -20,3 +20,7 @@ export const Inputs = styled.div`
   flex-direction: column;
   margin: 5px 0;
 `;
+
+export const Row = styled.div`
+  display: flex;
+`;

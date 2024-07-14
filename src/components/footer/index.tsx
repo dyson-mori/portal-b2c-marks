@@ -9,13 +9,13 @@ import Logo from '../../assets/svg/full_logo.svg';
 import { PaymentCheck } from '@/assets/svg/icons';
 
 export interface FooterProps {
-  primary?: boolean;
-  secondary?: boolean;
+  primary?: boolean | string;
+  secondary?: boolean | string;
 }
 
-export const Footer: React.FC<FooterProps> = ({ primary = true, secondary }) => {
+export const Footer: React.FC<FooterProps> = ({ primary = true, secondary = false }) => {
   return (
-    <Container primary={primary} secondary={secondary}>
+    <Container primary={primary.toString()} secondary={secondary.toString()}>
       {!secondary && primary && (
         <Image src={Logo} width={200} height={50} alt='logo' />
       )}

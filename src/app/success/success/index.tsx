@@ -1,7 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import Image from 'next/image';
+
+import { DotLottiePlayer } from '@dotlottie/react-player';
 
 import { ProductsProps } from '@/global/interfaces';
 import Purchase from '@/assets/svg/purchase.svg';
@@ -14,21 +16,46 @@ interface Props {
 };
 
 export default function Success({ product }: Props){
+  const [asa, setAsa] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAsa(true)
+    }, 4500);
+  }, []);
+
+  const banner_styles: CSSProperties  = {
+    transition: '1s',
+    width: asa ? 300 : 0
+  };
+
+  const lottie_styles: CSSProperties  = {
+    display: asa ? 'none' : 'flex',
+    maxWidth: "300px"
+  };
+
+  const product_styles: CSSProperties  = {
+    position: 'absolute',
+    borderRadius: 150,
+    objectFit: 'cover',
+    transition: '1s',
+    width: asa ? 250 : 0,
+    height: asa ? 250 : 0,
+  };
+
   return (
     <>
       <Container>
 
         <Banner>
-          <Image src={Purchase} width={300} height={300} alt='banner' />
+          <Image style={banner_styles} src={Purchase} width={300} height={300} alt='banner' />
 
-          <Image
-            width={250}
-            height={250}
-            alt={product.files[0].url}
-            src={product.files[0].url}
-            style={{ position: 'absolute', borderRadius: 150, objectFit: 'cover' }}
-          />
+          <DotLottiePlayer style={lottie_styles} src="/lottie/card.lottie" loop autoplay />
+
+          <Image style={product_styles} width={250} height={250} alt={product.files[0].url} src={product.files[0].url} />
         </Banner>
+
+        {/* <p>Você receberá o código do rastreamento pelo whatsapp</p> */}
 
         {/* <span style={{ height: 10 }} />
 

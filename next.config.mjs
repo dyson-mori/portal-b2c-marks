@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
+  compiler: {
+    styledComponents: true
+  },
   images: {
     remotePatterns: [
       {
@@ -17,13 +20,16 @@ const nextConfig = {
       source: '/',
       destination: '/products', // Change this to your desired destination
       permanent: true, // Set to true for permanent redirect (301)
-    },
-    // {
-    //   source: '/app',
-    //   destination: '/app/levels', // Change this to your desired destination
-    //   permanent: false, // Set to true for permanent redirect (301)
-    // }
-  ]
+    }
+  ],
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack', 'url-loader'],
+    });
+
+    return config;
+  },
 };
 
 export default nextConfig;

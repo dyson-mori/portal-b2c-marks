@@ -2,19 +2,38 @@ import React from 'react';
 import Image from 'next/image';
 
 import { ProductsProps } from "@/global/interfaces";
+import { Close, Edit } from '@/assets/svg/icons';
 
-import { Container, Footer } from './styles';
+import { Container, Footer, Actions } from './styles';
 
-type Props = Pick<ProductsProps, 'id' | 'image' | 'name' | 'price'>;
+type Props = {
+  product: ProductsProps;
+  href: string;
+  isEdit?: boolean;
+  onDelete?: (id: string) => void;
+};
 
-const Product: React.FC<Props> = ({ id, name, image, price }) => {
+const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
   return (
-    <Container href={`/product?id=${id}`}>
-      <Image src={image} width={300} height={300} alt='product' style={{ objectFit: 'cover', borderRadius: 3 }} />
-      <Footer>
-        <p id='title'>{name}</p>
-        <p id='price'>R$ {price}</p>
-      </Footer>
+    <Container href={href}>
+      <Image src={product.files[0].url} width={300} height={300} alt='product' style={{ objectFit: 'cover', borderRadius: 3 }} />
+
+      {isEdit && (
+        <Actions onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          onDelete(product.id);
+        }}>
+          <Close width={30} height={30} />
+        </Actions>
+      )}
+
+      {!isEdit && (
+        <Footer>
+          <p id='title'>{product.name}</p>
+          <p id='price'>R$ {product.price}</p>
+        </Footer>
+      )}
     </Container>
   );
 }

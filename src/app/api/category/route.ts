@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/services/prisma";
 
 export async function GET(request: NextRequest) {
-  const product = await prisma.category.findMany();
+  const product = await prisma.category.findMany({
+    include: {
+      product: true
+    }
+  });
 
   if (!product) {
     throw new Error('Product Server Error')

@@ -7,7 +7,8 @@ export const Container = styled(Link)`
   width: 300px;
   height: 300px;
 
-  margin-bottom: 10px;
+  padding: 0;
+  margin: 0;
 
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
@@ -47,4 +48,17 @@ export const Footer = styled.footer`
     font-weight: 500;
     font-style: italic;
   }
+`;
+
+export const Actions = styled.button`
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+  border: 0;
+
+  width: 100%;
+
+  background-color: transparent;
+  z-index: 10;
 `;

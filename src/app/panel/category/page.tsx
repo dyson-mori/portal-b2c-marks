@@ -6,7 +6,7 @@ import { Container, Forms, AnsOpt, Inputs } from './styles';
 
 import { Button, Input, Notification } from "@/components";
 
-import Text from '@/assets/svg/text.svg';
+import { Text } from '@/assets/svg/icons';
 
 export default function Category() {
   const [loadingForm, setLoadingForm] = useState(false);
@@ -26,7 +26,8 @@ export default function Category() {
     };
 
     if (!target.category.value) {
-      throw new Error('Failed to send the form');
+      setNotification({ type: 'warning', message: 'Required fields', active: `${Math.random()}_show` });
+      throw new Error('Required fields');
     };
 
     const res = await fetch('/api/category', {
@@ -37,6 +38,7 @@ export default function Category() {
     });
 
     if (!res.ok) {
+      setNotification({ type: 'warning', message: 'Failed to send the form', active: `${Math.random()}_show` });
       throw new Error('Failed to send the form');
     };
 

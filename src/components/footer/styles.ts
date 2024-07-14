@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { FooterProps } from '.';
 
 export const Container = styled.footer<FooterProps>`
-  ${({ theme, primary }) => primary && css`
+  ${({ theme, primary }) => primary === 'true' && css`
     position: relative;
 
     display: flex;
@@ -20,7 +20,7 @@ export const Container = styled.footer<FooterProps>`
     }
   `};
   
-  ${({ theme, secondary }) => secondary && css`
+  ${({ theme, secondary }) => secondary === 'true' && css`
     display: flex;
 
     align-items: center;

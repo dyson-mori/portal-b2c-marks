@@ -29,8 +29,28 @@ export const getProductById = async (id: string): Promise<ProductsProps> => {
   return data;
 };
 
+export const sendOrderForDelivery = async (id: string): Promise<ProductsProps> => {
+  const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
+    method: 'GET',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error('Product by Id')
+  };
+
+  const data = await res.json();
+
+  return data;
+};
+
 export default async function Page(params: ProductParams) {
   const data = await getProductById(params.searchParams.id);
+
+  // sendOrderForDelivery()
 
   return <Success product={data} />;
 };

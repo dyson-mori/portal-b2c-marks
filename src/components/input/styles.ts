@@ -31,7 +31,7 @@ export const Icon = styled.div`
   width: 45px;
   height: 45px;
 
-  img {
+  svg {
     position: relative;
     top: 50%;
     left: 50%;

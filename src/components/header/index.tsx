@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
     //   label: 'Rastreamento'
     // },
     {
-      href: '/panel/register',
+      href: '/panel',
       label: 'Registro'
     }
   ];

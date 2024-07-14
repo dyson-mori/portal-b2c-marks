@@ -33,10 +33,10 @@ export default function Component() {
     event.preventDefault();
 
     const target = event.target as typeof event.target & {
-      search: { value: string };
+      select: { value: string };
     };
 
-    setState({ search: target.search.value});
+    setState({ select: target.select.value});
   };
 
   const dropdown = data.map(data => ({
@@ -47,7 +47,7 @@ export default function Component() {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <Select data={dropdown} leftIcon={Search} rightIcon={Close} multiple name='select' />
+        <Select data={dropdown} LeftIcon={Search} name='select' />
       </Form>
     </Container>
   )
