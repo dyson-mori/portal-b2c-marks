@@ -19,21 +19,11 @@ type Props = {
 };
 
 export default function Products({ products, cards }: Props) {
-  // const handleSubmit = (event: SyntheticEvent) => {
-  //   event.preventDefault();
-
-  //   const target = event.target as typeof event.target & {
-  //     search: { value: string };
-  //   };
-
-  //   // setState({ search: target.search.value});
-  // };
-
   return (
     <Container>
       <Aside>
         <Input.Root>
-          <Input.Icon icon={Search} width={20} height={20} />
+          <Search width={20} height={20} />
           <Input.Input placeholder='Search' />
         </Input.Root>
         <span style={{ height: 10 }} />

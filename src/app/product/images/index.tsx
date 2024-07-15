@@ -46,6 +46,7 @@ const Images: React.FC<Props> = ({ data }) => {
           // objectFit: 'contain',
           objectFit: 'cover',
           borderRadius: 3,
+          margin: '10px 0'
           // opacity: .1
         }}
       />

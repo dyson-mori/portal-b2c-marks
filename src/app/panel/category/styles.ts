@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.article`
   display: flex;
@@ -6,6 +6,14 @@ export const Container = styled.article`
   justify-content: center;
 
   height: 100vh;
+
+  margin: 0 50px;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      margin: ${theme.settings.responsive.margin};
+    };
+  `};
 `;
 
 export const Forms = styled.form`

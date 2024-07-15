@@ -12,8 +12,6 @@ interface CardProps {
 };
 
 export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon }) => {
-  console.log(`${data.length} * ${15} = ${data.length * 15}`);
-  
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 

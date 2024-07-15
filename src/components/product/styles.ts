@@ -16,6 +16,16 @@ export const Container = styled(Link)`
     box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
+      width: 100%;
+      height: auto;
+
+      img {
+        width: 100%;
+        height: 100%;
+      };
+    };
   `};
 `;
 

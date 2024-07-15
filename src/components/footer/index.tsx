@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ primary = true, secondary = fals
 
           <strong>Whatsapp: (31) 97556-4133 / E-mail: atendimentomarksjoias@gmail.com</strong>
 
-          <Image src={PaymentCheck} width={100} height={40} alt='payment-check.svg' /> 
+          <PaymentCheck width={100} height={40} /> 
         </>
       )}
 

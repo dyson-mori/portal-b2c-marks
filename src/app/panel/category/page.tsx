@@ -1,20 +1,18 @@
 "use client"
 
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useContext, useState } from "react";
 
-import { Container, Forms, AnsOpt, Inputs } from './styles';
+import { Container, Forms, Inputs } from './styles';
 
-import { Button, Input, Notification } from "@/components";
+import { Button, Input } from "@/components";
 
-import { Text } from '@/assets/svg/icons';
+import { Text, Warning } from '@/assets/svg/icons';
+import { NotificationContext } from "@/hooks/notification";
 
 export default function Category() {
+  const { setNotification } = useContext(NotificationContext);
+
   const [loadingForm, setLoadingForm] = useState(false);
-  const [notification, setNotification] = useState({
-    type: undefined as 'success' | 'failed' | 'warning' | undefined,
-    message: undefined as string | undefined,
-    active: undefined as string | undefined,
-  });
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -26,8 +24,7 @@ export default function Category() {
     };
 
     if (!target.category.value) {
-      setNotification({ type: 'warning', message: 'Required fields', active: `${Math.random()}_show` });
-      throw new Error('Required fields');
+      return setNotification({ icon: Warning, type: 'warning', message: 'Required fields', active: `${Math.random()}_show` });
     };
 
     const res = await fetch('/api/category', {
@@ -38,13 +35,12 @@ export default function Category() {
     });
 
     if (!res.ok) {
-      setNotification({ type: 'warning', message: 'Failed to send the form', active: `${Math.random()}_show` });
-      throw new Error('Failed to send the form');
+      return setNotification({ icon: Warning, type: 'warning', message: 'Failed to send the form', active: `${Math.random()}_show` });
     };
 
     target.category.value = '';
     setLoadingForm(false);
-    setNotification({ type: 'success', message: 'Successful', active: `${Math.random()}_show` });
+    setNotification({ icon: Warning, type: 'success', message: 'Successful', active: `${Math.random()}_show` });
   };
 
   return (
@@ -52,7 +48,7 @@ export default function Category() {
       <Forms onSubmit={handleSubmit}>
         <Inputs>
           <Input.Root>
-            <Input.Icon icon={Text} />
+            <Text width={20} height={20} />
             <Input.Input placeholder="Category" name="category" disabled={loadingForm} />
           </Input.Root>
         </Inputs>
@@ -61,10 +57,6 @@ export default function Category() {
           {loadingForm ? 'loading...' : 'Done'}
         </Button>
       </Forms>
-
-      <Notification.Root data={notification} message={notification.message}>
-        <Notification.Icon icon={Text} />
-      </Notification.Root>
     </Container>
   );
 };

@@ -5,17 +5,17 @@ import Image from 'next/image';
 
 import { DotLottiePlayer } from '@dotlottie/react-player';
 
-import { ProductsProps } from '@/global/interfaces';
+import { PurchaseProps } from '@/global/interfaces';
 import Purchase from '@/assets/svg/purchase.svg';
 
 import { Container, Banner } from './styles';
 import { Footer } from '@/components';
 
 interface Props {
-  product: ProductsProps;
+  purchase: PurchaseProps;
 };
 
-export default function Success({ product }: Props){
+export default function Success({ purchase }: Props){
   const [asa, setAsa] = useState(false);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function Success({ product }: Props){
 
           <DotLottiePlayer style={lottie_styles} src="/lottie/card.lottie" loop autoplay />
 
-          <Image style={product_styles} width={250} height={250} alt={product.files[0].url} src={product.files[0].url} />
+          <Image style={product_styles} width={250} height={250} alt={purchase.product.files[0].url} src={purchase.product.files[0].url} />
         </Banner>
 
         {/* <p>Você receberá o código do rastreamento pelo whatsapp</p> */}

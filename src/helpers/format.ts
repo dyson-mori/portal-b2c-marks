@@ -1,22 +1,56 @@
+const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
+
 export const formats = {
-  cpf: () => {},
+  cpf: (e: string) => {
+    const digits = e?.replace(/\D/g, '') || '';
+
+    if (digits.length === 11) {
+      return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
+    return e;
+  },
+
+  cep: (e: string) => {
+    const digits = e?.replace(/\D/g, '') || '';
+
+    if (digits.length === 8) {
+      return digits.replace(/(\d{5})(\d{3})/, '$1-$2');
+    };
+
+    return e;
+  },
+
   phoneNumber: (e: string) => {
-		// const regex = /(\d{2})(\d{1})(\d{4})(\d{4})/;
+    const digits = e?.replace(/\D/g, '') || '';
 
-		// if (!regex.test(e)) {
-		// 	return;
-		// };
+    let result = e;
 
-		// const value = e.replace(/(\d{2})(\d{2})(\d{1})(\d{4})(\d{5})/, "$1 ($2) $3 $4 $5");
-
-		// console.log(value);
-
-		// return value;
-		const cleaned = ('' + e).replace(/\D/g, '');
-		const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-		if (match) {
-			return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-		}
-		return null;
+    if (digits.length === 2) {
+      result = digits.replace(/(\d{2})/, '($1)');
+    } else if (digits.length === 10) {
+      result = digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    } else if (digits.length === 11) {
+      result = digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    };
+  
+    return result;
 	},
+
+  document_number: (e: string) => {
+    const digits = e?.replace(/\D/g, '') || '';
+
+    if (digits.length === 16) {
+      return digits.replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4');
+    };
+
+    return e;
+  }
 };
+
+/*
+  fetch(`https://api.postmon.com.br/v1/cep/${evt.target.value}`)
+    .then(jsn => jsn.json())
+    .then((success: any) => setCep({ ...cep, ...success }))
+  }}
+*/

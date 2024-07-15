@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
   const data = [
     {
       href: '/products',
-      label: 'Produtos'
+      label: 'Products'
     },
     // {
     //   href: '/',
@@ -21,7 +21,7 @@ export const Header: React.FC = () => {
     // },
     {
       href: '/panel',
-      label: 'Registro'
+      label: 'Panel'
     }
   ];
 

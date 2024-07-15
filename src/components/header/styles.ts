@@ -13,6 +13,10 @@ export const Container = styled.header`
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      padding: ${theme.settings.responsive.padding};
+    };
   `};
 `;
 
@@ -37,22 +41,28 @@ export const Nav = styled.nav`
   padding: 0 60px;
 
   width: 100%;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      padding: 0 20px;
+    };
+  `};
 `;
 
 export const LinkStyle = styled(Link)`
   position: relative;
 
-  color: #47474D;
-
-  margin: 0 25px;
-
-  height: 100%;
-
-  top: 50%;
-  transform: translateY(-20%);
+  padding: 15px 25px;
 
   text-decoration: none;
 
-  font-size: 14px;
-  font-weight: 500;
+  ${({ theme }) => css`
+    font-size: ${theme.font.size.medium};
+    font-weight: ${theme.font.weight[500]};
+    color: ${theme.colors.text};
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      padding: 10px 15px;
+    };
+  `};
 `;

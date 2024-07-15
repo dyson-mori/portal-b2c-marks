@@ -6,6 +6,8 @@ export const Container = styled.article`
   justify-content: center;
 
   height: 100vh;
+
+  overflow: hidden;
 `;
 
 export const Forms = styled.form`

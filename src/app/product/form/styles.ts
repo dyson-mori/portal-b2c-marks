@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.form`
   width: 100%;
-  padding: 0 70px;
+  padding: 0 0 0 40px;
 
   ${({ theme }) => css`
     h1 {
@@ -13,6 +13,13 @@ export const Container = styled.form`
       font-size: 24px;
       font-weight: ${theme.font.weight[800]};
     }
+
+    ${({ theme }) => css`
+      @media (max-width: ${theme.settings.responsive.maxWidth}) {
+        padding: 0;
+        margin: 20px 0;
+      };
+    `};
   `};
 `;
 

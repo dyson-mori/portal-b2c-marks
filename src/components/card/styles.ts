@@ -19,6 +19,10 @@ export const Container = styled.div`
     box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      display: none;
+    };
   `};
 `;
 
@@ -75,6 +79,6 @@ export const Button = styled.button`
 
     &:hover {
       background-color: ${theme.colors.hover};
-    }
+    };
   `};
 `;

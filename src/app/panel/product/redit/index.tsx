@@ -111,7 +111,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           <Row>
 
             <Input.Root>
-              <Input.Icon icon={Devolution} width={20} height={20} stroke="#47C747" strokeWidth={1.6} />
+              <Devolution width={20} height={20} stroke="#47C747" strokeWidth={1.6} />
               <Input.Input
                 placeholder="Name Product"
                 defaultValue={name}
@@ -122,7 +122,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           <div style={{ width: 10 }} />
 
             <Input.Root>
-              <Input.Icon icon={Text} width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Text width={20} height={20} stroke="#47C747" strokeWidth={2} />
               <Input.Input
                 placeholder="Description"
                 defaultValue={description}
@@ -135,7 +135,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           <Row>
 
             <Input.Root>
-              <Input.Icon icon={Text} width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Text width={20} height={20} stroke="#47C747" strokeWidth={2} />
               <Input.Input
                 placeholder="Price"
                 defaultValue={price}

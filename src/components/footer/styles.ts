@@ -48,6 +48,13 @@ export const Container = styled.footer<FooterProps>`
 
     font-size: 12px;
   }
+
+   ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
+      width: 100%;
+      height: 200px;
+    };
+  `};
 `;
 
 export const Payments = styled.div`

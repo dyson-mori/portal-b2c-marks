@@ -4,13 +4,12 @@ import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import * as yup from 'yup';
-
 import { ProductsProps } from '@/global/interfaces';
 import { Button, Input } from '@/components';
 import { Delivery, Ellipse, Routing, Text, User, TextAlignLeft, Mobile } from '@/assets/svg/icons';
 import { formats } from '@/helpers/format';
 
+import { schema, schemaProps } from './schema';
 import { Container, Row } from './styles';
 
 interface Props {
@@ -18,90 +17,102 @@ interface Props {
   setCard: (s: boolean) => void;
 };
 
-const phoneRegExp = /^(\+?\d{1,4}[\s-]?)?(\(?\d{3}\)?[\s-]?)?[\d\s-]{7,10}$/;
-
-const phoneSchema = yup.string()
-  .matches(phoneRegExp, 'Phone number is not valid')
-  .transform(function (value, originalValue) {
-    // Remove all non-digit characters
-    const digits = originalValue.replace(/\D/g, '');
-
-    // Format the phone number, e.g., (123) 456-7890
-    if (digits.length === 10) {
-      return digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    }
-    return originalValue;
-  });
-
-const schema = yup.object().shape({
-  first_name: yup.string().required('Nome é obrigatório'),
-  middle_name: yup.string().required('Nome é obrigatório'),
-  last_name: yup.string().required('Nome é obrigatório'),
-  // sector: yup.string(),
-  phone: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .transform(function (value, originalValue) {
-      const digits = originalValue.replace(/\D/g, '');
-      if (digits.length >= 10) {
-        return digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-      }
-      return originalValue;
-    }),
-
-  // whatsapp: yup
-  //   .string()
-  //   .required('WhatsApp é obrigatório')
-  //   .min(11, 'Campo deve conter ao menos 11 dígitos')
-  //   .test({
-  //     message: 'Número inválido',
-  //     test: (value) =>
-  //       value ? phoneValidate.isValid(maskHelper.number(value)) : false,
-  //   }),
-  // email: yup
-  //   .string()
-  //   .email('E-mail inválido')
-  //   .required('E-mail é obrigatório'),
-});
-
-type SchemaProps = yup.InferType<typeof schema>;
-
 const FormScreen: React.FC<Props> = ({ data, setCard }) => {
   const route = useRouter();
 
-  const { control, handleSubmit, setValue } = useForm<SchemaProps>({
+  const { control, handleSubmit, setValue, formState: { isLoading } } = useForm<schemaProps>({
     resolver: yupResolver(schema),
     defaultValues: {
-      phone: ''
+      first_name: 'Sergio',
+      middle_name: 'Junio',
+      last_name: 'Leal',
+      phone: '31975564133',
+      cpf: '14243099642',
+      cep: '32310370',
+      address: '920',
+      description: 'testing description',
+      credit_card_name: 'sergio',
+      expiration_date: '123',
+      document_number: '0000000000000000'
     }
   });
 
-  const onSubmit = (form) => {
-    console.log(form);
-    
-    // route.push(`/success?id=${data.id}`);
+  const onSubmit = async (form: any) => {
+    const res = await fetch('/api/product/purchase', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...form,
+        product_id: data.id
+      })
+    });
+
+    const result = await res.json();
+
+    return route.push(`/success?id=${result.id}`);
   };
 
   return (
     <Container onSubmit={handleSubmit(onSubmit)}>
       <Row>
-        <Input.Root>
-          <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
-          <Input.Input placeholder='First Name' onChange={evt => setValue('first_name', evt.target.value)}/>
-        </Input.Root>
+        <Controller
+          name="first_name"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Input.Input
+                value={value}
+                placeholder='First Name'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('first_name', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
         &nbsp;
-        <Input.Root>
-          <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
-          <Input.Input placeholder='Middle Name' onChange={evt => setValue('middle_name', evt.target.value)}/>
-        </Input.Root>
+        <Controller
+          name="middle_name"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Input.Input
+                value={value}
+                placeholder='Middle Name'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('middle_name', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
         &nbsp;
-        <Input.Root>
-          <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
-          <Input.Input placeholder='Last Name' onChange={evt => setValue('last_name', evt.target.value)} />
-        </Input.Root>
+        <Controller
+          name="last_name"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Input.Input
+                value={value}
+                placeholder='Last Name'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('last_name', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
       </Row>
 
-      <div style={{ height: 5 }} />
+      <div style={{ height: 8.5 }} />
       <Row>
         <Controller
           name="phone"
@@ -110,16 +121,11 @@ const FormScreen: React.FC<Props> = ({ data, setCard }) => {
             <Input.Root>
               <Mobile width={15} height={20} stroke="#47C747" strokeWidth={2} />
               <Input.Input
-                id='phone'
-                name='phone'
-                type='text'
-                value={phoneSchema.cast(value)}
+                value={formats.phoneNumber(value!)}
                 placeholder='(00) 0 0000 0000'
-                // placeholder='(00) 0 0000 0000'
                 onBlur={onBlur}
                 onChange={e => {
-                  const formattedPhone = phoneSchema.cast(e.target.value);
-                  setValue('phone', formattedPhone);
+                  setValue('phone', e.target.value);
                   onChange(e);
                 }}
               />
@@ -127,55 +133,156 @@ const FormScreen: React.FC<Props> = ({ data, setCard }) => {
           )}
         />
         &nbsp;
-        <Input.Root>
-          <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
-          <Input.Input placeholder='000.000.000-00' />
-        </Input.Root>
+        <Controller
+          name="cpf"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <User width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Input.Input
+                name='cpf'
+                value={formats.cpf(value!)}
+                placeholder='000.000.000-00'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('cpf', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
       </Row>
 
-      <div style={{ height: 5 }} />
-      <Input.Root>
-        <Delivery width={20} height={20} fill="#47C747" />
-        <Input.Input placeholder='000000-000' name='zipcode' />
-      </Input.Root>
+      <div style={{ height: 8.5 }} />
+      <Controller
+        name="cep"
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input.Root>
+            <Delivery width={20} height={20} fill="#47C747" />
+            <Input.Input
+              name='cep'
+              value={formats.cep(value)}
+              placeholder='00000-000'
+              onBlur={onBlur}
+              onChange={e => {
+                setValue('cep', e.target.value);
+                onChange(e);
+              }}
+            />
+          </Input.Root>
+        )}
+      />
+      <div style={{ height: 8.5 }} />
+      <Controller
+        name="address"
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input.Root>
+            <Routing width={20} height={20} stroke="#47C747" strokeWidth={2} />
+            <Input.Input
+              defaultValue='MG - Belo Horizonte - Nova Lima - Rua das Acácias - '
+              value={value}
+              placeholder='MG - Belo Horizonte - Nova Lima - Rua das Acácias - '
+              onBlur={onBlur}
+              onChange={e => {
+                setValue('address', e.target.value);
+                onChange(e);
+              }}
+            />
+          </Input.Root>
+        )}
+      />
 
-      <div style={{ height: 5 }} />
-      <Input.Root>
-        <Routing width={20} height={20} stroke="#47C747" strokeWidth={2} />
-        <Input.Input placeholder='MG - Belo Horizonte - Nova Lima - Rua das Acácias - ' />
-      </Input.Root>
-
-      <div style={{ height: 5 }} />
-      <Input.Root>
-        <TextAlignLeft width={20} height={20} stroke="#47C747" strokeWidth={2} />
-        <Input.Input placeholder='Description' />
-      </Input.Root>
+      <div style={{ height: 8.5 }} />
+      <Controller
+        name="description"
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input.Root>
+            <TextAlignLeft width={20} height={20} stroke="#47C747" strokeWidth={2} />
+            <Input.Input
+              value={value}
+              placeholder='Description'
+              onBlur={onBlur}
+              onChange={e => {
+                setValue('description', e.target.value);
+                onChange(e);
+              }}
+            />
+          </Input.Root>
+        )}
+      />
 
       <div style={{ textAlign: 'center', marginTop: 5 }}>
         <Ellipse width={40} height={10} />
       </div>
 
       <Row>
-        <Input.Root>
-          <User width={20} height={20} stroke="#47C747" />
-          <Input.Input placeholder='Name on the card' name='credit_card_name' />
-        </Input.Root>
+        <Controller
+          name="credit_card_name"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <User width={20} height={20} stroke="#47C747" />
+              <Input.Input
+                value={value}
+                placeholder='Name on the card'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('credit_card_name', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
         &nbsp;
-        <Input.Root>
-          <User width={20} height={20} stroke="#47C747" />
-          <Input.Input placeholder='CVC' name='expiration_date' />
-        </Input.Root>
+        <Controller
+          name="expiration_date"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <User width={20} height={20} stroke="#47C747" />
+              <Input.Input
+                value={value}
+                placeholder='000'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('expiration_date', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
       </Row>
 
-      <div style={{ height: 5 }} />
-      <Input.Root>
-        <User width={20} height={20} stroke="#47C747" />
-        <Input.Input placeholder='0000-0000-0000-0000' name='document_number' />
-      </Input.Root>
+      <div style={{ height: 8.5 }} />
+      <Controller
+        name="document_number"
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input.Root>
+            <User width={20} height={20} stroke="#47C747" />
+            <Input.Input
+              value={formats.document_number(value)}
+              placeholder='0000-0000-0000-0000'
+              onBlur={onBlur}
+              onChange={e => {
+                if (e.target.value.replace(/-/g, '').length >= 17) return;
+                setValue('document_number', e.target.value);
+                onChange(e);
+              }}
+            />
+          </Input.Root>
+        )}
+      />
 
-      <div style={{ height: 5 }} />
-      <Button type='submit' value='submit'>Buy now</Button>
-      <div style={{ height: 5 }} />
+      <div style={{ height: 8.5 }} />
+      <Button type='submit' value='submit'>{isLoading ? 'loading...' : 'Buy now'}</Button>
+      <div style={{ height: 8.5 }} />
       <Button secondary onClick={() => setCard(false)}>back</Button>
     </Container>
   )

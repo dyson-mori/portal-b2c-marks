@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.article`
   display: flex;
@@ -6,4 +6,11 @@ export const Container = styled.article`
   justify-content: space-between;
 
   padding: 10px 50px;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      flex-direction: column;
+      padding: ${theme.settings.responsive.padding};
+    };
+  `};
 `;

@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { ProductsProps } from "@/global/interfaces";
+import { ProductsProps, PurchaseProps } from "@/global/interfaces";
 
 import Success from './success';
 
-type ProductParams = {
+type Params = {
   params: object;
   searchParams: {
     id: string;
   }
 };
 
-export const getProductById = async (id: string): Promise<ProductsProps> => {
-  const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
+export const getPurchaseById = async (id: string): Promise<PurchaseProps> => {
+  const res = await fetch(`http://localhost:3000/api/product/purchase?id=${id}`, {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -21,7 +21,7 @@ export const getProductById = async (id: string): Promise<ProductsProps> => {
   });
 
   if (!res.ok) {
-    throw new Error('Product by Id')
+    throw new Error('Purchase by Id')
   };
 
   const data = await res.json();
@@ -29,30 +29,30 @@ export const getProductById = async (id: string): Promise<ProductsProps> => {
   return data;
 };
 
-export const sendOrderForDelivery = async (id: string): Promise<ProductsProps> => {
-  const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+// export const sendOrderForDelivery = async (id: string): Promise<PurchaseProps> => {
+//   const res = await fetch(`http://localhost:3000/api/product/purchase?id=${id}`, {
+//     method: 'GET',
+//     cache: 'no-cache',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   });
 
-  if (!res.ok) {
-    throw new Error('Product by Id')
-  };
+//   if (!res.ok) {
+//     throw new Error('Product by Id')
+//   };
 
-  const data = await res.json();
+//   const data = await res.json();
 
-  return data;
-};
+//   return data;
+// };
 
-export default async function Page(params: ProductParams) {
-  const data = await getProductById(params.searchParams.id);
+export default async function Page(params: Params) {
+  const data = await getPurchaseById(params.searchParams.id);
 
   // sendOrderForDelivery()
 
-  return <Success product={data} />;
+  return <Success purchase={data} />;
 };
 
 

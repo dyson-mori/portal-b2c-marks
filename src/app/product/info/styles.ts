@@ -13,6 +13,13 @@ export const Container = styled.section`
       font-size: 24px;
       font-weight: ${theme.font.weight[800]};
     }
+
+    ${({ theme }) => css`
+      @media (max-width: ${theme.settings.responsive.maxWidth}) {
+        padding: 0;
+        margin: 20px 0;
+      };
+    `};
   `};
 `;
 

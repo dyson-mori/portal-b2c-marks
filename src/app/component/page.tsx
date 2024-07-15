@@ -1,255 +1,77 @@
 "use client";
 
-import React, { SyntheticEvent, useState } from 'react';
+import React from 'react';
+
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import * as yup from 'yup';
+
+import { Input } from '@/components';
+import { Mobile } from '@/assets/svg/icons';
 
 import { Container, Form } from './styles';
+import { formats } from '@/helpers/format';
 
-import { Card } from '@/components';
+const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
 
-import { Search } from '@/assets/svg/icons';
+const schema = yup.object().shape({
+  phone: yup.string()
+    .matches(brazilianPhoneRegExp, 'Phone number is not valid')
+    // .transform(function (value, originalValue) {
+    //   const digits = originalValue.replace(/\D/g, '');
+    //   if (digits.length === 10) {
+    //     return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    //   } else if (digits.length === 11) {
+    //     return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    //   }
+    //   return originalValue;
+    // }),
+});
 
-// const data = [
-//   {
-//     id: 'clyispn3u000iopd3m67p6s3j',
-//     name: 'Alina Becker',
-//     type: 'type 0'
-//   },
-//   {
-//     id: 'clyilsxpc000797dwforats4w',
-//     name: 'wchew',
-//     type: 'type 1'
-//   },
-//   {
-//     id: 'clyi4fkmc0017jkddgi6j7m3s',
-//     name: 'Songyuxin Himoti',
-//     type: 'type 2'
-//   },
-// ];
-
-const data = [
-  {
-    title: 'Breast',
-    maxHeight: 50 + 40 * 4,
-    options: [
-      {
-        id: 'clyispn3u000iopd3m67p6s3j',
-        name: 'big',
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'small',
-      },
-      {
-        id: 'clyi4fkmc0017jkddgi6j7m3s',
-        name: 'huge',
-      },
-      {
-        id: 'clyi4flry0019jkddcnw35q8h',
-        name: 'thin',
-      },
-      {
-        id: 'clyilsuge000197dw0ye7d91w',
-        name: 'big tits',
-      },
-      {
-        id: 'clyilsvfc000397dwnuqvblla',
-        name: 'breasts'
-      },
-      {
-        id: 'clyilswlu000597dwvmkjpfsf',
-        name: 'busty'
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'dressed'
-      },
-      {
-        id: 'clyilsyv5000997dwpxqx0b95',
-        name: 'squeeze'
-      },
-      {
-        id: 'clyilszrn000b97dwovl5ifjm',
-        name: 'squeeze boobs'
-      },
-      {
-        id: 'clyisp8bp0002opd3oj3t3clc',
-        name: 'squeeze tits'
-      },
-      {
-        id: 'clyispa5r0004opd3jveyy2fj',
-        name: 'shake'
-      },
-      {
-        id: 'clyispbpr0006opd3rgn2gpos',
-        name: 'shakes'
-      },
-      {
-        id: 'clyispdgx0008opd30w0pb1mg',
-        name: 'cleavage'
-      }
-    ]
-  },
-  {
-    title: 'Ass',
-    maxHeight: 50 + 40 * 2,
-    options: [
-      {
-        id: 'clyispn3u000iopd3m67p6s3j',
-        name: 'big',
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'small',
-      },
-      {
-        id: 'clyi4fkmc0017jkddgi6j7m3s',
-        name: 'huge',
-      },
-      {
-        id: 'clyi4flry0019jkddcnw35q8h',
-        name: 'thin',
-      },
-      {
-        id: 'clyilsuge000197dw0ye7d91w',
-        name: 'big tits',
-      },
-      {
-        id: 'clyilsvfc000397dwnuqvblla',
-        name: 'breasts'
-      },
-      {
-        id: 'clyilswlu000597dwvmkjpfsf',
-        name: 'busty'
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'dressed'
-      },
-    ]
-  },
-  {
-    title: 'Breast',
-    maxHeight: 50 + 40 * 4,
-    options: [
-      {
-        id: 'clyispn3u000iopd3m67p6s3j',
-        name: 'big',
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'small',
-      },
-      {
-        id: 'clyi4fkmc0017jkddgi6j7m3s',
-        name: 'huge',
-      },
-      {
-        id: 'clyi4flry0019jkddcnw35q8h',
-        name: 'thin',
-      },
-      {
-        id: 'clyilsuge000197dw0ye7d91w',
-        name: 'big tits',
-      },
-      {
-        id: 'clyilsvfc000397dwnuqvblla',
-        name: 'breasts'
-      },
-      {
-        id: 'clyilswlu000597dwvmkjpfsf',
-        name: 'busty'
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'dressed'
-      },
-      {
-        id: 'clyilsyv5000997dwpxqx0b95',
-        name: 'squeeze'
-      },
-      {
-        id: 'clyilszrn000b97dwovl5ifjm',
-        name: 'squeeze boobs'
-      },
-      {
-        id: 'clyisp8bp0002opd3oj3t3clc',
-        name: 'squeeze tits'
-      },
-      {
-        id: 'clyispa5r0004opd3jveyy2fj',
-        name: 'shake'
-      },
-      {
-        id: 'clyispbpr0006opd3rgn2gpos',
-        name: 'shakes'
-      },
-      {
-        id: 'clyispdgx0008opd30w0pb1mg',
-        name: 'cleavage'
-      }
-    ]
-  },
-  {
-    title: 'Ass',
-    maxHeight: 50 + 40 * 2,
-    options: [
-      {
-        id: 'clyispn3u000iopd3m67p6s3j',
-        name: 'big',
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'small',
-      },
-      {
-        id: 'clyi4fkmc0017jkddgi6j7m3s',
-        name: 'huge',
-      },
-      {
-        id: 'clyi4flry0019jkddcnw35q8h',
-        name: 'thin',
-      },
-      {
-        id: 'clyilsuge000197dw0ye7d91w',
-        name: 'big tits',
-      },
-      {
-        id: 'clyilsvfc000397dwnuqvblla',
-        name: 'breasts'
-      },
-      {
-        id: 'clyilswlu000597dwvmkjpfsf',
-        name: 'busty'
-      },
-      {
-        id: 'clyilsxpc000797dwforats4w',
-        name: 'dressed'
-      },
-    ]
-  },
-];
+type SchemaProps = yup.InferType<typeof schema>;
 
 export default function Component() {
-  const [state, setState] = useState<any>();
+  const { control, handleSubmit, setValue } = useForm<SchemaProps>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      phone: ''
+    }
+  });
 
-  const handleSubmit = (event: SyntheticEvent) => {
-    event.preventDefault();
-
-    const target = event.target as typeof event.target & {
-      select: { value: string };
-    };
-
-    setState({ select: target.select.value});
+  const Submit = (evt: SchemaProps) => {
+    console.log(evt);
   };
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        {
-          data.map(({ title, options, maxHeight }, index) =>
-            <Card key={index} maxHeight={maxHeight} title={title} icon={Search} data={options} />
-          )
-        }
+      <Form onSubmit={handleSubmit(Submit)}>
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input.Root>
+              <Mobile width={15} height={20} stroke="#47C747" strokeWidth={2} />
+              <Input.Input
+                style={{
+                  width: 'auto'
+                }}
+                value='test'
+              />
+              <Input.Input
+                prefix='asaas'
+                name='phone'
+                value={formats.phoneNumber(value!)}
+                placeholder='(00) 0 0000 0000'
+                onBlur={onBlur}
+                onChange={e => {
+                  setValue('phone', e.target.value);
+                  onChange(e);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
       </Form>
     </Container>
   )

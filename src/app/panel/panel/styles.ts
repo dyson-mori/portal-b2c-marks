@@ -8,6 +8,12 @@ export const Container = styled.article`
   justify-content: space-between;
 
   margin: 10px 50px;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      margin: ${theme.settings.responsive.margin};
+    };
+  `};
 `;
 
 export const UploadMore = styled(Link)`
@@ -32,5 +38,15 @@ export const UploadMore = styled(Link)`
     background-color: ${theme.colors.white};
     box-shadow: ${theme.settings.box.simple};
     border-radius: ${theme.settings.radius.small};
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
+      width: 390px;
+      height: 390px;
+
+      img {
+        width: 390px;
+        height: 390px;
+      };
+    };
   `};
 `;
