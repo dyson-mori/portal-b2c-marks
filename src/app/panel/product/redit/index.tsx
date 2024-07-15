@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTheme } from "styled-components";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import * as yup from 'yup';
@@ -9,7 +10,7 @@ import * as yup from 'yup';
 import { NotificationContext } from "@/hooks/notification";
 import { Button, Input, Upload, Select } from "@/components";
 import { ProductsProps, CategoryProps } from "@/global/interfaces";
-import { Search, Text, Devolution, Warning } from '@/assets/svg/icons';
+import { Search, Text, Devolution, Warning, TextAlignLeft } from '@/assets/svg/icons';
 
 import { Container, Forms, Inputs, Row } from './styles';
 
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const schema = yup.object().shape({
+  id: yup.string().notRequired(),
   name: yup.string().required('Required fields'),
   price: yup.string().required('Required fields'),
   description: yup.string().required('Required fields'),
@@ -35,10 +37,13 @@ const schema = yup.object().shape({
 type SchemaProps = yup.InferType<typeof schema>;
 
 export default function Register({ isUpdate, product, category: dropdownCategory }: Props) {
+  const themes = useTheme();
+
   const { setNotification } = useContext(NotificationContext);
 
-  const { getValues, setValue, handleSubmit } = useForm<SchemaProps>({
+  const { getValues, setValue, handleSubmit, formState: { isLoading, errors } } = useForm<SchemaProps>({
     defaultValues: {
+      id: product?.id ?? '',
       name: product?.name ?? '',
       description: product?.description ?? '',
       price: product?.price ?? '',
@@ -48,51 +53,32 @@ export default function Register({ isUpdate, product, category: dropdownCategory
     resolver: yupResolver(schema),
   });
 
-  const { name, description, price, category, files } = getValues();
+  console.log(errors);
+
+  const [productId, setPriductId] = useState<string | null>(null);
+
+  const { id, name, description, price, category, files } = getValues();
   
-  const [loadingForm, setLoadingForm] = useState(false);
-
   const Submit = async (event: SchemaProps) => {
-    setLoadingForm(true);
+    const { name, description, price, category } = event;
 
-    const { name, description, price, category, files } = event;
+    const prefix = {
+      url: isUpdate ? `/api/product?id=${product!.id}` : '/api/product',
+      method: isUpdate ? 'PUT' : 'POST'
+    };
 
-    const res = await fetch(isUpdate ? `/api/product?id=${product!.id}` : '/api/product', {
-      method: isUpdate ? 'PUT' : 'POST',
+    const res = await fetch(prefix.url, {
+      method: prefix.method,
       body: JSON.stringify({ name, description, price, category }),
     });
 
     if (!res.ok) {
-      setLoadingForm(false);
       return setNotification({ icon: Warning, type: 'failed', message: `Failed to ${isUpdate ? 'update' : 'upload'} the form`, active: `${Math.random()}_show` });
     };
 
-    if (product?.files?.length === files.length) {
-      setLoadingForm(false);
-      return setNotification({ icon: Warning, type: 'success', message: `Success`, active: `${Math.random()}_show` });
-    };
+    const result = await res.json()
 
-    const formData = new FormData();
-    const response = await res.json();
-
-    formData.append("product_id", response.id);
-    formData.append("code", `${name}_${Math.random()}`);
-
-    files.forEach((file, i) => {
-      formData.append(`file${i+1}`, file);
-    });
-
-    const file = await fetch('/api/files', {
-      method: 'POST',
-      body: formData
-    });
-
-    if (!file.ok) {
-      setLoadingForm(false);
-      return setNotification({ icon: Warning, type: 'failed', message: 'Failed to send the files', active: `${Math.random()}_show` });
-    };
-
-    setLoadingForm(false);
+    setPriductId(result?.id);
     return setNotification({ icon: Warning, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
   };
 
@@ -101,9 +87,10 @@ export default function Register({ isUpdate, product, category: dropdownCategory
       <Forms onSubmit={handleSubmit(Submit)}>
 
         <Upload
+          productId={productId}
           files={files}
           isUpdate={isUpdate}
-          uploading={loadingForm}
+          isLoading={isLoading}
           setFiles={evt => setValue('files', evt)}
         />
 
@@ -111,7 +98,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           <Row>
 
             <Input.Root>
-              <Devolution width={20} height={20} stroke="#47C747" strokeWidth={1.6} />
+              <Devolution width={20} height={20} stroke={themes.colors.primary} strokeWidth={1.6} />
               <Input.Input
                 placeholder="Name Product"
                 defaultValue={name}
@@ -122,11 +109,11 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           <div style={{ width: 10 }} />
 
             <Input.Root>
-              <Text width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <TextAlignLeft width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
               <Input.Input
                 placeholder="Description"
                 defaultValue={description}
-                onChange={ evt => setValue('description', evt.target.value)}
+                onChange={evt => setValue('description', evt.target.value)}
               />
             </Input.Root>
 
@@ -135,7 +122,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           <Row>
 
             <Input.Root>
-              <Text width={20} height={20} stroke="#47C747" strokeWidth={2} />
+              <Text width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
               <Input.Input
                 placeholder="Price"
                 defaultValue={price}
@@ -155,8 +142,8 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           </Row>
         </Inputs>
 
-        <Button type="submit" primary disabled={loadingForm}>
-          {loadingForm ? 'Sending...' : product?.name ? 'Update' : 'Upload'}
+        <Button type="submit" primary disabled={isLoading}>
+          {isLoading ? 'Sending...' : isUpdate ? 'Update' : 'Upload'}
         </Button>
       </Forms>
     </Container>

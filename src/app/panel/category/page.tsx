@@ -1,6 +1,7 @@
 "use client"
 
 import { SyntheticEvent, useContext, useState } from "react";
+import { useTheme } from "styled-components";
 
 import { Container, Forms, Inputs } from './styles';
 
@@ -10,6 +11,8 @@ import { Text, Warning } from '@/assets/svg/icons';
 import { NotificationContext } from "@/hooks/notification";
 
 export default function Category() {
+  const themes = useTheme();
+
   const { setNotification } = useContext(NotificationContext);
 
   const [loadingForm, setLoadingForm] = useState(false);
@@ -48,7 +51,7 @@ export default function Category() {
       <Forms onSubmit={handleSubmit}>
         <Inputs>
           <Input.Root>
-            <Text width={20} height={20} />
+            <Text width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
             <Input.Input placeholder="Category" name="category" disabled={loadingForm} />
           </Input.Root>
         </Inputs>

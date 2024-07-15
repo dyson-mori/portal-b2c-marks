@@ -46,13 +46,15 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-  const body = await request.json() as Product & { category: string };
+  const body = await request.json() as Product & { category: Array<Category> };
 
-  const categoryArray = body.category?.split(',').length > 0 ? body.category?.split(',') : [body.category] as string[];
-
-  const categories = await prisma.category.findMany({
+  const productCategory = await prisma.product.findFirst({
     where: {
-      OR: categoryArray.map(name => ({ name }))
+      id: `${id}`
+    },
+    include: {
+      category: true,
+      files: true
     }
   });
 
@@ -65,7 +67,8 @@ export async function PUT(request: NextRequest) {
       description: body.description,
       price: body.price,
       category: {
-        connect: categories.map(({ id }) => ({ id }))
+        disconnect: productCategory?.category.map(({ id }) => ({ id })),
+        connect: body.category.map(({ id }) => ({ id })),
       },
     }
   });

@@ -16,16 +16,19 @@ type UploadFileProps = {
 interface UploadProps {
   isUpdate: boolean;
   files?: FilesProps[];
-  uploading: boolean;
+  isLoading: boolean;
+  productId?: string | null;
   setFiles: (f: File[]) => void;
 };
 
-const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFiles }) => {
+const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, setFiles }) => {
+  console.log(productId);
+
   const [multiFiles, setMultiFiles] = useState([] as UploadFileProps[]);
 
   const styles = {
-    opacity: uploading ? 0.5 : 1,
-    cursor: uploading ? 'default' : 'pointer'
+    opacity: isLoading ? 0.5 : 1,
+    cursor: isLoading ? 'default' : 'pointer'
   };
 
   const handleFileChange = (evt: any) => {
@@ -43,7 +46,6 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFiles })
             file: element,
             url: readerEvent.target.result
           };
-
           setMultiFiles(prev => [...prev, file]);
         };
       };
@@ -55,23 +57,56 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFiles })
   const handleRemoveImage = (i: number) => {
     const x = multiFiles.filter((item, index) => index !== i && item)
 
-    setFiles(x.map(e => e.file));
+    // setFiles(x.map(e => e.file));
     setMultiFiles(x);
   };
 
-  useEffect(() => {
-    if (!uploading && !isUpdate) {
-      setMultiFiles([]);
-    }
-  }, [uploading]);
+  // useEffect(() => {
+  //   if (!isLoading && !isUpdate) {
+  //     setMultiFiles([]);
+  //   }
+  // }, [isLoading]);
+
+  // useEffect(() => {
+  //   return setMultiFiles(files);
+  // }, [files]);
 
   useEffect(() => {
-    return setMultiFiles(files);
-  }, [files]);
-
-  useEffect(() => {
+    // if (!isUpdate) {
+    //   setFiles(multiFiles);
+    // }
     setFiles(multiFiles.map(e => e.file));
   }, [multiFiles]);
+
+  useEffect(() => {
+    if (!!productId) {
+      (async () => {
+        const formData = new FormData();
+
+        formData.append("product_id", productId);
+        // formData.append("files", JSON.stringify(files));
+        formData.append("code", `${parseInt(String(Math.random() * 1000))}`);
+
+        multiFiles.forEach((file: any, i) => {
+          formData.append(`file${i+1}`, file);
+        });
+
+        const file = await fetch('/api/files', {
+          method: isUpdate ? 'PUT' : 'POST',
+          body: formData
+        });
+
+        const result = await file.json();
+
+        console.log(result);
+
+        // if (!file.ok) {
+        //   setLoadingForm(false);
+        //   return setNotification({ icon: Warning, type: 'failed', message: 'Failed to send the files', active: `${Math.random()}_show` });
+        // };
+      })()
+    }
+  }, [productId])
 
   return (
     <Container>
@@ -97,7 +132,7 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, uploading, setFiles })
         type="file"
         name='file'
         onChange={handleFileChange}
-        disabled={uploading}
+        disabled={isLoading}
         multiple
       />
     </Container>

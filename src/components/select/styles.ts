@@ -68,7 +68,7 @@ export const DropDown = styled.div`
   `};
 `;
 
-export const Button = styled.button<{isSelected: any}>`
+export const Button = styled.button`
   border: 0;
 
   min-height: 50px;
@@ -79,9 +79,4 @@ export const Button = styled.button<{isSelected: any}>`
 
   padding: 0 10px;
 
-  ${({ theme, isSelected }) => css`
-    background-color: ${theme.colors[isSelected === 'true' ? 'select' : 'white']};
-    color: ${theme.colors[isSelected === 'true' ? 'white' : 'text']};
-    font-weight: ${theme.font.weight[isSelected === 'true' ? 700 : 500]};
-  `};
-  `;
+`;

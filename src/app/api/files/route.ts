@@ -58,8 +58,12 @@ export async function POST(request: NextRequest) {
   const body = Object.fromEntries(formData) as unknown as Files;
 
   const formDataEntryValues = Array.from(formData.values());
+  console.log(typeof formDataEntryValues);
+  console.log(body);
 
   for (const formDataEntryValue of formDataEntryValues) {
+    console.log(typeof formDataEntryValue === "object");
+
     if (typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue) {
       const fil = formDataEntryValue as unknown as Blob;
       const buffer = Buffer.from(await fil.arrayBuffer());
@@ -82,6 +86,26 @@ export async function POST(request: NextRequest) {
       })
     }
   };
+
+  return NextResponse.json(true);
+};
+
+export async function PUT(request: NextRequest){
+  const formData = await request.formData();
+  const body = Object.fromEntries(formData) as unknown as Files;
+  const formDataEntryValues = Array.from(formData.values());
+
+  const product = await prisma.product.findFirst({
+    where: {
+      id: body.id
+    },
+    include: {
+      files: true
+    }
+  });
+
+  // console.log(product.files);
+  console.log(JSON.parse(body.files as any));
 
   return NextResponse.json(true);
 };

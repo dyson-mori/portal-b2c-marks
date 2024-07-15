@@ -16,7 +16,7 @@ type Props = {
 const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
   return (
     <Container href={href}>
-      <Image src={product.files[0].url} width={300} height={300} alt='product' style={{ objectFit: 'cover', borderRadius: 3 }} />
+      <Image src={product.files[0]?.url} width={300} height={300} alt='product' style={{ objectFit: 'cover', borderRadius: 3 }} />
 
       {isEdit && (
         <Actions onClick={e => {

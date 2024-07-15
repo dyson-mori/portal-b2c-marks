@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, CSSProperties } from 'react';
 
 import { Container, Icon, Input, DropDown, Button } from './styles';
 
 import { Close } from '@/assets/svg';
 import { CategoryProps } from '@/global/interfaces';
+import { useTheme } from 'styled-components';
 
 type ExportValue = {
   id?: string;
@@ -18,6 +19,8 @@ interface DropDownProps {
 };
 
 const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChangeValue }) => {
+  const themes = useTheme();
+
   const dropContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -105,7 +108,11 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChang
           .map(({ id, name }, index) => (
             <Button
               key={index.toString()}
-              isSelected={String(!!values.find(e => e.name === name))}
+              style={{
+                backgroundColor: !!values.find(e => e.name === name) ? themes.colors.select : themes.colors.white,
+                color: !!values.find(e => e.name === name) ? themes.colors.white : themes.colors.text,
+                fontWeight: !!values.find(e => e.name === name) ? themes.font.weight['700'] : themes.font.weight['500'],
+              }}
               onClick={(evt) => {
                 evt.preventDefault();
                 handleSelect(id, name);
