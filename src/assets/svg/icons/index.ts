@@ -13,6 +13,9 @@ import { ReactComponent as Warning} from './warning.svg';
 import { ReactComponent as Add } from './add.svg';
 import { ReactComponent as TextAlignLeft } from './textalign-left.svg';
 import { ReactComponent as Mobile } from './mobile.svg';
+import { ReactComponent as ShoppingCart } from './shopping-cart.svg';
+import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Trash } from './trash.svg';
 
 export {
   ArrowDown,
@@ -29,5 +32,8 @@ export {
   Add,
   Warning,
   TextAlignLeft,
-  Mobile
+  Mobile,
+  ShoppingCart,
+  Logo,
+  Trash
 };

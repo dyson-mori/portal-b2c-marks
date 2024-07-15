@@ -61,8 +61,9 @@ const themes = {
       warning: `1px 1px 5px ${warning}`,
     },
     responsive: {
-      margin: '0 20px',
-      padding: '0 20px',
+      margin: '10px 20px',
+      padding: '10px 20px',
+      paddingHeader: '0 20px',
       maxWidth: '600px'
     }
   }

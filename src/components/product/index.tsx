@@ -5,6 +5,7 @@ import { ProductsProps } from "@/global/interfaces";
 import { Close, Edit } from '@/assets/svg/icons';
 
 import { Container, Footer, Actions } from './styles';
+import { formats } from '@/helpers/format';
 
 type Props = {
   product: ProductsProps;
@@ -31,7 +32,7 @@ const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
       {!isEdit && (
         <Footer>
           <p id='title'>{product.name}</p>
-          <p id='price'>R$ {product.price}</p>
+          <p id='price'>{formats.money(product.price)}</p>
         </Footer>
       )}
     </Container>

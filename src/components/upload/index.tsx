@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { FilesProps } from '@/global/interfaces';
-import { Add } from '@/assets/svg/icons';
+import { Add, Warning } from '@/assets/svg/icons';
 
 import { Container, MultiFiles } from './styles';
+import { NotificationContext } from '@/hooks/notification';
 
 type UploadFileProps = {
   file: File;
@@ -22,7 +23,7 @@ interface UploadProps {
 };
 
 const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, setFiles }) => {
-  console.log(productId);
+  const { setNotification } = useContext(NotificationContext);
 
   const [multiFiles, setMultiFiles] = useState([] as UploadFileProps[]);
 
@@ -56,8 +57,6 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
 
   const handleRemoveImage = (i: number) => {
     const x = multiFiles.filter((item, index) => index !== i && item)
-
-    // setFiles(x.map(e => e.file));
     setMultiFiles(x);
   };
 
@@ -72,10 +71,8 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
   // }, [files]);
 
   useEffect(() => {
-    // if (!isUpdate) {
-    //   setFiles(multiFiles);
-    // }
     setFiles(multiFiles.map(e => e.file));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [multiFiles]);
 
   useEffect(() => {
@@ -87,8 +84,8 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
         // formData.append("files", JSON.stringify(files));
         formData.append("code", `${parseInt(String(Math.random() * 1000))}`);
 
-        multiFiles.forEach((file: any, i) => {
-          formData.append(`file${i+1}`, file);
+        multiFiles.forEach((file, i) => {
+          formData.append(`file${i+1}`, file.file);
         });
 
         const file = await fetch('/api/files', {
@@ -96,14 +93,12 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
           body: formData
         });
 
-        const result = await file.json();
-
-        console.log(result);
-
-        // if (!file.ok) {
-        //   setLoadingForm(false);
-        //   return setNotification({ icon: Warning, type: 'failed', message: 'Failed to send the files', active: `${Math.random()}_show` });
-        // };
+        if (!file.ok) {
+          return setNotification({ icon: Warning, type: 'failed', message: 'Failed to send the files', active: `${Math.random()}_show` });
+        };
+        setMultiFiles([]);
+        setFiles([]);
+        return setNotification({ icon: Warning, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
       })()
     }
   }, [productId])

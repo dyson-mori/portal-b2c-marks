@@ -46,17 +46,23 @@ export const Footer = styled.footer`
   background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%, rgba(0,212,255,1) 100%);
 
   #title {
+    ${({ theme }) => css`
+      font-size: ${theme.font.size.semiBold};
+      color: ${theme.colors.white};
+      font-weight: ${theme.font.weight[600]};
+    `}
     width: 100%;
-    font-size: 15px;
-    color: #fff;
     font-style: italic;
   };
 
   #price {
+    ${({ theme }) => css`
+      font-size: ${theme.font.size.semiBold};
+      color: ${theme.colors.white};
+      font-weight: ${theme.font.weight[700]};
+    `}
     text-align: end;
     width: 120px;
-    font-size: 15px;
-    color: #fff;
     font-weight: 500;
     font-style: italic;
   }

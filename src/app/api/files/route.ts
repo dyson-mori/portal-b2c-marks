@@ -52,27 +52,18 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(product);
 };
 
-
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const body = Object.fromEntries(formData) as unknown as Files;
-
   const formDataEntryValues = Array.from(formData.values());
-  console.log(typeof formDataEntryValues);
-  console.log(body);
 
-  for (const formDataEntryValue of formDataEntryValues) {
-    console.log(typeof formDataEntryValue === "object");
-
-    if (typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue) {
-      const fil = formDataEntryValue as unknown as Blob;
+  for (const formEntry of formDataEntryValues) {
+    if (typeof formEntry === "object" && "arrayBuffer" in formEntry) {
+      const fil = formEntry as unknown as Blob;
       const buffer = Buffer.from(await fil.arrayBuffer());
       const base64Data = Buffer.from(buffer).toString("base64");
 
-      const image = await uploadToCloudinary(
-        `data:${fil.type};base64,${base64Data}`,
-        fil.name,
-      );
+      const image = await uploadToCloudinary(`data:${fil.type};base64,${base64Data}`, fil.name);
 
       await prisma.files.create({
         data: {
@@ -93,7 +84,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest){
   const formData = await request.formData();
   const body = Object.fromEntries(formData) as unknown as Files;
-  const formDataEntryValues = Array.from(formData.values());
+  const formEntryValues = Array.from(formData.values());
 
   const product = await prisma.product.findFirst({
     where: {

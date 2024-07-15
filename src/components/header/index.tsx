@@ -1,12 +1,10 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 
 import { Container, Icon, Nav, LinkStyle } from './styles';
 
-import Logo from '../../assets/svg/logo.svg';
-import ShoppingCart from '../../assets/svg/shopping-cart.svg';
+import { ShoppingCart,Logo } from '@/assets/svg/icons';
 
 export const Header: React.FC = () => {
 
@@ -27,16 +25,16 @@ export const Header: React.FC = () => {
 
   return (
     <Container>
-      <Icon>
-        <Image src={Logo} width={30} height={30} alt='logo' />
+      <Icon href='/products'>
+        <Logo width={30} height={30} />
       </Icon>
       <Nav>
         {data.map((item, index) => (
           <LinkStyle key={index} href={item.href}>{item.label}</LinkStyle>
         ))}
       </Nav>
-      <Icon>
-        <Image src={ShoppingCart} width={30} height={30} alt='logo' />
+      <Icon href='/cart'>
+        <ShoppingCart width={30} height={30} stroke='#395FF5' strokeWidth={2} />
       </Icon>
     </Container>
   )

@@ -15,22 +15,19 @@ export const Container = styled.header`
     background-color: ${theme.colors.white};
 
     @media (max-width: ${theme.settings.responsive.maxWidth}){
-      padding: ${theme.settings.responsive.padding};
+      padding: ${theme.settings.responsive.paddingHeader};
     };
   `};
 `;
 
-export const Icon = styled.div`
+export const Icon = styled(Link)`
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
   width: 50px;
   height: 50px;
-
-  img {
-    position: relative;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-  };
 `;
 
 export const Nav = styled.nav`
