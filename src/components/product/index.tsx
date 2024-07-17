@@ -32,7 +32,7 @@ const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
       {!isEdit && (
         <Footer>
           <p id='title'>{product.name}</p>
-          <p id='price'>{formats.money(product.price)}</p>
+          <p id='price'>R$ {formats.money(product.price)}</p>
         </Footer>
       )}
     </Container>

@@ -1,12 +1,14 @@
 "use client";
 
 import React from 'react';
+import { useTheme } from 'styled-components';
 
 import { Container, Icon, Nav, LinkStyle } from './styles';
 
 import { ShoppingCart,Logo } from '@/assets/svg/icons';
 
 export const Header: React.FC = () => {
+  const theme = useTheme();
 
   const data = [
     {
@@ -34,7 +36,7 @@ export const Header: React.FC = () => {
         ))}
       </Nav>
       <Icon href='/cart'>
-        <ShoppingCart width={30} height={30} stroke='#395FF5' strokeWidth={2} />
+        <ShoppingCart width={30} height={30} stroke={theme.colors.primary} strokeWidth={2} />
       </Icon>
     </Container>
   )

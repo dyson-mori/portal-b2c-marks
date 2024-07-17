@@ -10,3 +10,4 @@ export * from './select';
 export * from './upload';
 export * from './loading';
 export * from './notification';
+export * from './splash';

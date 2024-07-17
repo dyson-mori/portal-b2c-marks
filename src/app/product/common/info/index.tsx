@@ -47,4 +47,4 @@ const Info: React.FC<Props> = ({ data, setCard }) => {
   )
 }
 
-export { Info };
+export default Info;

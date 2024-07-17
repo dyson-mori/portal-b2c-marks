@@ -1,5 +1,7 @@
-import Amex from './amex.svg';
-import Elo from './elo.svg';
+import { ReactComponent as Amex } from './amex.svg';
+import { ReactComponent as Elo } from './elo.svg';
+import { ReactComponent as Cards } from './cards.svg';
+import { ReactComponent as Pix } from './pix.svg';
 
 // import MasterCard from './MasterCard.svg';
 // import Diners from './Diners.svg';
@@ -21,7 +23,8 @@ import Elo from './elo.svg';
 export {
   Amex,
   Elo,
-
+  Cards,
+  Pix
   // MasterCard,
   // Diners,
   // Hiper,

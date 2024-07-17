@@ -62,7 +62,7 @@ export const Footer = styled.footer`
       font-weight: ${theme.font.weight[700]};
     `}
     text-align: end;
-    width: 120px;
+    width: 160px;
     font-weight: 500;
     font-style: italic;
   }

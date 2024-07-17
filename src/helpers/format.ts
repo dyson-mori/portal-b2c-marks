@@ -1,10 +1,13 @@
 const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
 
 export const formats = {
-  money: (evt: string) => {
-    const price = evt.replace(/\D/g, '');
-
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(String(Number(price) / 100)));
+  money: (value: string) => {
+    let v = value.replace(/\D/g, '');
+    v = `${(Number(v) / 100).toFixed(2)}`;
+    v = v.replace('.', ',');
+    v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');
+    v = v.replace(/(\d)(\d{3}),/g, '$1.$2,');
+    return `${v}`;
   },
   cpf: (e: string) => {
     const digits = e?.replace(/\D/g, '') || '';

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!product) {
-    throw new Error('Product Server Error')
+    throw new Error('Product Server Error');
   };
 
   return NextResponse.json(product);

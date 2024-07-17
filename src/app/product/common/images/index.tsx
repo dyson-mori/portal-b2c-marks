@@ -54,4 +54,4 @@ const Images: React.FC<Props> = ({ data }) => {
   )
 }
 
-export { Images };
+export default Images;

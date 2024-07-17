@@ -2,16 +2,18 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { Files } from '@prisma/client';
 
 import { FilesProps } from '@/global/interfaces';
-import { Add, Warning } from '@/assets/svg/icons';
+import { Add, Block, Success, Warning } from '@/assets/svg/icons';
 
 import { Container, MultiFiles } from './styles';
 import { NotificationContext } from '@/hooks/notification';
 
 type UploadFileProps = {
-  file: File;
-  url: string;
+  file?: File;
+  url?: string;
+  refile?: Files
 }
 
 interface UploadProps {
@@ -19,13 +21,18 @@ interface UploadProps {
   files?: FilesProps[];
   isLoading: boolean;
   productId?: string | null;
-  setFiles: (f: File[]) => void;
+  setFiles: (f: any) => void;
+  // setFiles: (f: File[]) => void;
+  isSubmitting: boolean;
 };
 
-const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, setFiles }) => {
+const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, setFiles, isSubmitting }) => {
   const { setNotification } = useContext(NotificationContext);
+  // console.log(files);
 
-  const [multiFiles, setMultiFiles] = useState([] as UploadFileProps[]);
+  const [uploading, setUploading] = useState([] as UploadFileProps[]);
+  // console.log(uploading);
+  // const [reuploading, setReuploading] = useState([] as Files[]);
 
   const styles = {
     opacity: isLoading ? 0.5 : 1,
@@ -47,7 +54,7 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
             file: element,
             url: readerEvent.target.result
           };
-          setMultiFiles(prev => [...prev, file]);
+          setUploading(prev => [...prev, file]);
         };
       };
     };
@@ -56,36 +63,37 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
   };
 
   const handleRemoveImage = (i: number) => {
-    const x = multiFiles.filter((item, index) => index !== i && item)
-    setMultiFiles(x);
+    const x = uploading.filter((item, index) => index !== i && item)
+    setUploading(x);
   };
 
-  // useEffect(() => {
-  //   if (!isLoading && !isUpdate) {
-  //     setMultiFiles([]);
-  //   }
-  // }, [isLoading]);
-
-  // useEffect(() => {
-  //   return setMultiFiles(files);
-  // }, [files]);
+  useEffect(() => {
+    setFiles(uploading.map(e => e.file));
+  }, [uploading]);
 
   useEffect(() => {
-    setFiles(multiFiles.map(e => e.file));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [multiFiles]);
+    setUploading(files!.map(e => ({
+      url: e.url,
+      refile: e
+    })));
+  }, []);
+
+  console.log(productId && isSubmitting);
 
   useEffect(() => {
-    if (!!productId) {
+    if (productId) {
       (async () => {
         const formData = new FormData();
 
         formData.append("product_id", productId);
         // formData.append("files", JSON.stringify(files));
-        formData.append("code", `${parseInt(String(Math.random() * 1000))}`);
+        formData.append("code", `${parseInt(String(Math.random() * (Math.random() * 100)))}`);
 
-        multiFiles.forEach((file, i) => {
-          formData.append(`file${i+1}`, file.file);
+        uploading.forEach((file, i) => {
+          formData.append(`file`, file.file!);
+          if (isUpdate) {
+            formData.append(`removeFile`, file.refile?.id!)
+          }
         });
 
         const file = await fetch('/api/files', {
@@ -94,27 +102,33 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
         });
 
         if (!file.ok) {
-          return setNotification({ icon: Warning, type: 'failed', message: 'Failed to send the files', active: `${Math.random()}_show` });
+          return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the files', active: `${Math.random()}_show` });
         };
-        setMultiFiles([]);
+
+        if (!isUpdate) {
+          setUploading([]);
+        };
+
         setFiles([]);
-        return setNotification({ icon: Warning, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
-      })()
-    }
-  }, [productId])
+        return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
+      })();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitting, productId])
 
   return (
     <Container>
       <MultiFiles>
         {
-          multiFiles?.map((file, index) => (
+          uploading?.map((file, index) => (
             <label style={styles} key={index} onClick={() => handleRemoveImage(index)}>
-              <Image width={400 / 3.1} height={400 / 3.1} src={file?.url} alt="img" style={{ objectFit: 'cover' }} />
+              <Image width={400 / 3.1} height={400 / 3.1} src={file.url!} alt="img" style={{ objectFit: 'cover' }} />
             </label>
           ))
         }
         {
-          Array.from({ length: (9 - multiFiles?.length) }).map((_, index) => (
+          Array.from({ length: (9 - uploading?.length) }).map((_, index) => (
             <label htmlFor="file" key={index}>
               <Add width={25} height={50} stroke='#292D32' strokeWidth={1.5} />
             </label>

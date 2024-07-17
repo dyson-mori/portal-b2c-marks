@@ -5,6 +5,8 @@ export const Container = styled.main`
 
   margin: 10px 50px;
 
+  height: 80vh;
+
   ${({ theme }) => css`
     @media (max-width: ${theme.settings.responsive.maxWidth}){
       flex-direction: column;
@@ -31,7 +33,8 @@ export const Products = styled.section`
   display: flex;
 
   flex-wrap: wrap;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 
   width: 100%;
 
@@ -44,4 +47,11 @@ export const Products = styled.section`
       margin-left: 0px;
     };
   `};
+`;
+
+export const ProductEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

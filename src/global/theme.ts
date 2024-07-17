@@ -5,6 +5,7 @@ const themes = {
   colors: {
     primary: '#FA0B5B',
     primary_loading: '#962349',
+    primary_disabled: '#962349',
 
     white: '#fff',
 
@@ -56,6 +57,7 @@ const themes = {
     },
     box: {
       default: 'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
+      defaultHoverPrimary: 'rgba(251, 59, 123, 0.05) 0px 6px 24px 0px, rgba(251, 59, 0, 123.08) 0px 0px 0px 1px',
       border: 'rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
       simple: '1px 1px 5px #DEDEDE',
       warning: `1px 1px 5px ${warning}`,

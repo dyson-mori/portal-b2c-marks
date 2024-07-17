@@ -15,13 +15,13 @@ const nextConfig = {
       }
     ]
   },
-  redirects: async () => [
-    {
-      source: '/',
-      destination: '/products', // Change this to your desired destination
-      permanent: true, // Set to true for permanent redirect (301)
-    }
-  ],
+  // redirects: async () => [
+  //   {
+  //     source: '/',
+  //     destination: '/app', // Change this to your desired destination
+  //     permanent: false, // Set to true for permanent redirect (301)
+  //   }
+  // ],
   webpack(config, options) {
     config.module.rules.push({
       test: /\.svg$/,

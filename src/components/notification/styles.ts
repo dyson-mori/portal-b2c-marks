@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { NotificationProps } from '.';
 
-export const Container = styled.div<NotificationProps>`
+export const Container = styled.div<Omit<NotificationProps, 'icon'>>`
   position: fixed;
 
   display: flex;

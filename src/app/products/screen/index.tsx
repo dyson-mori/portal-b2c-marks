@@ -1,11 +1,12 @@
 "use client"
 
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
+import { DotLottiePlayer } from '@dotlottie/react-player';
 
 import { Input, Product, Card } from '@/components';
 import { ProductsProps, CategoryProps } from "@/global/interfaces";
 
-import { Container, Aside, Products as ProductsStyled } from './styles';
+import { Container, Aside, Products as ProductsStyled, ProductEmpty } from './styles';
 
 import { Search } from '@/assets/svg/icons';
 
@@ -19,6 +20,11 @@ type Props = {
 };
 
 export default function Products({ products, cards }: Props) {
+  const lottie_styles  = {
+    display: 'flex',
+    maxWidth: "300px"
+  };
+
   return (
     <Container>
       <Aside>
@@ -35,6 +41,12 @@ export default function Products({ products, cards }: Props) {
       </Aside>
 
       <ProductsStyled>
+        {products.length === 0 && (
+          <ProductEmpty>
+            <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
+            <p>Something went wrong</p>
+          </ProductEmpty>
+          )}
         {products.map((item, index) =>
           <Product key={index.toString()} product={item} href={`/product?id=${item.id}`} />
         )}

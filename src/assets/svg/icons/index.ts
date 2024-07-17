@@ -1,4 +1,6 @@
 import { ReactComponent as ArrowDown} from './arrow_down.svg';
+import { ReactComponent as ArrowLeft } from './arrow-left.svg';
+
 import { ReactComponent as Delivery} from './delivery.svg';
 import { ReactComponent as Close} from './close.svg';
 import { ReactComponent as User} from './user.svg';
@@ -16,6 +18,8 @@ import { ReactComponent as Mobile } from './mobile.svg';
 import { ReactComponent as ShoppingCart } from './shopping-cart.svg';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Trash } from './trash.svg';
+import { ReactComponent as Block } from './block.svg';
+import { ReactComponent as Success } from './success.svg';
 
 export {
   ArrowDown,
@@ -35,5 +39,8 @@ export {
   Mobile,
   ShoppingCart,
   Logo,
-  Trash
+  Trash,
+  ArrowLeft,
+  Block,
+  Success
 };

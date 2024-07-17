@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Header } from '@/components';
+import { Footer, Header } from '@/components';
 import { ProductsProps } from "@/global/interfaces";
 
 import Main from './main';
 
-const getProductById = async (): Promise<ProductsProps[]> => {
-  const res = await fetch(`http://localhost:3000/api/products`, {
+const getCart = async (): Promise<ProductsProps[]> => {
+  const res = await fetch(`http://localhost:3000/api/cart`, {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -15,7 +15,7 @@ const getProductById = async (): Promise<ProductsProps[]> => {
   });
 
   if (!res.ok) {
-    throw new Error('Product by Id')
+    throw new Error('Cart by Id')
   };
 
   const data = await res.json();
@@ -24,11 +24,13 @@ const getProductById = async (): Promise<ProductsProps[]> => {
 };
 
 export default async function Page(){
-  const data = await getProductById();
+  const data = await getCart();
+
   return (
     <>
       <Header />
       <Main data={data} />
+      <Footer secondary />
     </>
   );
 };

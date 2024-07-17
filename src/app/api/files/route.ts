@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
   for (const formEntry of formDataEntryValues) {
     if (typeof formEntry === "object" && "arrayBuffer" in formEntry) {
-      const fil = formEntry as unknown as Blob;
+      const fil = formEntry as unknown as Blob & { name: string };
       const buffer = Buffer.from(await fil.arrayBuffer());
       const base64Data = Buffer.from(buffer).toString("base64");
 
@@ -84,21 +84,55 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest){
   const formData = await request.formData();
   const body = Object.fromEntries(formData) as unknown as Files;
-  const formEntryValues = Array.from(formData.values());
+  const formDataEntryValues = Array.from(formData.values());
 
   const product = await prisma.product.findFirst({
     where: {
-      id: body.id
+      id: body.product_id
     },
     include: {
       files: true
     }
   });
 
-  // console.log(product.files);
-  console.log(JSON.parse(body.files as any));
+  const remove = product?.files.filter(f =>
+    !formData.getAll('removeFile').includes(f.id)
+  ) as Files[];
 
-  return NextResponse.json(true);
+  for (const key in remove) {
+    if (Object.prototype.hasOwnProperty.call(remove, key)) {
+      const element = remove[key];
+      await prisma.files.delete({
+        where: {
+          id: element.id
+        }
+      });
+      await cloudinary.uploader.destroy(element.cloudinary_id)
+    }
+  };
+
+  for (const formEntry of formDataEntryValues) {
+    if (typeof formEntry === "object" && "arrayBuffer" in formEntry) {
+      const fil = formEntry as unknown as Blob & { name: string };
+      const buffer = Buffer.from(await fil.arrayBuffer());
+      const base64Data = Buffer.from(buffer).toString("base64");
+
+      const image = await uploadToCloudinary(`data:${fil.type};base64,${base64Data}`, fil.name);
+
+      await prisma.files.create({
+        data: {
+          url: image.secure_url,
+          width: `${image.width}`,
+          height: `${image.height}`,
+          cloudinary_id: `${image.public_id}`,
+          code: body.code,
+          product_id: body.product_id,
+        }
+      })
+    }
+  };
+
+  return NextResponse.json(product);
 };
 
 // {

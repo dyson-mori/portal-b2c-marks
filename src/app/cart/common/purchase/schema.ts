@@ -3,9 +3,7 @@ import * as yup from 'yup';
 const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
 
 const schema = yup.object().shape({
-  first_name: yup.string().required('Field Required').min(2, 'Too short'),
-  middle_name: yup.string().required('Field Required').min(2, 'Too short'),
-  last_name: yup.string().required('Field Required').min(2, 'Too short'),
+  full_name: yup.string().required('Field Required').min(6, 'Too short'),
   phone: yup.string().matches(brazilianPhoneRegExp, 'Phone number is not valid'),
   cpf: yup.string().required('Field Required'),
   cep: yup

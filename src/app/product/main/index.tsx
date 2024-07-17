@@ -5,9 +5,8 @@ import React, { useState } from 'react';
 import { Footer, Header } from '@/components';
 import { ProductsProps } from '@/global/interfaces';
 
-import { Images } from '../images';
-import { Info } from '../info';
-import { FormScreen } from '../form';
+import Images from '../common/images';
+import Info from '../common/info';
 
 import { Container } from './styles';
 
@@ -22,7 +21,7 @@ export default function ProductScreen({ data }: Props) {
       <Header />
       <Container>
         <Images data={data} />
-        {card ? <FormScreen data={data} setCard={setCard} /> : <Info data={data} setCard={setCard} />}
+        <Info data={data} setCard={setCard} />
       </Container>
       <Footer />
     </>

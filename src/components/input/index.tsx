@@ -1,11 +1,9 @@
 "use client"
 
 import { InputRoot } from './root';
-import { Input as I } from './input';
-import { DropDown } from './dropdown';
+import * as Inp from './input';
 
 export const Input = {
   Root: InputRoot,
-  Input: I,
-  DropDown,
+  ...Inp
 }

@@ -5,7 +5,7 @@ export const Container = styled.button<ButtonProps>`
   border: 0;
 
   width: 100%;
-  height: 50px;
+  min-height: 50px;
 
   ${({ theme, disabled, primary, secondary }) => primary === 'true' && secondary === 'false' && css`
     color: ${theme.colors.white};

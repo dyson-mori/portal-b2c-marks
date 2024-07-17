@@ -5,7 +5,6 @@ export const Container = styled.div`
   display: flex;
 
   width: 100%;
-  /* width: 400px; */
   height: 45px;
 
   ${({ theme }) => css`
@@ -20,9 +19,6 @@ export const Container = styled.div`
     transform: translateY(-50%);
 
     margin: 0 10px;
-    /* left: 10%; */
-
-    /* transform: translate(-50%, -50%); */
   };
 `;
 
@@ -50,18 +46,4 @@ export const Icon = styled.div`
 
     transform: translate(-50%, -50%);
   };
-`;
-
-export const DropDown = styled.div`
-  position: absolute;
-  bottom: -55px;
-
-  width: 100%;
-  min-height: 50px;
-
-  ${({ theme }) => css`
-    box-shadow: ${theme.settings.box.normal};
-    background-color: ${theme.colors.white};
-    border-radius: ${theme.settings.radius.small};
-  `};
 `;

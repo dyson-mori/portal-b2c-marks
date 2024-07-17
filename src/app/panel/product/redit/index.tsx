@@ -10,7 +10,7 @@ import * as yup from 'yup';
 import { NotificationContext } from "@/hooks/notification";
 import { Button, Input, Upload, Select } from "@/components";
 import { ProductsProps, CategoryProps } from "@/global/interfaces";
-import { Search, Text, Devolution, Warning, TextAlignLeft } from '@/assets/svg/icons';
+import { Search, Text, Devolution, TextAlignLeft, Block } from '@/assets/svg/icons';
 
 import { Container, Forms, Inputs, Row } from './styles';
 import { formats } from "@/helpers/format";
@@ -42,7 +42,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
 
   const { setNotification } = useContext(NotificationContext);
 
-  const { getValues, setValue, handleSubmit, control, formState: { isLoading, errors } } = useForm<SchemaProps>({
+  const { getValues, setValue, handleSubmit, control, formState: { isLoading, isSubmitting, errors } } = useForm<SchemaProps>({
     defaultValues: {
       id: product?.id ?? '',
       name: product?.name ?? '',
@@ -54,37 +54,40 @@ export default function Register({ isUpdate, product, category: dropdownCategory
     resolver: yupResolver(schema),
   });
 
-  const [productId, setProductId] = useState<string | null>(null);
-
-  const { id, name, description, price, category, files } = getValues();
+  const { id: productId, category, files } = getValues();
 
   const Submit = async (event: SchemaProps) => {
     try {
       const { name, description, price, category } = event;
 
       const prefix = {
-        url: isUpdate ? `/api/product?id=${product!.id}` : '/api/product',
+        url: `/api/product${isUpdate ? `?id=${product!.id}` : ''}`,
         method: isUpdate ? 'PUT' : 'POST'
       };
 
       const res = await fetch(prefix.url, {
         method: prefix.method,
-        body: JSON.stringify({ name, description, price: price.replace(/[^0-9]/g, ''), category }),
+        body: JSON.stringify({
+          name,
+          description,
+          price: `${Number(Number(price.replace(/[,.R$ ]/g, '')) / 100).toFixed(2)}`,
+          category
+        }),
       });
 
       if (!res.ok) {
-        return setNotification({ icon: Warning, type: 'failed', message: `Failed to ${isUpdate ? 'update' : 'upload'} the form`, active: `${Math.random()}_show` });
+        return setNotification({ icon: Block, type: 'failed', message: `Failed to ${isUpdate ? 'update' : 'upload'} the form`, active: `${Math.random()}_show` });
       };
 
       const result = await res.json();
 
-      setValue('id', '');
+      setValue('id', result?.id);
       setValue('name', '');
+      setValue('price', '');
       setValue('description', '');
       setValue('category', []);
       setValue('files', []);
 
-      return setProductId(result?.id);
     } catch (error) {
       throw new Error(`${error}`)
     }
@@ -95,12 +98,27 @@ export default function Register({ isUpdate, product, category: dropdownCategory
       <Forms onSubmit={handleSubmit(Submit)}>
 
         <Upload
-          productId={productId || id}
+          productId={productId}
           files={files}
           isUpdate={isUpdate}
           isLoading={isLoading}
           setFiles={evt => setValue('files', evt)}
+          isSubmitting={isSubmitting}
         />
+        {/* <Controller
+          name="name"
+          control={control}
+          render={({ field: { onChange, onBlur, value }  }) => (
+            <Upload
+              productId={productId || id}
+              files={files}
+              isUpdate={isUpdate}
+              isLoading={isLoading}
+              setFiles={evt => setValue('files', evt)}
+              isSubmitting={isSubmitting}
+            />
+          )}
+        /> */}
 
         <Inputs>
           <Row>
@@ -114,7 +132,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
                   <Input.Input
                     value={value}
                     placeholder="Name Product"
-                    defaultValue={name}
+                    defaultValue={value}
                     onChange={evt => {
                       setValue('name', evt.target.value)
                       onChange(evt);
@@ -133,8 +151,9 @@ export default function Register({ isUpdate, product, category: dropdownCategory
                 <Input.Root>
                   <TextAlignLeft width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
                   <Input.Input
+                    value={`${value}`}
                     placeholder="Description"
-                    defaultValue={description}
+                    defaultValue={`${value}`}
                     onChange={evt => {
                       setValue('description', evt.target.value);
                       onChange(evt);
@@ -154,12 +173,12 @@ export default function Register({ isUpdate, product, category: dropdownCategory
                 <Input.Root>
                   <Text width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
                   <Input.Input
-                    value={formats.money(value)}
                     placeholder="Price"
                     onBlur={onBlur}
-                    defaultValue={price}
+                    value={`R$ ${formats.money(value)}`}
+                    defaultValue={value}
                     onChange={evt => {
-                      setValue('price', evt.target.value);
+                      setValue('price', evt.target.value)
                       onChange(evt);
                     }}
                   />

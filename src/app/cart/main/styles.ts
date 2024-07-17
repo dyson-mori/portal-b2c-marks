@@ -14,24 +14,7 @@ export const Container = styled.article`
       padding: ${theme.settings.responsive.padding};
     };
   `};
-`;
-
-export const Content = styled.section`
-  display: flex;
-  justify-content: space-around;
-  /* flex-direction: column; */
-
-  width: 100%;
-
-  margin-right: 10px;
-
-  padding: 10px;
-
-  ${({ theme }) => css`
-    box-shadow: ${theme.settings.box.simple};
-    border-radius: ${theme.settings.radius.small};
-    background-color: ${theme.colors.white};
-  `};
+  height: 82vh;
 `;
 
 export const Product = styled.div`

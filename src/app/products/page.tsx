@@ -5,7 +5,7 @@ import Products from './screen'
 
 const cards = [
   {
-    title: 'Breast',
+    title: 'Conjunto',
     maxHeight: 50 + 40 * 4,
     options: [
       {
@@ -67,7 +67,7 @@ const cards = [
     ]
   },
   {
-    title: 'Ass',
+    title: 'Aneis',
     maxHeight: 50 + 40 * 2,
     options: [
       {
@@ -105,7 +105,7 @@ const cards = [
     ]
   },
   {
-    title: 'Breast',
+    title: 'Pulseiras',
     maxHeight: 50 + 40 * 4,
     options: [
       {
@@ -167,7 +167,7 @@ const cards = [
     ]
   },
   {
-    title: 'Ass',
+    title: 'Solitários',
     maxHeight: 50 + 40 * 2,
     options: [
       {

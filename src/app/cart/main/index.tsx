@@ -1,34 +1,34 @@
 "use client"
 
-import React from 'react';
-import Image from 'next/image';
-
-import { useTheme } from 'styled-components';
+import React, { useState } from 'react';
 
 import { ProductsProps } from '@/global/interfaces';
-import { formats } from '@/helpers/format';
-import { Product } from '@/components';
 
-import { FormScreen } from '../form';
+import Payments from '../common/method';
+import Products from '../common/products';
+import Address from '../common/address';
+import Purchase from '../common/purchase';
 
-import { Container, Content } from './styles';
-import { Trash } from '@/assets/svg';
+import { Container } from './styles';
 
 type Props = {
   data: ProductsProps[];
 };
 
 const Main: React.FC<Props> = ({ data }) => {
-  const themes = useTheme();
+  const [method, setMethod] = useState({
+    method: '' as string | null,
+    page: 'method' as 'method' | 'address' | 'buy'
+  });
 
   return (
     <Container>
-      <Content>
-        {data.map((item, index) => (
-          <Product key={index.toString()} product={item} href={`/product?id=${item.id}`} />
-        ))}
-      </Content>
-      <FormScreen />
+      <Products data={data} />
+
+      {method.page === 'method' && <Payments data={data} onNextPage={setMethod} />}
+      {method.page === 'address' && <Address onNextPage={setMethod} />}
+      {method.page === 'buy' && <Purchase onNextPage={setMethod} />}
+
     </Container>
   )
 }
