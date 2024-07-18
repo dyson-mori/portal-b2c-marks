@@ -14,7 +14,8 @@ type Params = {
 async function getPurchaseById(id: string): Promise<PurchaseProps> {
   const res = await fetch(`${process.env.NEXT_URL}/api/product/purchase?id=${id}`, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'no-store',
+    // cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json'
     }
