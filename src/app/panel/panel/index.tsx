@@ -45,7 +45,7 @@ const Panel: React.FC<Props> = ({ products }) => {
         <UploadMore href='/panel/category'>
           <Add width={20} height={20} stroke='#303030' strokeWidth={1.8} />
           <p>Category</p>
-          </UploadMore>
+        </UploadMore>
         {products.map((product, index) =>
           <Product key={index.toString()} isEdit product={product} href={`/panel/product?id=${product.id}`} onDelete={() => handleDelete(product.id)} />
         )}

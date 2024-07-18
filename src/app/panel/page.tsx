@@ -1,10 +1,10 @@
 import { ProductsProps } from '@/global/interfaces';
-
-import Panel from './panel';
 import { Footer, Header } from '@/components';
 
-export const getProduct = async (): Promise<ProductsProps[]> => {
-  const res = await fetch(`http://localhost:3000/api/products`, {
+import Panel from './panel';
+
+export const getProducts = async (): Promise<ProductsProps[]> => {
+  const res = await fetch('http://localhost:3000/api/products', {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -13,16 +13,18 @@ export const getProduct = async (): Promise<ProductsProps[]> => {
   });
 
   if (!res.ok) {
-    throw new Error('Product Panel by Id')
+    throw new Error('Product Panel')
   };
 
   const data = await res.json();
+
+  console.log(data);
 
   return data;
 };
 
 export default async function Page() {
-  const data = await getProduct();
+  const data = await getProducts();
 
   return (
     <>
