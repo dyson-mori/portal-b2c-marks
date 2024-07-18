@@ -3,10 +3,11 @@ import { Footer, Header } from '@/components';
 
 import Panel from './panel';
 
-export const getProducts = async (): Promise<ProductsProps[]> => {
-  const res = await fetch('http://localhost:3000/api/products', {
+async function getProducts(): Promise<ProductsProps[]> {
+  const res = await fetch(`${process.env.NEXT_URL}/api/products`, {
     method: 'GET',
-    cache: 'no-cache',
+    // cache: 'no-cache',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json'
     }
@@ -17,8 +18,6 @@ export const getProducts = async (): Promise<ProductsProps[]> => {
   };
 
   const data = await res.json();
-
-  console.log(data);
 
   return data;
 };

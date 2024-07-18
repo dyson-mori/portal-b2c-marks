@@ -8,3 +8,4 @@
   [] Payment Multi Form
   [] Filter Products
   [] Search Products
+  [] Quick recharge after deleting a product

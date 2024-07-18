@@ -13,22 +13,21 @@ type UploadFileProps = {
 };
 
 interface UploadProps {
-  files: UploadFileProps[] | ProductsProps[];
+  files: UploadFileProps[] | ProductsProps[] | any;
   setFiles: (f: UploadFileProps[]) => void;
 
   isUpdate: boolean;
-  isLoading: boolean;
   productId?: string | null;
   isSubmitted: boolean;
   // setFiles: (f: File[]) => void;
 };
 
-const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, isUpdate, isSubmitted }) => {
+const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, isSubmitted }) => {
   const { setNotification } = useContext(NotificationContext);
 
   const styles = {
-    opacity: isLoading ? 0.5 : 1,
-    cursor: isLoading ? 'default' : 'pointer'
+    opacity: !!productId || isSubmitted ? 0.5 : 1,
+    cursor: !!productId || isSubmitted ? 'default' : 'pointer'
   };
 
   const handleFileChange = (evt: any) => {
@@ -59,7 +58,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, 
   };
 
   const handleRemoveImage = (i: number) => {
-    const filter = files.filter((item, index) => index !== i && item)
+    const filter = files.filter((item: any, index: number) => index !== i && item)
     setFiles(filter);
   };
 
@@ -71,7 +70,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, 
         formData.append("product_id", productId);
         formData.append("code", `${parseInt(String(Math.random() * (Math.random() * 100)))}`);
 
-        files.forEach((file, i) => {
+        files.forEach((file: any, i: number) => {
           if (!file.id) {
             formData.append('file', file.file!);
           } else {
@@ -79,7 +78,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, 
           }
         });
 
-        const file = await fetch('/api/files', {
+        const file = await fetch(`${process.env.NEXT_URL}/api/files`, {
           method: isUpdate ? 'PUT' : 'POST',
           body: formData
         });
@@ -103,7 +102,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, 
     <Container>
       <MultiFiles>
         {
-          files?.map((file, index) => (
+          files?.map((file: any, index: number) => (
             <label style={styles} key={index} onClick={() => handleRemoveImage(index)}>
               <Image width={400 / 3.1} height={400 / 3.1} src={file.url!} alt="img" style={{ objectFit: 'cover' }} />
             </label>
@@ -123,7 +122,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, 
         type="file"
         name='file'
         onChange={handleFileChange}
-        disabled={isLoading}
+        disabled={!!productId || isSubmitted }
         multiple
       />
     </Container>

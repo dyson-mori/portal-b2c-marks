@@ -3,10 +3,10 @@ import { ProductsProps, CategoryProps } from '@/global/interfaces';
 
 import Redit from './redit';
 
-const getCategories = async (): Promise<CategoryProps[]> => {
-  const res = await fetch(`http://localhost:3000/api/category`, {
+async function getCategories(): Promise<CategoryProps[]> {
+  const res = await fetch(`${process.env.NEXT_URL}/api/category`, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json'
     }
@@ -21,19 +21,20 @@ const getCategories = async (): Promise<CategoryProps[]> => {
   return data;
 };
 
-const getProductById = async (id: string): Promise<ProductsProps | null> => {
+async function getProductById(id: string): Promise<ProductsProps | null> {
   if (!id) return null;
 
-  const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
+  const res = await fetch(`${process.env.NEXT_URL}/api/product?id=${id}`, {
     method: 'GET',
-    cache: 'no-cache',
+    // cache: 'no-cache',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json'
     }
   });
 
   if (!res.ok) {
-    throw new Error('Product by Id')
+    throw new Error('Product by Id');
   };
 
   const data = await res.json();

@@ -20,7 +20,7 @@ const Panel: React.FC<Props> = ({ products }) => {
     // setOpen(index);
     // document.body.style.overflow = "hidden";
 
-    fetch(`/api/product?id=${id}`, {
+    fetch(`${process.env.NEXT_URL}/api/product?id=${id}`, {
       method: 'DELETE'
     });
   };

@@ -28,10 +28,10 @@ const Info: React.FC<Props> = ({ data }) => {
       return setNotification({ icon: Success, message: 'Product added to cart!', type: 'success', active: `${Math.random()}_show` });
     };
 
-    const foundProduct = storage?.find(e => e.id === data.id);
+    const foundProduct = storage?.find((e: any) => e.id === data.id);
 
     if (foundProduct) {
-      const getCartWithoutProduct = storage.filter(e => e.id !== data.id).map(e => e);
+      const getCartWithoutProduct = storage.filter((e: any) => e.id !== data.id).map((e: any) => e);
       localStorage.setItem("@marks: cart", JSON.stringify(getCartWithoutProduct));
       return setNotification({ icon: Success, message: 'Product removed from cart!', type: 'success', active: `${Math.random()}_show` });
     };
@@ -48,7 +48,7 @@ const Info: React.FC<Props> = ({ data }) => {
       return route.push('/cart');
     };
 
-    const foundProduct = storage?.find(e => e.id === data.id);
+    const foundProduct = storage?.find((e: any) => e.id === data.id);
 
     if (foundProduct) {
       return route.push('/cart');

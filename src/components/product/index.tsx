@@ -23,6 +23,7 @@ const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
         <Actions onClick={e => {
           e.stopPropagation();
           e.preventDefault();
+          // @ts-ignore
           onDelete(product.id);
         }}>
           <Close width={30} height={30} stroke='#292D32' strokeWidth={1.5} />

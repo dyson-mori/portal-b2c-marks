@@ -100,7 +100,7 @@ export default function Success({ purchase }: Props){
   )
 };
 
-// http://localhost:3000/success?session_id=cs_test_a1m1OS7uxeuVUhd6wblsIHdBJKpIwokBKnUiwx5nIX7mhfPhf4riBImStq
+// ${process.env.NEXT_URL}/success?session_id=cs_test_a1m1OS7uxeuVUhd6wblsIHdBJKpIwokBKnUiwx5nIX7mhfPhf4riBImStq
 // https://freefrontend.com/css-hexagons/
 
 	//"session_id":"cs_test_a18baRxXaUOaVJzy0in2JlDGBlIQEBdP4zZ5kgTOSIR6zGuNjGvETzVuVL"
@@ -108,4 +108,4 @@ export default function Success({ purchase }: Props){
 
 
 // Marks
-// http://localhost:3000/success?session_id=cs_test_a1T3mgbl2JmtwHbY9zklkkD8W0HMUYba5sBFXLRNFLNaiWwKGxYlEa8cKJ
+// ${process.env.NEXT_URL}/success?session_id=cs_test_a1T3mgbl2JmtwHbY9zklkkD8W0HMUYba5sBFXLRNFLNaiWwKGxYlEa8cKJ

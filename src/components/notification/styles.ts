@@ -16,10 +16,10 @@ export const Container = styled.div<Omit<NotificationProps, 'icon'>>`
 
   transition: .5s;
 
-  ${({ theme, alert = 'default' }) => css`
+  ${({ theme }) => css`
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
-    box-shadow: ${theme.settings.box[alert]};
+    box-shadow: ${theme.settings.box.default};
   `};
 
   p {

@@ -45,8 +45,8 @@ const Main: React.FC = () => {
     maxWidth: "150px"
   };
 
-  const sumPrices = data?.reduce((total, item) => {
-    const formattedPrice = parseFloat(item.price.replace('.', '').replace(',', '.'));
+  const sumPrices = data?.reduce((total: any, item: any) => {
+    const formattedPrice = item?.price ? parseFloat(item.price.replace('.', '').replace(',', '.')) : 0;
     return total + formattedPrice;
   }, 0);
 
@@ -102,7 +102,7 @@ const Main: React.FC = () => {
         <div style={{ height: '100%' }} />
 
         <CheckOuts>
-          {data.length !== 0 ? data.map((e, i) => (
+          {data.length !== 0 ? data.map((e: any, i: number) => (
             <div key={i}>
               <p>{e.name}</p>
               <p id='price'>R$ {formats.money(e.price)}</p>

@@ -26,17 +26,19 @@ const cards = [
   },
 ];
 
-export const getProducts = async (): Promise<ProductsProps[]> => {
-  const res = await fetch(`http://localhost:3000/api/products`, {
+async function getProducts(): Promise<ProductsProps[]> {
+  const res = await fetch(`${process.env.NEXT_URL}/api/products`, {
     method: 'GET',
-    cache: 'no-cache',
+    // cache: 'no-cache',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json'
     }
   });
 
   if (!res.ok) {
-    throw new Error('Product Error')
+    return [];
+    // throw new Error('Product Error')
   };
 
   const data = await res.json();

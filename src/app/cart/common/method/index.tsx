@@ -31,7 +31,7 @@ const Method: React.FC<Props> = ({ data, onSubmit }) => {
   const [methodPayment, setMethodPayment] = useState('');
 
   const sumPrices = data?.reduce((total, item) => {
-    const formattedPrice = parseFloat(item.price.replace('.', '').replace(',', '.'));
+    const formattedPrice = parseFloat(item.price!.replace('.', '').replace(',', '.'));
     return total + formattedPrice;
   }, 0);
 
@@ -70,7 +70,7 @@ const Method: React.FC<Props> = ({ data, onSubmit }) => {
         {data.length !== 0 ? data.map((e, i) => (
           <div key={i}>
             <p>{e.name}</p>
-            <p id='price'>R$ {formats.money(e.price)}</p>
+            <p id='price'>R$ {formats.money(e.price!)}</p>
           </div>
         )): (
           <div id='lottie'>

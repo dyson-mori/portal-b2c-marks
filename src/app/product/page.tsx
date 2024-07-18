@@ -11,7 +11,7 @@ type ProductParams = {
 };
 
 const getProductById = async (id: string): Promise<ProductsProps> => {
-  const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
+  const res = await fetch(`${process.env.NEXT_URL}/api/product?id=${id}`, {
     method: 'GET',
     cache: 'no-cache',
     headers: {

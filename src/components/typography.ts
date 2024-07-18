@@ -10,7 +10,7 @@ interface Pallets {
 }
 
 export const Typography = styled.div<Pallets>`
-  ${({ theme, color, fontSize = 'normal', fontWeight }) => css`
+  ${({ theme, color, fontSize = 'normal' }) => css`
     font-size: ${theme.font.size[fontSize]};
   `};
 `;
