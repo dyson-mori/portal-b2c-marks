@@ -32,7 +32,7 @@ export default function Category() {
   const { category } = getValues();
 
   console.log({
-    isLoading, isSubmitting, errors
+    isLoading, isSubmitting, errors, url: process.env.NEXT_URL
   });
 
   const submit = async (event: { category: string }) => {
