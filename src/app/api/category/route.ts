@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/services/prisma";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const product = await prisma.category.findMany({
     include: {
       product: true
@@ -10,8 +10,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!product) {
-    return NextResponse.json([]);
-    // throw new Error('Product Server Error')
+    throw new Error('Category Server Error')
   };
 
   return NextResponse.json(product);
@@ -27,7 +26,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (!product) {
-    throw new Error('Product Server Error')
+    throw new Error('Category Server Error')
   };
 
   return NextResponse.json(true);
