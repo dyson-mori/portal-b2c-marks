@@ -22,12 +22,24 @@ export const Container = styled.header`
 
 export const Icon = styled(Link)`
   display: flex;
+  position: relative;
 
   justify-content: center;
   align-items: center;
 
   width: 50px;
   height: 50px;
+
+  ${({ theme }) => css`
+    p {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      color: ${theme.colors.primary};
+      font-size: ${theme.font.size.light};
+      font-weight: ${theme.font.weight[700]};
+    };
+  `};
 `;
 
 export const Nav = styled.nav`

@@ -19,6 +19,20 @@ export const formats = {
     return e;
   },
 
+  numberCurrencyDecimal(p: string): string {
+    p = p.replace(/[R$ ]/g, '').replaceAll('.', '').replace(',', '.');
+    return p;
+  },
+
+  formatDecimal(value: string){
+    let v = value.replace(/\D/g, '');
+    v = `${(Number(v) / 100).toFixed(2)}`;
+    v = v.replace('.', ',');
+    v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');
+    v = v.replace(/(\d)(\d{3}),/g, '$1.$2,');
+    return v;
+  },
+
   cep: (e: string) => {
     const digits = e?.replace(/\D/g, '') || '';
 

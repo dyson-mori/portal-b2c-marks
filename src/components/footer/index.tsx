@@ -26,8 +26,8 @@ export const Footer: React.FC<FooterProps> = ({ primary = true, secondary = fals
 
           <p><strong>Marks Joias:</strong> lojamarksjoias.com</p>
 
-          <strong>Whatsapp: (31) 97556-4133 / E-mail: atendimentomarksjoias@gmail.com</strong>
-
+          <strong>Whatsapp: (31) 97556-4133</strong>
+          <strong>E-mail: atendimentomarksjoias@gmail.com</strong>
           <PaymentCheck width={100} height={40} /> 
         </>
       )}

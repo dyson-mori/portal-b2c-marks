@@ -8,7 +8,8 @@ generator client {
 datasource db {
   provider = "sqlite"
   // url      = env("DATABASE_URL")
-  url      = "file:./pegi_eighteen.db"
+  url      = "file:./dev.db"
+  // url      = "file:./pegi_eighteen.db"
 }
 
 model Product {

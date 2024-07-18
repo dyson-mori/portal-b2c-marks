@@ -1,7 +1,7 @@
 import { ProductsProps } from '@/global/interfaces';
 
 import Panel from './panel';
-import { Header } from '@/components';
+import { Footer, Header } from '@/components';
 
 export const getProduct = async (): Promise<ProductsProps[]> => {
   const res = await fetch(`http://localhost:3000/api/products`, {
@@ -28,6 +28,7 @@ export default async function Page() {
     <>
       <Header />
       <Panel products={data} />
+      <Footer />
     </>
   )
 }

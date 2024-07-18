@@ -19,6 +19,10 @@ export const Container = styled.aside`
       font-size: ${theme.font.size.large};
       font-weight: ${theme.font.weight[700]};
     };
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
+      width: 100%;
+    }
   `};
 `;
 

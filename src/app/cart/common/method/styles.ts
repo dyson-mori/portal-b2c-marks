@@ -24,6 +24,11 @@ export const Container = styled.aside`
       font-size: ${theme.font.size.large};
       font-weight: ${theme.font.weight[700]};
     };
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      padding: 30px 0 10px 0;
+      width: 100%;
+    };
   `};
 `;
 
@@ -98,12 +103,26 @@ export const Methods = styled.button`
 `;
 
 export const CheckOuts = styled.div`
+  display: flex;
+
+  justify-content: end;
+  flex-direction: column;
+
   width: 100%;
-  margin-top: 20px;
+  min-height: 200px;
+
+  #lottie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  };
 
   div {
     display: flex;
     justify-content: space-between;
+
+    width: 100%;
 
     padding: 5px 10px;
   };

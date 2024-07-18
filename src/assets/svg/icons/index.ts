@@ -20,6 +20,7 @@ import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Trash } from './trash.svg';
 import { ReactComponent as Block } from './block.svg';
 import { ReactComponent as Success } from './success.svg';
+import { ReactComponent as Tag } from './tag.svg';
 
 export {
   ArrowDown,
@@ -42,5 +43,6 @@ export {
   Trash,
   ArrowLeft,
   Block,
-  Success
+  Success,
+  Tag
 };

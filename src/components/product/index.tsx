@@ -25,7 +25,7 @@ const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
           e.preventDefault();
           onDelete(product.id);
         }}>
-          <Close width={30} height={30} />
+          <Close width={30} height={30} stroke='#292D32' strokeWidth={1.5} />
         </Actions>
       )}
 

@@ -23,48 +23,12 @@ export const Container = styled.section`
   `};
 `;
 
-export const TextDescription = styled.div`
-  position: relative;
-  min-height: 50px;
-  max-height: 200px;
-
-  z-index: 2;
-
-  overflow: hidden;
-
-  span {
-    position: absolute;
-
-    left: -10px;
-    right: -10px;
-
-    padding: 10px;
-
-    ${({ theme }) => css`
-      background-color: ${theme.colors.background};
-      border-radius: ${theme.settings.radius.small};
-      box-shadow: ${theme.settings.box.normal};
-    `};
-
-    transition: height 1s ease-out;
-  };
-
-  &:hover {
-    overflow: visible;
-  };
-
-  &span:hover {
-    transition: height 1s ease-in;
-    height: auto;
-  };
-`;
-
 export const Delivery = styled.div`
   display: flex;
 
   align-items: center;
 
-  margin: 10px 11px;
+  margin: 15px 0px;
 
   p {
     ${({ theme }) => css`

@@ -8,7 +8,8 @@ import { ProductsProps, CategoryProps } from "@/global/interfaces";
 
 import { Container, Aside, Products as ProductsStyled, ProductEmpty } from './styles';
 
-import { Search } from '@/assets/svg/icons';
+import { Search, Tag } from '@/assets/svg/icons';
+import { useTheme } from 'styled-components';
 
 type Props = {
   products: ProductsProps[];
@@ -20,6 +21,8 @@ type Props = {
 };
 
 export default function Products({ products, cards }: Props) {
+  const theme = useTheme();
+
   const lottie_styles  = {
     display: 'flex',
     maxWidth: "300px"
@@ -29,7 +32,7 @@ export default function Products({ products, cards }: Props) {
     <Container>
       <Aside>
         <Input.Root>
-          <Search width={20} height={20} />
+          <Tag width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
           <Input.Input placeholder='Search' />
         </Input.Root>
         <span style={{ height: 10 }} />
@@ -40,17 +43,20 @@ export default function Products({ products, cards }: Props) {
         }
       </Aside>
 
-      <ProductsStyled>
-        {products.length === 0 && (
-          <ProductEmpty>
-            <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
-            <p>Something went wrong</p>
-          </ProductEmpty>
+      {products.length === 0 && (
+        <ProductEmpty>
+          <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
+          <p>In Progress</p>
+          {/* <p>Something went wrong</p> */}
+        </ProductEmpty>
+      )}
+      {products.length !== 0 && (
+        <ProductsStyled>
+          {products.map((item, index) =>
+            <Product key={index.toString()} product={item} href={`/product?id=${item.id}`} />
           )}
-        {products.map((item, index) =>
-          <Product key={index.toString()} product={item} href={`/product?id=${item.id}`} />
-        )}
-      </ProductsStyled>
+        </ProductsStyled>
+      )}
     </Container>
   )
 };

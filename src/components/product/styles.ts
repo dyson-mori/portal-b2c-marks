@@ -2,15 +2,22 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
 export const Container = styled(Link)`
+  /* flex: 1 1 50%; */
+
   position: relative;
 
-  width: 300px;
-  height: 300px;
+  width: calc(300px / 1.3);
+  height: calc(300px / 1.3);
 
   padding: 0;
   margin: 0;
 
   margin-bottom: 10px;
+
+  img {
+    width: calc(300px / 1.3);
+    height: calc(300px / 1.3);
+  }
 
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
@@ -18,13 +25,13 @@ export const Container = styled(Link)`
     border-radius: ${theme.settings.radius.small};
 
     @media (max-width: ${theme.settings.responsive.maxWidth}) {
-      width: 100%;
-      height: auto;
+      width: calc(250px / 1.3);
+      height: calc(250px / 1.3);
 
       img {
-        width: 100%;
-        height: 100%;
-      };
+        width: calc(250px / 1.3);
+        height: calc(250px / 1.3);
+      }
     };
   `};
 `;
@@ -39,7 +46,7 @@ export const Footer = styled.footer`
 
   justify-content: space-between;
 
-  padding: 15px 10px;
+  padding: 10px;
 
   border-radius: 0 0 5px 5px;
 
@@ -47,19 +54,20 @@ export const Footer = styled.footer`
 
   #title {
     ${({ theme }) => css`
-      font-size: ${theme.font.size.semiBold};
+      font-size: ${theme.font.size.medium};
       color: ${theme.colors.white};
-      font-weight: ${theme.font.weight[600]};
-    `}
+      font-weight: ${theme.font.weight[500]};
+    `};
+
     width: 100%;
     font-style: italic;
   };
 
   #price {
     ${({ theme }) => css`
-      font-size: ${theme.font.size.semiBold};
+      font-size: ${theme.font.size.medium};
       color: ${theme.colors.white};
-      font-weight: ${theme.font.weight[700]};
+      font-weight: ${theme.font.weight[600]};
     `}
     text-align: end;
     width: 160px;
@@ -76,7 +84,18 @@ export const Actions = styled.button`
   border: 0;
 
   width: 100%;
-
+  height: 50px;
   background-color: transparent;
-  z-index: 10;
+  z-index: 5;
+
+  transition: .3s;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #292D32aa;
+    svg {
+      stroke: #fff;
+    }
+  };
 `;

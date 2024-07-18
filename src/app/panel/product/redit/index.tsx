@@ -32,7 +32,20 @@ const schema = yup.object().shape({
       name: yup.string()
     })
   ).required('Required fields'),
-  files: yup.array().required('Required fields')
+  files: yup.array().of(
+    yup.object({
+      file: yup.mixed(),
+      // file: yup.mixed({
+      //   lastModified: yup.number().required(),
+      //   lastModifiedDate : yup.date().required(),
+      //   name: yup.string().required(),
+      //   size: yup.number().required(),
+      //   type: yup.string().required(),
+      //   webkitRelativePath: yup.string().required(),
+      // }).required(),
+      url: yup.string().required()
+    })
+  ).required('Required fields')
 });
 
 type SchemaProps = yup.InferType<typeof schema>;
@@ -42,7 +55,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
 
   const { setNotification } = useContext(NotificationContext);
 
-  const { getValues, setValue, handleSubmit, control, formState: { isLoading, isSubmitting, errors } } = useForm<SchemaProps>({
+  const { getValues, setValue, handleSubmit, control, formState: { isLoading, isSubmitting, isSubmitted, errors } } = useForm<SchemaProps>({
     defaultValues: {
       id: product?.id ?? '',
       name: product?.name ?? '',
@@ -55,7 +68,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
   });
 
   const { id: productId, category, files } = getValues();
-
+  
   const Submit = async (event: SchemaProps) => {
     try {
       const { name, description, price, category } = event;
@@ -82,11 +95,6 @@ export default function Register({ isUpdate, product, category: dropdownCategory
       const result = await res.json();
 
       setValue('id', result?.id);
-      setValue('name', '');
-      setValue('price', '');
-      setValue('description', '');
-      setValue('category', []);
-      setValue('files', []);
 
     } catch (error) {
       throw new Error(`${error}`)
@@ -97,28 +105,31 @@ export default function Register({ isUpdate, product, category: dropdownCategory
     <Container>
       <Forms onSubmit={handleSubmit(Submit)}>
 
-        <Upload
-          productId={productId}
-          files={files}
-          isUpdate={isUpdate}
-          isLoading={isLoading}
-          setFiles={evt => setValue('files', evt)}
-          isSubmitting={isSubmitting}
-        />
-        {/* <Controller
-          name="name"
+        <Controller
+          name="files"
           control={control}
-          render={({ field: { onChange, onBlur, value }  }) => (
-            <Upload
-              productId={productId || id}
-              files={files}
-              isUpdate={isUpdate}
-              isLoading={isLoading}
-              setFiles={evt => setValue('files', evt)}
-              isSubmitting={isSubmitting}
-            />
-          )}
-        /> */}
+          render={({ field: { onChange, onBlur, value, disabled }  }) => {
+            return (
+              <Upload
+                productId={productId}
+                files={value}
+                isSubmitted={isSubmitted}
+                isUpdate={isUpdate}
+                setFiles={evt => {
+                  setValue('files', evt);
+                  if (evt.length === 0) {
+                    setValue('name', '');
+                    setValue('price', '');
+                    setValue('description', '');
+                    setValue('category', []);
+                    setValue('id', undefined);
+                  };
+                  onChange(evt)
+                }}
+              />
+            )
+          }}
+        />
 
         <Inputs>
           <Row>
@@ -189,6 +200,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
 
             <Select
               data={dropdownCategory}
+              placeholder="Category"
               LeftIcon={Search}
               defaultValue={category}
               onChangeValue={value => setValue('category', value)}

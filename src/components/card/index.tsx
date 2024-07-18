@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon }
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setTimeout(() => {
-        dropdownRef.current!.style.height = '50px'
+        dropdownRef.current ? dropdownRef.current.style.height = '40px' : null
       }, 200);
     }
   };

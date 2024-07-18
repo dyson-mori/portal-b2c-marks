@@ -19,6 +19,28 @@ export const Container = styled.section`
     border-radius: 4px;
     box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};
+
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      height: 50vh;
+      margin-bottom: 10px;
+      justify-content: space-evenly;
+
+      padding: 0;
+
+      a {
+        margin: 0;
+        width: calc(245px / 1.3);
+      };
+
+      footer {
+        width: calc(245px / 1.3);
+      };
+
+      img {
+        width: calc(245px / 1.3);
+        height: calc(245px / 1.3);
+      }
+    };
   `};
 `;
 

@@ -1,38 +1,30 @@
-"use client"
-
 import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Files } from '@prisma/client';
 
-import { FilesProps } from '@/global/interfaces';
+import { ProductsProps } from '@/global/interfaces';
 import { Add, Block, Success, Warning } from '@/assets/svg/icons';
 
 import { Container, MultiFiles } from './styles';
 import { NotificationContext } from '@/hooks/notification';
 
 type UploadFileProps = {
-  file?: File;
-  url?: string;
-  refile?: Files
-}
-
-interface UploadProps {
-  isUpdate: boolean;
-  files?: FilesProps[];
-  isLoading: boolean;
-  productId?: string | null;
-  setFiles: (f: any) => void;
-  // setFiles: (f: File[]) => void;
-  isSubmitting: boolean;
+  file: File;
+  url: string;
 };
 
-const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, setFiles, isSubmitting }) => {
-  const { setNotification } = useContext(NotificationContext);
-  // console.log(files);
+interface UploadProps {
+  files: UploadFileProps[] | ProductsProps[];
+  setFiles: (f: UploadFileProps[]) => void;
 
-  const [uploading, setUploading] = useState([] as UploadFileProps[]);
-  // console.log(uploading);
-  // const [reuploading, setReuploading] = useState([] as Files[]);
+  isUpdate: boolean;
+  isLoading: boolean;
+  productId?: string | null;
+  isSubmitted: boolean;
+  // setFiles: (f: File[]) => void;
+};
+
+const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isLoading, isUpdate, isSubmitted }) => {
+  const { setNotification } = useContext(NotificationContext);
 
   const styles = {
     opacity: isLoading ? 0.5 : 1,
@@ -41,6 +33,7 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
 
   const handleFileChange = (evt: any) => {
     const selectedFile = evt.target.files as File[];
+    let field = [...files];
 
     for (const key in selectedFile) {
       if (Object.prototype.hasOwnProperty.call(selectedFile, key)) {
@@ -54,45 +47,35 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
             file: element,
             url: readerEvent.target.result
           };
-          setUploading(prev => [...prev, file]);
+
+          field.push(file);
+
+          if (selectedFile.length === (Number(key) + 1)) {
+            setFiles(field);
+          };
         };
       };
     };
-
-    // setLoadingFile('have');
   };
 
   const handleRemoveImage = (i: number) => {
-    const x = uploading.filter((item, index) => index !== i && item)
-    setUploading(x);
+    const filter = files.filter((item, index) => index !== i && item)
+    setFiles(filter);
   };
 
   useEffect(() => {
-    setFiles(uploading.map(e => e.file));
-  }, [uploading]);
-
-  useEffect(() => {
-    setUploading(files!.map(e => ({
-      url: e.url,
-      refile: e
-    })));
-  }, []);
-
-  console.log(productId && isSubmitting);
-
-  useEffect(() => {
-    if (productId) {
+    if (!!productId && isSubmitted) {
       (async () => {
         const formData = new FormData();
 
         formData.append("product_id", productId);
-        // formData.append("files", JSON.stringify(files));
         formData.append("code", `${parseInt(String(Math.random() * (Math.random() * 100)))}`);
 
-        uploading.forEach((file, i) => {
-          formData.append(`file`, file.file!);
-          if (isUpdate) {
-            formData.append(`removeFile`, file.refile?.id!)
+        files.forEach((file, i) => {
+          if (!file.id) {
+            formData.append('file', file.file!);
+          } else {
+            formData.append('fileId', file.id);
           }
         });
 
@@ -106,29 +89,28 @@ const Upload: React.FC<UploadProps> = ({ isUpdate, files, isLoading, productId, 
         };
 
         if (!isUpdate) {
-          setUploading([]);
+          setFiles([]);
         };
 
-        setFiles([]);
         return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
       })();
     };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitting, productId])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId, isSubmitted])
 
   return (
     <Container>
       <MultiFiles>
         {
-          uploading?.map((file, index) => (
+          files?.map((file, index) => (
             <label style={styles} key={index} onClick={() => handleRemoveImage(index)}>
               <Image width={400 / 3.1} height={400 / 3.1} src={file.url!} alt="img" style={{ objectFit: 'cover' }} />
             </label>
           ))
         }
         {
-          Array.from({ length: (9 - uploading?.length) }).map((_, index) => (
+          Array.from({ length: (9 - files?.length) }).map((_, index) => (
             <label htmlFor="file" key={index}>
               <Add width={25} height={50} stroke='#292D32' strokeWidth={1.5} />
             </label>

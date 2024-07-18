@@ -1,28 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UploadApiErrorResponse, UploadApiResponse } from 'cloudinary';
 
 import { cloudinary } from "@/services/cloudinary";
 import { Files } from "@prisma/client";
 import { prisma } from "@/services/prisma";
-
-type UploadResponse = 
-  { success: true; result?: UploadApiResponse } | 
-  { success: false; error: UploadApiErrorResponse };
-
-// const uploadToCloudinary = (fileUri: string, fileName: string): Promise<UploadResponse> => {
-//   return new Promise((resolve, reject) => {
-//     cloudinary.uploader
-//       .upload(fileUri, {
-//         invalidate: true,
-//         resource_type: "auto",
-//         filename_override: fileName,
-//         folder: `community/upload-test`, // any sub-folder name in your cloud
-//         use_filename: true,
-//       })
-//       .then((result) => resolve({ success: true, result }))
-//       .catch((error) => reject({ success: false, error }));
-//   });
-// };
 
 const uploadToCloudinary = async (fileUri: string, fileName: string) => {
   const { secure_url, width, height,public_id } = await cloudinary.uploader
@@ -96,7 +76,7 @@ export async function PUT(request: NextRequest){
   });
 
   const remove = product?.files.filter(f =>
-    !formData.getAll('removeFile').includes(f.id)
+    !formData.getAll('fileId').includes(f.id)
   ) as Files[];
 
   for (const key in remove) {
@@ -132,7 +112,7 @@ export async function PUT(request: NextRequest){
     }
   };
 
-  return NextResponse.json(product);
+  return NextResponse.json(true);
 };
 
 // {

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, CSSProperties } from 'react';
 
 import { Container, Icon, Input, DropDown, Button } from './styles';
 
-import { Close } from '@/assets/svg';
+import { Close, Tag } from '@/assets/svg';
 import { CategoryProps } from '@/global/interfaces';
 import { useTheme } from 'styled-components';
 
@@ -15,10 +15,11 @@ interface DropDownProps {
   data: CategoryProps[];
   LeftIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   defaultValue?: ExportValue[];
+  placeholder: string;
   onChangeValue: (s: ExportValue[]) => void;
 };
 
-const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChangeValue }) => {
+const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, placeholder, onChangeValue }) => {
   const themes = useTheme();
 
   const dropContainerRef = useRef<HTMLDivElement>(null);
@@ -80,13 +81,13 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, onChang
     <Container ref={dropContainerRef}>
       {LeftIcon && (
         <Icon>
-          <LeftIcon width={20} height={20} />
+          <Tag width={20} height={20} stroke={themes.colors.primary} strokeWidth={1.8} />
         </Icon>
       )}
 
       <Input
         ref={inputRef}
-        placeholder='Search'
+        placeholder={placeholder}
         defaultValue={values.map(e => e.name).toString()}
         onFocus={() => setOpen(true)}
         onChange={evt => setSearch(evt.target.value)}

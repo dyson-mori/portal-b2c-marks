@@ -15,13 +15,12 @@ type Props = {
 };
 
 export default function ProductScreen({ data }: Props) {
-  const [card, setCard] = useState(false);
   return (
     <>
       <Header />
       <Container>
         <Images data={data} />
-        <Info data={data} setCard={setCard} />
+        <Info data={data} />
       </Container>
       <Footer />
     </>
