@@ -6,13 +6,13 @@ import { prisma } from "@/services/prisma";
 export async function GET(request: NextRequest) {
   const product = await prisma.product.findMany({
     include: {
-      files: true
+      files: true,
+      category: true
     }
   });
 
   if (!product) {
-    return NextResponse.json([]);
-    // throw new Error('Product Server Error');
+    throw new Error('Product Server Error');
   };
 
   return NextResponse.json(product);

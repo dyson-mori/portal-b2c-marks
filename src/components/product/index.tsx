@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 
 import { ProductsProps } from "@/global/interfaces";
-import { Close, Edit } from '@/assets/svg/icons';
+import { Trash } from '@/assets/svg/icons';
 
 import { Container, Footer, Actions } from './styles';
 import { formats } from '@/helpers/format';
@@ -11,7 +11,7 @@ type Props = {
   product: ProductsProps;
   href: string;
   isEdit?: boolean;
-  onDelete?: (id: string) => void;
+  onDelete?: (product: ProductsProps) => void;
 };
 
 const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
@@ -24,18 +24,16 @@ const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
           e.stopPropagation();
           e.preventDefault();
           // @ts-ignore
-          onDelete(product.id);
+          onDelete(product);
         }}>
-          <Close width={30} height={30} stroke='#292D32' strokeWidth={1.5} />
+          <Trash width={20} height={20} stroke='red' strokeWidth={2} />
         </Actions>
       )}
 
-      {!isEdit && (
-        <Footer>
-          <p id='title'>{product.name}</p>
-          <p id='price'>R$ {formats.money(product.price)}</p>
-        </Footer>
-      )}
+      <Footer>
+        <span id='title'>{product.name}</span>
+        <span id='price'>R$ {formats.money(product.price)}</span>
+      </Footer>
     </Container>
   );
 }

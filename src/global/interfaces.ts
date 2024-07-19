@@ -4,7 +4,7 @@ export type ProductsProps = {
   description: string;
   price: string;
   files: FilesProps[];
-  category: [];
+  category: CategoryProps[];
   // category?: CategoryProps[];
   created_at?: Date
 };

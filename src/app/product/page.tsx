@@ -1,13 +1,43 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import type { Metadata } from 'next';
+
+import { ProductsProps } from "@/global/interfaces";
 
 import ProductScreen from './main';
-import { ProductsProps } from "@/global/interfaces";
+import { Header } from '@/components/header';
+import { Footer } from '@/components';
 
 type ProductParams = {
   params: object;
   searchParams: {
     id: string;
   }
+};
+
+export async function generateMetadata({ searchParams }: ProductParams): Promise<Metadata> {
+  const productId = searchParams.id;
+
+  const res = await fetch(`${process.env.NEXT_URL}/api/product?id=${productId}`, {
+    method: 'GET',
+    next: {
+      revalidate: 3600
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error('Product by Id')
+  };
+
+  const product = await res.json();
+
+  return {
+    title: product.name,
+    description: product.description,
+    openGraph: {
+      title: product.name,
+      description: product.description
+    }
+  };
 };
 
 const getProductById = async (id: string): Promise<ProductsProps> => {
@@ -31,5 +61,11 @@ const getProductById = async (id: string): Promise<ProductsProps> => {
 export default async function Product(params: ProductParams) {
   const data = await getProductById(params.searchParams.id);
 
-  return <ProductScreen data={data} />;
+  return (
+    <Fragment>
+      <Header />
+      <ProductScreen data={data} />
+      <Footer />
+    </Fragment>
+  );
 };

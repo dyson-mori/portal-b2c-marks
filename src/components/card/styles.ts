@@ -67,13 +67,12 @@ export const Button = styled.button`
 
   min-width: 80px;
 
-  /* margin: 3px 6px; */
+  margin: 1px;
   padding: 2px 4px;
 
   height: 40px;
 
   ${({ theme }) => css`
-    background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
     font-weight: ${theme.font.weight[400]};
 

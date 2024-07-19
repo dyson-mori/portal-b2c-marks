@@ -4,58 +4,26 @@ import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components';
 import { ProductsProps } from '@/global/interfaces';
-import usePersistedStorage from '@/hooks/useStorage';
 
 import { Container, Delivery as DeliveryStyled } from './styles';
 
-import { Delivery, Devolution, Success } from '@/assets/svg/icons';
-import { NotificationContext } from '@/hooks/notification';
+import { Delivery, Devolution } from '@/assets/svg/icons';
 import { formats } from '@/helpers/format';
+import { CartContext } from '@/contexts/cart';
 
 type Props = {
   data: ProductsProps;
 };
 
 const Info: React.FC<Props> = ({ data }) => {
-  const [storage] = usePersistedStorage('@marks: cart', []);
+  const { storage, setStorage } = useContext(CartContext);
+
   const route = useRouter();
 
-  const { setNotification } = useContext(NotificationContext);
-
-  const handleLocalCart = () => {
-    if (!storage || storage.length === 0) {
-      localStorage.setItem("@marks: cart", JSON.stringify([data]))
-      return setNotification({ icon: Success, message: 'Product added to cart!', type: 'success', active: `${Math.random()}_show` });
-    };
-
-    const foundProduct = storage?.find((e: any) => e.id === data.id);
-
-    if (foundProduct) {
-      const getCartWithoutProduct = storage.filter((e: any) => e.id !== data.id).map((e: any) => e);
-      localStorage.setItem("@marks: cart", JSON.stringify(getCartWithoutProduct));
-      return setNotification({ icon: Success, message: 'Product removed from cart!', type: 'success', active: `${Math.random()}_show` });
-    };
-
-    const adding = [...storage, data];
-    localStorage.setItem("@marks: cart", JSON.stringify(adding));
-    return setNotification({ icon: Success, message: 'Product added to cart!', type: 'success', active: `${Math.random()}_show` });
-  };
-
   const handleBuyNow = () => {
-
-    if (!storage || storage.length === 0) {
-      localStorage.setItem("@marks: cart", JSON.stringify([data]));
-      return route.push('/cart');
-    };
-
     const foundProduct = storage?.find((e: any) => e.id === data.id);
 
-    if (foundProduct) {
-      return route.push('/cart');
-    };
-
-    const adding = [...storage, data];
-    localStorage.setItem("@marks: cart", JSON.stringify(adding));
+    if (!foundProduct) setStorage(data);
 
     return route.push('/cart');
   };
@@ -84,7 +52,7 @@ const Info: React.FC<Props> = ({ data }) => {
 
       <Button onClick={handleBuyNow}>Buy now</Button>
       <div style={{ height: 10 }} />
-      <Button secondary onClick={handleLocalCart}>Add to Cart</Button>
+      <Button secondary onClick={() => setStorage(data)}>{storage.find(e => e.id === data.id) ? 'Remove to Cart' : 'Add to Cart'}</Button>
     </Container>
   )
 }

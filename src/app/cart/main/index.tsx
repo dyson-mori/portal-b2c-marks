@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { useTheme } from 'styled-components';
@@ -8,19 +8,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import * as yup from 'yup';
 
-import { Button, Typography } from '@/components';
-import usePersistedStorage from '@/hooks/useStorage';
+import { Button } from '@/components';
 
-import Payments from '../common/method';
 import Products from '../common/products';
-import Address from '../common/address';
-import Purchase from '../common/purchase';
 
 import { Container, Aside, HeaderForm, CheckOuts, Methods, Product, Result } from './styles';
 import { ArrowLeft } from '@/assets/svg/icons';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import { formats } from '@/helpers/format';
 import { Cards, Pix } from '@/assets/svg';
+import { CartContext } from '@/contexts/cart';
 
 const methodsPayments = [
   'Credit Cart',
@@ -38,14 +35,14 @@ type schemaProps = yup.InferType<typeof schema>;
 const Main: React.FC = () => {
   const theme = useTheme();
 
-  const [data] = usePersistedStorage('@marks: cart', []);
+  const { storage } = useContext(CartContext);
 
   const lottie_styles  = {
     display: 'flex',
     maxWidth: "150px"
   };
 
-  const sumPrices = data?.reduce((total: any, item: any) => {
+  const sumPrices = storage?.reduce((total: any, item: any) => {
     const formattedPrice = item?.price ? parseFloat(item.price.replace('.', '').replace(',', '.')) : 0;
     return total + formattedPrice;
   }, 0);
@@ -56,11 +53,12 @@ const Main: React.FC = () => {
       method: ''
     }
   });
+
   const { method } = getValues();
 
   return (
     <Container>
-      <Products data={data} />
+      <Products data={storage} />
 
       <Aside>
         <HeaderForm>
@@ -79,7 +77,7 @@ const Main: React.FC = () => {
           <Methods
             key={i}
             style={{ boxShadow: method === meth ? theme.settings.box.defaultHoverPrimary : '' }}
-            disabled={data?.length === 0}
+            disabled={storage?.length === 0}
             onClick={(evt) => {
               evt.preventDefault();
               setValue('method', meth);
@@ -90,7 +88,7 @@ const Main: React.FC = () => {
                 width={20}
                 height={20}
                 strokeWidth={1.5}
-                stroke={theme.colors[data?.length === 0 ? 'primary_disabled' : 'primary']}
+                stroke={theme.colors[storage?.length === 0 ? 'primary_disabled' : 'primary']}
               />
             )}
             {meth === 'Pix' && <Pix width={20} height={20} />}
@@ -102,7 +100,7 @@ const Main: React.FC = () => {
         <div style={{ height: '100%' }} />
 
         <CheckOuts>
-          {data.length !== 0 ? data.map((e: any, i: number) => (
+          {storage.length !== 0 ? storage.map((e: any, i: number) => (
             <div key={i}>
               <p>{e.name}</p>
               <p id='price'>R$ {formats.money(e.price)}</p>
@@ -118,7 +116,7 @@ const Main: React.FC = () => {
           <p id='price'>R$ {formats.money(String(sumPrices))}</p>
         </Result>
 
-        <Button id='address' disabled={data?.length === 0}>Next</Button>
+        <Button id='address' disabled={storage?.length === 0}>Next</Button>
       </Aside>
 
     </Container>

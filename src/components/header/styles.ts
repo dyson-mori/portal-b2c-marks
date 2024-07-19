@@ -2,7 +2,9 @@ import styled, { css } from 'styled-components';
 import Link from "next/link";
 
 export const Container = styled.header`
-  position: relative;
+  position: sticky;
+  top: 0;
+
   display: flex;
 
   width: 100%;
@@ -18,6 +20,8 @@ export const Container = styled.header`
       padding: ${theme.settings.responsive.paddingHeader};
     };
   `};
+  
+  z-index: 1;
 `;
 
 export const Icon = styled(Link)`

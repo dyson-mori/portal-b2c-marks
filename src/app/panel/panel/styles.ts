@@ -66,6 +66,7 @@ export const Modal = styled.div`
 
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   position: fixed;
   top: 0;
@@ -74,7 +75,17 @@ export const Modal = styled.div`
   bottom: 0;
   height: 100vh;
 
-  background-color: #292D32aa;
+  background-color: #dededeaa;
+  /* background-color: #292D32aa; */
 
   transition: .5s;
+
+  div {
+    width: 300px;
+  };
+
+  button {
+    margin-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px 0px;
+  }
 `;

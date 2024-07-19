@@ -87,7 +87,8 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-
+  console.log(id);
+  
   const data = await prisma.product.delete({
     where: {
       id: `${id}`,

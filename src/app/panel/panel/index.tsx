@@ -1,38 +1,49 @@
 "use client"
 
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useContext } from 'react';
+import Image from 'next/image';
 
 import { ProductsProps } from '@/global/interfaces';
-import { Product } from '@/components';
+import { Product, Button } from '@/components';
 
-import { Add } from '@/assets/svg/icons';
+import { Add, Block, Success } from '@/assets/svg/icons';
+import { NotificationContext } from '@/hooks/notification';
 
 import { Container, Modal, UploadMore } from './styles';
+import { revalidateTag } from 'next/cache';
 
 type Props = {
   products: ProductsProps[]
 }
 
 const Panel: React.FC<Props> = ({ products }) => {
-  const [open, setOpen] = useState(-1);
-
-  const handleDelete = (id: string) => {
-    // setOpen(index);
-    // document.body.style.overflow = "hidden";
-
-    fetch(`${process.env.NEXT_URL}/api/product?id=${id}`, {
-      method: 'DELETE'
-    });
+  const { setNotification } = useContext(NotificationContext);
+  const [product, setProduct] = useState<ProductsProps | null>(null);
+  
+  const handleDelete = (prod: ProductsProps) => {
+    setProduct(prod);
+    document.body.style.overflow = "hidden";
   };
 
-  const handleClose = () => {
-    setOpen(-1);
+  const handleClose = async () => {
+    const res = await fetch(`/api/product?id=${product?.id}`, {
+      method: 'DELETE'
+    });
+
+    if (!res.ok) {
+      return setNotification({ icon: Block, type: 'failed', message: 'Failed to delete', active: `${Math.random()}_show` });
+    };
+
+    setProduct(null);
+    revalidateTag('products');
     document.body.style.overflowY = "scroll";
+
+    return setNotification({ icon: Success, type: 'success', message: 'Deleted successful', active: `${Math.random()}_show` });
   };
 
   const styles = {
-    opacity: open > -1 ? 1 : 0,
-    zIndex: open > -1 ? 6 : -1,
+    opacity: product? 1 : 0,
+    zIndex: product? 6 : -1,
   };
 
   return (
@@ -47,14 +58,26 @@ const Panel: React.FC<Props> = ({ products }) => {
           <p>Category</p>
         </UploadMore>
         {products.map((product, index) =>
-          <Product key={index.toString()} isEdit product={product} href={`/panel/product?id=${product.id}`} onDelete={() => handleDelete(product.id)} />
+          <Product key={index.toString()} isEdit product={product} href={`/panel/product?id=${product.id}`} onDelete={() => handleDelete(product)} />
         )}
       </Container>
 
       <Modal style={styles}>
-        {open > -1 && <Product product={products[open]} href={`/panel/product?id=${products[open].id}`} />}
+        {product?.id && (
+          <Image
+            src={product?.files[0]?.url}
+            width={300}
+            height={300}
+            style={{
+              borderRadius: 3
+            }}
+            alt='delete'
+          />
+        )}
 
-        <button onClick={handleClose}>close</button>
+        <div>
+          <Button onClick={handleClose}>Delete</Button>
+        </div>
       </Modal>
     </Fragment>
   )

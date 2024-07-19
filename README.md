@@ -2,10 +2,9 @@
   I ON FIRE, I REALLY NEED DO IT
 
 ## tasks
-  [] When i click in "Add to Cart", 
-  [] Header Cart
-  [] Add to Cart
+  [done] Header Cart
+  [done] Add to Cart
   [] Payment Multi Form
-  [] Filter Products
-  [] Search Products
-  [] Quick recharge after deleting a product
+  [done] Filter Products
+  [done] Search Products
+  [done] Quick recharge after deleting a product

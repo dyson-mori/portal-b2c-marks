@@ -1,8 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
-
-import { Footer, Header } from '@/components';
+import React from 'react';
 import { ProductsProps } from '@/global/interfaces';
 
 import Images from '../common/images';
@@ -16,13 +14,9 @@ type Props = {
 
 export default function ProductScreen({ data }: Props) {
   return (
-    <>
-      <Header />
-      <Container>
-        <Images data={data} />
-        <Info data={data} />
-      </Container>
-      <Footer />
-    </>
+    <Container>
+      <Images data={data} />
+      <Info data={data} />
+    </Container>
   );
 };

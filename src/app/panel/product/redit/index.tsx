@@ -74,7 +74,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
       const { name, description, price, category } = event;
 
       const prefix = {
-        url: `${process.env.NEXT_URL}/api/product${isUpdate ? `?id=${product!.id}` : ''}`,
+        url: `/api/product${isUpdate ? `?id=${product!.id}` : ''}`,
         method: isUpdate ? 'PUT' : 'POST'
       };
 

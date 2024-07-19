@@ -69,7 +69,7 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, placeho
   }, []);
 
   useEffect(() => {
-    // inputRef.current!.value = values.map(e => e.name).toString() as string;
+    inputRef.current!.value = values.map(e => e.name).toString() as string;
     onChangeValue(values);
   }, [values])
 

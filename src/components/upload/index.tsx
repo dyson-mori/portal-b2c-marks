@@ -78,7 +78,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
           }
         });
 
-        const file = await fetch(`${process.env.NEXT_URL}/api/files`, {
+        const file = await fetch(`/api/files`, {
           method: isUpdate ? 'PUT' : 'POST',
           body: formData
         });

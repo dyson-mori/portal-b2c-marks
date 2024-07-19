@@ -36,7 +36,7 @@ export default function Category() {
   });
 
   const submit = async (event: { category: string }) => {
-    const res = await fetch(`${process.env.NEXT_URL}/api/category`, {
+    const res = await fetch(`/api/category`, {
       method: 'POST',
       body: JSON.stringify({
         name: event.category,
