@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTheme } from "styled-components";
 
-import { Aside, Category } from "@prisma/client";
+import { AsideProps, CategoryProps } from "@/global/interfaces";
 
 import { Block, Success, Trash, Edit, Tag } from '@/assets/svg/icons';
 import { NotificationContext } from "@/hooks/notification";
@@ -22,14 +22,12 @@ const schema = yup.object().shape({
 type SchemaProps = yup.InferType<typeof schema>;
 
 interface Props {
-  aside: Aside[];
-  categories: Category[];
+  aside: AsideProps[];
+  categories: CategoryProps[];
 }
 
 export default function Screen({ aside, categories }: Props) {
   const theme = useTheme();
-
-  const array = aside.map(item => ({ ...item, name: item.title }))
 
   const { setNotification } = useContext(NotificationContext);
 
@@ -37,7 +35,7 @@ export default function Screen({ aside, categories }: Props) {
     resolver: yupResolver(schema),
   });
 
-  const relation = async (aside: Aside, category: Category) => {
+  const relation = async (aside: AsideProps, category: CategoryProps) => {
     const res = await fetch(`/api/aside`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -92,10 +90,10 @@ export default function Screen({ aside, categories }: Props) {
       </Forms>
 
       <Items>
-        {array.map((e, i) => (
+        {aside.map((g, i) => (
           <Content key={i}>
             <Header>
-              <p>{e.title}</p>
+              <p>{g.title}</p>
               <button>
                 <Edit width={18} height={18} stroke='yellow' strokeWidth={2} />
               </button>
@@ -104,7 +102,16 @@ export default function Screen({ aside, categories }: Props) {
               </button>
             </Header>
             <Options>
-              {categories.map((f, i) => <ButtonToAdd key={i} onClick={() => relation(e, f)}>{f.name}</ButtonToAdd>)}
+              {categories.map((f, i) =>
+                <ButtonToAdd
+                  key={i}
+                  style={{
+                    backgroundColor: theme.colors[g.categories.find(e => e.id === f.id) ? 'primary' : 'white'],
+                    color: theme.colors[g.categories.find(e => e.id === f.id) ? 'white' : 'text'],
+                  }}
+                  onClick={() => relation(g, f)}
+                >{f.name}</ButtonToAdd>)
+              }
             </Options>
           </Content>
         ))}

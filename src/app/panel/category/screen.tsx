@@ -6,11 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { useTheme } from "styled-components";
-import { Category } from "@prisma/client";
 
 import { Block, Success, Tag, Edit, Trash } from '@/assets/svg/icons';
 import { NotificationContext } from "@/hooks/notification";
 
+import { CategoryProps } from "@/global/interfaces";
 import { Input} from "@/components";
 
 import { Container, Items, Forms, Option } from './styles';
@@ -32,7 +32,7 @@ const schema = yup.object().shape({
 type SchemaProps = yup.InferType<typeof schema>;
 
 interface Props {
-  categories: Category[]
+  categories: CategoryProps[]
 };
 
 export default function Screen({ categories }: Props) {
@@ -87,7 +87,7 @@ export default function Screen({ categories }: Props) {
       <Items>
         {categories.map((e, i) => (
           <Option key={i}>
-            <p>{e.name}</p>
+            <p><strong>{e._count.product}</strong> - {e.name}</p>
             <button>
               <Edit width={18} height={18} stroke='yellow' strokeWidth={2} />
             </button>

@@ -1,3 +1,5 @@
+import { Aside, Category } from "@prisma/client";
+
 export type ProductsProps = {
   id: string;
   name: string;
@@ -8,10 +10,15 @@ export type ProductsProps = {
   // category?: CategoryProps[];
   created_at?: Date
 };
-export interface CategoryProps {
-  id: string;
-  name: string;
-  product?: ProductsProps[]
+export interface CategoryProps extends Category {
+  product?: ProductsProps[];
+  _count: {
+    product: number;
+    aside: number;
+  };
+};
+export interface AsideProps extends Aside {
+  categories: CategoryProps[];
 };
 export interface FilesProps {
   id: string;

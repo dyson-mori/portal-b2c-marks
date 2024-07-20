@@ -1,6 +1,6 @@
 "use client"
 
-import { ButtonHTMLAttributes, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTheme } from "styled-components";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,9 +10,9 @@ import * as yup from 'yup';
 import { Category } from "@prisma/client";
 
 import { NotificationContext } from "@/hooks/notification";
-import { Button, Input, Upload, Select, Card } from "@/components";
+import { Button, Input, Upload } from "@/components";
 import { ProductsProps, CategoryProps } from "@/global/interfaces";
-import { Search, Text, Devolution, TextAlignLeft, Block, Tag, Close } from '@/assets/svg/icons';
+import { Text, Devolution, TextAlignLeft, Block, Tag } from '@/assets/svg/icons';
 import { formats } from "@/helpers/format";
 
 import { Container, Forms, Options, Selects, ButtonCategoriesRemove } from './styles';
@@ -190,7 +190,6 @@ export default function Register({ isUpdate, product, categories }: Props) {
             </Input.Root>
           )}
         />
-
         <Controller
           name="description"
           control={control}
@@ -209,7 +208,6 @@ export default function Register({ isUpdate, product, categories }: Props) {
             </Input.Root>
           )}
         />
-
         <Controller
           name="price"
           control={control}
@@ -232,9 +230,16 @@ export default function Register({ isUpdate, product, categories }: Props) {
 
         <Options style={styles} ref={dropdownRef}>
           {categories.map((options, index) => (
-            <ButtonCategoriesRemove key={index} onClick={e => onSelect(e, options)}>
+            <ButtonCategoriesRemove
+              key={index}
+              style={{
+                backgroundColor: themes.colors[selects.find(e => e.name === options.name) ? 'primary' : 'white'],
+                color: themes.colors[selects.find(e => e.name === options.name) ? 'white' : 'text'],
+              }}
+              onClick={e => onSelect(e, options)}
+            >
               {options.name} &nbsp;
-              <Tag width={12} height={12} stroke={themes.colors.primary} strokeWidth={1.8} />
+              <Tag width={12} height={12} stroke={themes.colors[selects.find(e => e.name === options.name) ? 'white' : 'text']} strokeWidth={1.8} />
             </ButtonCategoriesRemove>
           ))}
         </Options>

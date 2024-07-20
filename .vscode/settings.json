@@ -10,13 +10,13 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
 
-    "public": true,
+    "public": false,
     "next-env.d.ts": true,
     "node_modules": true,
     ".editorconfig": true,
     ".gitignore": true,
     ".eslintrc.json": true,
-    "next.config.mjs": false,
+    "next.config.mjs": true,
     "tsconfig.json": true,
     "yarn.lock": true,
   }

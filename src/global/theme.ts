@@ -7,6 +7,9 @@ const themes = {
     primary_loading: '#962349',
     primary_disabled: '#962349',
 
+    secondary: '#395FF5',
+    secondary_disabled: '#1c2f7a',
+
     white: '#fff',
 
     text: '#47474D',

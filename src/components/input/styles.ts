@@ -51,15 +51,3 @@ export const TextArea = styled.textarea`
   `};
 `;
 
-export const Icon = styled.div`
-  width: 45px;
-  height: 45px;
-
-  svg {
-    position: relative;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-  };
-`;

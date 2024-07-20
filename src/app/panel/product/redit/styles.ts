@@ -75,4 +75,8 @@ export const ButtonCategoriesRemove = styled.button`
   padding: 10px;
 
   border-radius: 3px;
+
+  ${({ theme }) => css`
+    font-weight: ${theme.font.weight[500]};
+  `};
 `;

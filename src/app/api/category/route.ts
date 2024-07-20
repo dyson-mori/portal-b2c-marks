@@ -8,6 +8,9 @@ export async function GET() {
     orderBy: {
       name: 'asc'
     },
+    include: {
+      _count: true
+    }
     // include: {
     //   product: true,
     // }
