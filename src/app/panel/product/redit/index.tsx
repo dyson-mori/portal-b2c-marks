@@ -1,24 +1,26 @@
 "use client"
 
-import { useContext, useState } from "react";
+import { ButtonHTMLAttributes, useContext, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTheme } from "styled-components";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import * as yup from 'yup';
 
-import { NotificationContext } from "@/hooks/notification";
-import { Button, Input, Upload, Select } from "@/components";
-import { ProductsProps, CategoryProps } from "@/global/interfaces";
-import { Search, Text, Devolution, TextAlignLeft, Block } from '@/assets/svg/icons';
+import { Category } from "@prisma/client";
 
-import { Container, Forms, Inputs, Row } from './styles';
+import { NotificationContext } from "@/hooks/notification";
+import { Button, Input, Upload, Select, Card } from "@/components";
+import { ProductsProps, CategoryProps } from "@/global/interfaces";
+import { Search, Text, Devolution, TextAlignLeft, Block, Tag, Close } from '@/assets/svg/icons';
 import { formats } from "@/helpers/format";
+
+import { Container, Forms, Options, Selects, ButtonCategoriesRemove } from './styles';
 
 type Props = {
   isUpdate: boolean;
   product: ProductsProps | null;
-  category: CategoryProps[];
+  categories: CategoryProps[];
 };
 
 const schema = yup.object().shape({
@@ -50,10 +52,14 @@ const schema = yup.object().shape({
 
 type SchemaProps = yup.InferType<typeof schema>;
 
-export default function Register({ isUpdate, product, category: dropdownCategory }: Props) {
+export default function Register({ isUpdate, product, categories }: Props) {
   const themes = useTheme();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { setNotification } = useContext(NotificationContext);
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [selects, setSelects] = useState<Category[]>([]);
 
   const { getValues, setValue, handleSubmit, control, formState: { isLoading, isSubmitting, isSubmitted, errors } } = useForm<SchemaProps>({
     defaultValues: {
@@ -61,13 +67,18 @@ export default function Register({ isUpdate, product, category: dropdownCategory
       name: product?.name ?? '',
       description: product?.description ?? '',
       price: product?.price ?? '',
-      category: product?.category ?? [],
+      category: product?.categories ?? [],
       files: product?.files ?? []
     },
     resolver: yupResolver(schema),
   });
 
   const { id: productId, category, files } = getValues();
+
+  const styles = {
+    opacity: open ? 1 : 0,
+    zIndex: open ? 6 : -1,
+  };
   
   const Submit = async (event: SchemaProps) => {
     try {
@@ -84,7 +95,7 @@ export default function Register({ isUpdate, product, category: dropdownCategory
           name,
           description,
           price: `${Number(Number(price.replace(/[,.R$ ]/g, '')) / 100).toFixed(2)}`,
-          category
+          category: selects
         }),
       });
 
@@ -101,118 +112,148 @@ export default function Register({ isUpdate, product, category: dropdownCategory
     }
   };
 
-  return (
-    <Container>
-      <Forms onSubmit={handleSubmit(Submit)}>
+  const onAdd = (e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setOpen(true);
+  };
 
+  const onRemove = (e: any, r: Category) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setSelects(prev => prev.find(t => t.id === r.id) ? prev.filter(d => d.id !== r.id) : [...prev, r])
+  };
+
+  const onSelect = (e: any, r: Category) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setSelects(prev => prev.find(t => t.id === r.id) ? prev.filter(d => d.id !== r.id) : [...prev, r])
+  };
+
+  const handleClickOutside = (event: any) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpen(false)
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <Container onSubmit={handleSubmit(Submit)}>
+      <Controller
+        name="files"
+        control={control}
+        render={({ field: { onChange, onBlur, value, disabled }  }) => {
+          return (
+            <Upload
+              productId={productId}
+              files={value}
+              isSubmitted={isSubmitted}
+              isUpdate={isUpdate}
+              setFiles={evt => {
+                setValue('files', evt);
+                if (evt.length === 0) {
+                  setValue('name', '');
+                  setValue('price', '');
+                  setValue('description', '');
+                  setValue('category', []);
+                  setValue('id', undefined);
+                };
+                onChange(evt)
+              }}
+            />
+          )
+        }}
+      />
+
+      <Forms>
         <Controller
-          name="files"
+          name="name"
           control={control}
-          render={({ field: { onChange, onBlur, value, disabled }  }) => {
-            return (
-              <Upload
-                productId={productId}
-                files={value}
-                isSubmitted={isSubmitted}
-                isUpdate={isUpdate}
-                setFiles={evt => {
-                  setValue('files', evt);
-                  if (evt.length === 0) {
-                    setValue('name', '');
-                    setValue('price', '');
-                    setValue('description', '');
-                    setValue('category', []);
-                    setValue('id', undefined);
-                  };
-                  onChange(evt)
+          render={({ field: { onChange, onBlur, value }  }) => (
+            <Input.Root>
+              <Devolution width={20} height={20} stroke={themes.colors.primary} strokeWidth={1.6} />
+              <Input.Input
+                value={value}
+                placeholder="Name Product"
+                defaultValue={value}
+                onChange={evt => {
+                  setValue('name', evt.target.value)
+                  onChange(evt);
                 }}
               />
-            )
-          }}
+            </Input.Root>
+          )}
         />
 
-        <Inputs>
-          <Row>
+        <Controller
+          name="description"
+          control={control}
+          render={({ field: { onChange, onBlur, value }  }) => (
+            <Input.Root>
+              <TextAlignLeft width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
+              <Input.TextArea
+                value={`${value}`}
+                placeholder="Description"
+                defaultValue={`${value}`}
+                onChange={evt => {
+                  setValue('description', evt.target.value);
+                  onChange(evt);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
 
-            <Controller
-              name="name"
-              control={control}
-              render={({ field: { onChange, onBlur, value }  }) => (
-                <Input.Root>
-                  <Devolution width={20} height={20} stroke={themes.colors.primary} strokeWidth={1.6} />
-                  <Input.Input
-                    value={value}
-                    placeholder="Name Product"
-                    defaultValue={value}
-                    onChange={evt => {
-                      setValue('name', evt.target.value)
-                      onChange(evt);
-                    }}
-                  />
-                </Input.Root>
-              )}
-            />
+        <Controller
+          name="price"
+          control={control}
+          render={({ field: { onChange, onBlur, value }  }) => (
+            <Input.Root>
+              <Text width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
+              <Input.Input
+                placeholder="Price"
+                onBlur={onBlur}
+                value={`R$ ${formats.money(value)}`}
+                defaultValue={value}
+                onChange={evt => {
+                  setValue('price', evt.target.value)
+                  onChange(evt);
+                }}
+              />
+            </Input.Root>
+          )}
+        />
 
-          <div style={{ width: 10 }} />
+        <Options style={styles} ref={dropdownRef}>
+          {categories.map((options, index) => (
+            <ButtonCategoriesRemove key={index} onClick={e => onSelect(e, options)}>
+              {options.name} &nbsp;
+              <Tag width={12} height={12} stroke={themes.colors.primary} strokeWidth={1.8} />
+            </ButtonCategoriesRemove>
+          ))}
+        </Options>
 
-            <Controller
-              name="description"
-              control={control}
-              render={({ field: { onChange, onBlur, value }  }) => (
-                <Input.Root>
-                  <TextAlignLeft width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
-                  <Input.Input
-                    value={`${value}`}
-                    placeholder="Description"
-                    defaultValue={`${value}`}
-                    onChange={evt => {
-                      setValue('description', evt.target.value);
-                      onChange(evt);
-                    }}
-                  />
-                </Input.Root>
-              )}
-            />
-          </Row>
-        <div style={{ height: 5 }} />
-          <Row>
+        <Selects onClick={e => onAdd(e)}>
+          {selects.length === 0 &&
+            <Tag width={20} height={20} stroke={themes.colors.primary} strokeWidth={1.8} />
+          }
 
-            <Controller
-              name="price"
-              control={control}
-              render={({ field: { onChange, onBlur, value }  }) => (
-                <Input.Root>
-                  <Text width={20} height={20} stroke={themes.colors.primary} strokeWidth={2} />
-                  <Input.Input
-                    placeholder="Price"
-                    onBlur={onBlur}
-                    value={`R$ ${formats.money(value)}`}
-                    defaultValue={value}
-                    onChange={evt => {
-                      setValue('price', evt.target.value)
-                      onChange(evt);
-                    }}
-                  />
-                </Input.Root>
-              )}
-            />
-            <div style={{ width: 10 }} />
-
-            <Select
-              data={dropdownCategory}
-              placeholder="Category"
-              LeftIcon={Search}
-              defaultValue={category}
-              onChangeValue={value => setValue('category', value)}
-            />
-
-          </Row>
-        </Inputs>
+          {selects.length !== 0 &&
+            selects.map(r => <ButtonCategoriesRemove key={r.id} onClick={e => onRemove(e, r)}>{r.name}</ButtonCategoriesRemove>)
+          }
+        </Selects>
 
         <Button type="submit" primary disabled={isLoading}>
           {isLoading ? 'Sending...' : isUpdate ? 'Update' : 'Upload'}
         </Button>
       </Forms>
+
     </Container>
   );
 };

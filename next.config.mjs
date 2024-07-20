@@ -2,7 +2,18 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
+  pageExtensions: [
+    'mdx',
+    'md',
+    'jsx',
+    'js',
+    'tsx',
+    'ts',
+    // 'page.tsx',
+    'api.ts',
+    'route.ts',
+    // 'api.tsx'
+  ],
   compiler: {
     styledComponents: true
   },

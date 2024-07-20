@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     },
     include: {
       files: true,
-      category: true
+      categories: true,
     }
   });
 
@@ -34,9 +34,9 @@ export async function POST(request: NextRequest) {
       name: body.name,
       description: body.description,
       price: body.price,
-      category: {
+      categories: {
         connect: body.category.map(({ id }) => ({ id }))
-      },
+      }
     }
   });
 
@@ -52,13 +52,13 @@ export async function PUT(request: NextRequest) {
   const id = url.searchParams.get("id");
   const body = await request.json() as Product & { category: Array<Category> };
 
-  const productCategory = await prisma.product.findFirst({
+  const categories = await prisma.product.findFirst({
     where: {
       id: `${id}`
     },
     include: {
-      category: true,
-      files: true
+      categories: true,
+      files: true,
     }
   });
 
@@ -70,10 +70,9 @@ export async function PUT(request: NextRequest) {
       name: body.name,
       description: body.description,
       price: body.price,
-      category: {
-        disconnect: productCategory?.category.map(({ id }) => ({ id })),
-        connect: body.category.map(({ id }) => ({ id })),
-      },
+      categories: {
+        connect: body.category.map(({ id }) => ({ id }))
+      }
     }
   });
 
@@ -87,8 +86,6 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-  console.log(id);
-  
   const data = await prisma.product.delete({
     where: {
       id: `${id}`,

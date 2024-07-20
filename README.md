@@ -8,3 +8,7 @@
   [done] Filter Products
   [done] Search Products
   [done] Quick recharge after deleting a product
+
+## Prisma
+  Rollback
+  npx prisma migrate resolve --rolled-back add_profile

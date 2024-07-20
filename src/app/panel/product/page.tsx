@@ -43,8 +43,8 @@ async function getProductById(id: string): Promise<ProductsProps | null> {
 };
 
 export default async function Page(params: any) {
-  const data = await getCategories();
+  const categories = await getCategories();
   const product = await getProductById(params.searchParams.id);
 
-  return <Redit isUpdate={params.searchParams.id} product={product} category={data} />;
+  return <Redit isUpdate={params.searchParams.id} product={product} categories={categories} />;
 };

@@ -1,25 +1,27 @@
 import React, { useState, useRef, useEffect, CSSProperties } from 'react';
-
-import { Container, Icon, Input, DropDown, Button } from './styles';
-
-import { Close, Tag } from '@/assets/svg';
-import { CategoryProps } from '@/global/interfaces';
 import { useTheme } from 'styled-components';
 
+import { Container, Content, Icon, Input, DropDown, Button } from './styles';
+
+import { Close, Tag } from '@/assets/svg';
+import { CategoryProps, ProductsProps } from '@/global/interfaces';
+
 type ExportValue = {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
+  product: ProductsProps[]
 };
 
 interface DropDownProps {
+  multiple?: boolean;
   data: CategoryProps[];
-  LeftIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  defaultValue?: ExportValue[];
   placeholder: string;
-  onChangeValue: (s: ExportValue[]) => void;
+  defaultValue?: string;
+  onChangeValue: (s: string) => void;
+  LeftIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
 };
 
-const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, placeholder, onChangeValue }) => {
+const Select: React.FC<DropDownProps> = ({ data, multiple, LeftIcon, defaultValue, placeholder, onChangeValue, ...rest }) => {
   const themes = useTheme();
 
   const dropContainerRef = useRef<HTMLDivElement>(null);
@@ -42,17 +44,22 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, placeho
     inputRef.current!.focus()
   };
 
-  const handleSelect = (id: string, label: string) => {
-    const items = values.find(e => e.id === id);
+  const handleSelect = (kso: CategoryProps) => {
+    inputRef.current!.value = kso.name;
+    inputRef.current!.blur()
+    setOpen(false);
+    return onChangeValue(kso.name)
 
-    if (items) {
-      const c = values.filter((e) => e.id !== id);
-      setValues(c);
-    } else {
-      setValues(prev => [...prev, { id, name: label }]);
-    };
+    // const items = values.find(e => e.id === kso.id);
 
-    setSearch('');
+    // if (items) {
+    //   const c = values.filter((e) => e.id !== kso.id);
+    //   setValues(c);
+    // } else {
+    //   setValues(prev => [...prev, { id: kso.id, name: kso.name }]);
+    // };
+
+    // setSearch('');
   };
 
   const handleClickOutside = (event: any) => {
@@ -68,58 +75,59 @@ const Select: React.FC<DropDownProps> = ({ data, LeftIcon, defaultValue, placeho
     }
   }, []);
 
-  useEffect(() => {
-    inputRef.current!.value = values.map(e => e.name).toString() as string;
-    onChangeValue(values);
-  }, [values])
+  // useEffect(() => {
+    // inputRef.current!.value = values.map(e => e.name).toString() as string;
+    // onChangeValue(values);
+  // }, [values])
 
-  useEffect(() => {
-    setValues(defaultValue!);
-  }, [defaultValue]);
+  // useEffect(() => {
+  //   setValues(defaultValue!);
+  // }, [defaultValue]);
 
   return (
     <Container ref={dropContainerRef}>
-      {LeftIcon && (
+      <Content>
         <Icon>
           <Tag width={20} height={20} stroke={themes.colors.primary} strokeWidth={1.8} />
         </Icon>
-      )}
 
-      <Input
-        ref={inputRef}
-        placeholder={placeholder}
-        defaultValue={values.map(e => e.name).toString()}
-        onFocus={() => setOpen(true)}
-        onChange={evt => setSearch(evt.target.value)}
-        // {...rest}
-      />
-
-      {search && (
-        <Icon as='button' onClick={handleCleanInput}>
-          <Close width={20} height={20} />
-        </Icon>
-      )}
+        <Input
+          ref={inputRef}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          onFocus={() => setOpen(true)}
+          onChange={evt => {
+            setSearch(evt.target.value)
+            onChangeValue(evt.target.value)
+          }}
+          // {...rest}
+        />
+      </Content>
 
       <DropDown style={styles}>
         {data?.filter(op =>
+            op.name.toLowerCase() === search.toLowerCase() ||
             op.name?.toLowerCase().includes(
               search?.split(',').reverse()[0].replace(' ', '').toLowerCase()
             )
           )
-          .map(({ id, name }, index) => (
+          .map((kso, index) => (
             <Button
               key={index.toString()}
+              // style={{
+              //   backgroundColor: !!values.find(e => e.name === kso.name) ? themes.colors.select : themes.colors.white,
+              //   color: !!values.find(e => e.name === kso.name) ? themes.colors.white : themes.colors.text,
+              //   fontWeight: !!values.find(e => e.name === kso.name) ? themes.font.weight['700'] : themes.font.weight['500'],
+              // }}
               style={{
-                backgroundColor: !!values.find(e => e.name === name) ? themes.colors.select : themes.colors.white,
-                color: !!values.find(e => e.name === name) ? themes.colors.white : themes.colors.text,
-                fontWeight: !!values.find(e => e.name === name) ? themes.font.weight['700'] : themes.font.weight['500'],
+                backgroundColor: themes.colors.white
               }}
               onClick={(evt) => {
                 evt.preventDefault();
-                handleSelect(id, name);
+                handleSelect(kso);
               }}
             >
-              <p>{name}</p>
+              <p>{kso.name}</p>
             </Button>
           ))
         }

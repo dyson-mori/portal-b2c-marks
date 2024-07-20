@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const product = await prisma.product.findMany({
     include: {
       files: true,
-      category: true
+      categories: true,
     }
   });
 

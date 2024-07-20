@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/services/prisma";
+import { Aside, Category } from "@prisma/client";
 
 export async function GET() {
   const product = await prisma.category.findMany({
-    include: {
-      product: true
-    }
+    orderBy: {
+      name: 'asc'
+    },
+    // include: {
+    //   product: true,
+    // }
   });
 
   if (!product) {
@@ -17,15 +21,15 @@ export async function GET() {
 };
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  const body = await request.json() as { category: string };
 
-  const product = await prisma.category.create({
+  const category = await prisma.category.create({
     data: {
-      name: body.name,
-    }
+      name: body.category,
+    },
   });
 
-  if (!product) {
+  if (!category) {
     throw new Error('Category Server Error')
   };
 

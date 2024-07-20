@@ -6,12 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./pegi_eighteen.db"
 }
 
 model Product {
-  id String @id @default(uuid())
+  id          String  @id @default(uuid())
+  category_id String?
 
   name        String
   description String
@@ -19,9 +20,9 @@ model Product {
 
   created_at DateTime @default(now())
 
-  files    Files[]
-  category Category[]
-  purchase Purchase[]
+  files      Files[]
+  categories Category[]
+  purchase   Purchase[]
 
   @@map("products")
 }
@@ -43,11 +44,24 @@ model Files {
   @@map("files")
 }
 
+model Aside {
+  id String @id @default(cuid())
+
+  title String
+
+  categories Category[]
+
+  created_at DateTime @default(now())
+
+  @@map("aside")
+}
+
 model Category {
   id   String @id @default(cuid())
   name String @unique
 
   product Product[]
+  aside   Aside[]
 
   created_at DateTime @default(now())
 

@@ -26,8 +26,8 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
   const { setNotification } = useContext(NotificationContext);
 
   const styles = {
-    opacity: !!productId || isSubmitted ? 0.5 : 1,
-    cursor: !!productId || isSubmitted ? 'default' : 'pointer'
+    opacity: isSubmitted ? 0.5 : 1,
+    cursor: isSubmitted ? 'default' : 'pointer'
   };
 
   const handleFileChange = (evt: any) => {

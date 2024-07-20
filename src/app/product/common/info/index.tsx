@@ -34,7 +34,7 @@ const Info: React.FC<Props> = ({ data }) => {
 
       <div style={{ height: 10 }} />
 
-      <p>{data.description}</p>
+      <pre>{data.description}</pre>
 
       <div style={{ height: 10 }} />
 

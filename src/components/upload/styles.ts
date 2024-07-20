@@ -9,6 +9,7 @@ export const Container = styled.div`
   flex-wrap: wrap;
 
   width: 400px;
+  height: 400px;
 
   input[type="file"]{
     display: none;

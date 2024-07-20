@@ -23,14 +23,10 @@ export const Items = styled.div`
   flex-direction: column;
 `;
 
-export const Option = styled.div`
+export const Content = styled.div`
   display: flex;
 
-  align-items: center;
-
-  width: 400px;
-
-  padding: 5px 10px;
+  flex-direction: column;
   margin: 2px 0;
 
   ${({ theme }) => css`
@@ -42,7 +38,24 @@ export const Option = styled.div`
       font-size: ${theme.font.size.medium};
     };
   `};
+`;
 
+export const Header = styled.div`
+  display: flex;
+
+  align-items: center;
+
+  width: 400px;
+
+  padding: 5px 10px;
+  margin: 2px 0;
+
+  ${({ theme }) => css`
+    p {
+      width: 100%;
+      font-size: ${theme.font.size.medium};
+    };
+  `};
 
   button {
     background-color: transparent;
@@ -52,4 +65,29 @@ export const Option = styled.div`
 
     cursor: pointer;
   }
+`;
+
+export const ButtonToAdd = styled.button`
+  border: 0;
+
+  cursor: pointer;
+
+  flex-grow: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  margin: 1px 2px;
+  padding: 10px;
+
+  border-radius: 3px;
+`;
+
+export const Options = styled.div`
+  display: flex;
+
+  flex-wrap: wrap;
+
+  width: 400px;
 `;

@@ -3,9 +3,16 @@ import styled, { css } from 'styled-components';
 export const Container = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
 
-  /* width: 100%; */
   width: 400px;
+`;
+
+export const Content = styled.div`
+  position: relative;
+  display: flex;
+
+  width: 100%;
   height: 45px;
 
   ${({ theme }) => css`
@@ -54,7 +61,7 @@ export const DropDown = styled.div`
   position: absolute;
 
   width: 100%;
-  min-height: 45px;
+  min-height: 0px;
   max-height: 250px;
 
   transition: .3s;

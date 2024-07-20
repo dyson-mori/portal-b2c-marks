@@ -4,14 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
 
 import { Container, Title, DropDown, Button } from './styles';
-import { CategoryProps } from '@/global/interfaces';
+import { Category } from '@prisma/client';
 
 interface CardProps {
-  title: string;
   maxHeight: number;
-  data: CategoryProps[];
+  title: string;
+  data: Category[];
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  selects: CategoryProps[];
+  selects: Category[];
   setSelect(f: any): void;
 };
 
@@ -44,9 +44,9 @@ export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon, 
     };
   }, []);
 
-  useEffect(() => {
-    setSelect(selects)
-  }, [selects]);
+  // useEffect(() => {
+  //   setSelect(selects)
+  // }, [selects]);
 
   return (
     <Container ref={dropdownRef}>
@@ -63,7 +63,7 @@ export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon, 
             }}
             key={index.toString()}
             onClick={() => {
-              setSelect((prev: CategoryProps[]) =>
+              setSelect((prev: Category[]) =>
                 prev.find(t => t.id === item.id) ? prev.filter(d => d.id !== item.id) : [...prev, item]
               )
             }}
