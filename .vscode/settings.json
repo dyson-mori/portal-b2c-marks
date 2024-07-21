@@ -13,7 +13,7 @@
     "public": false,
     "next-env.d.ts": true,
     "node_modules": true,
-    ".editorconfig": true,
+    ".editorconfig": false,
     ".gitignore": true,
     ".eslintrc.json": true,
     "next.config.mjs": true,

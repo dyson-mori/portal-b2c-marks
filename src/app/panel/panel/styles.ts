@@ -2,12 +2,13 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
 export const Container = styled.article`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); */
   margin: 10px 50px;
 
   min-height: 80vh;
+
+  height: 100%;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.settings.responsive.maxWidth}){
@@ -19,20 +20,13 @@ export const Container = styled.article`
 export const UploadMore = styled(Link)`
   display: flex;
 
-  flex-direction: column;
-
-  border: 0;
-
-  margin: 0 0 10px 0;
-  padding: 0;
+  margin: 0 10px;
 
   justify-content: center;
   align-items: center;
 
-  width: calc(300px / 1.3);
-  height: calc(300px / 1.3);
-
-  color: #303030;
+  width: 50px;
+  height: 50px;
 
   cursor: pointer;
 
@@ -42,12 +36,6 @@ export const UploadMore = styled(Link)`
     background-color: ${theme.colors.white};
     box-shadow: ${theme.settings.box.simple};
     border-radius: ${theme.settings.radius.small};
-
-    p {
-      color: ${theme.colors.text};
-      font-size: ${theme.font.size.medium};
-      font-weight: ${theme.font.weight[500]};
-    }
 
     @media (max-width: ${theme.settings.responsive.maxWidth}) {
       width: 390px;
@@ -88,4 +76,24 @@ export const Modal = styled.div`
     margin-top: 10px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px 0px;
   }
+`;
+
+export const Navigations = styled.div`
+  position: absolute;
+  display: flex;
+
+  bottom: 15px;
+
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+export const ProductEmpty = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
+  height: 80vh;
 `;

@@ -4,6 +4,10 @@ export const Container = styled.section`
   width: 100%;
   padding: 0 70px;
 
+  pre {
+    width: 300px;
+  }
+
   ${({ theme }) => css`
     h1 {
       font-size: 20px;

@@ -51,7 +51,6 @@ export async function POST(request: NextRequest) {
           width: `${image.width}`,
           height: `${image.height}`,
           cloudinary_id: `${image.public_id}`,
-          code: body.code,
           product_id: body.product_id,
         }
       })
@@ -105,7 +104,6 @@ export async function PUT(request: NextRequest){
           width: `${image.width}`,
           height: `${image.height}`,
           cloudinary_id: `${image.public_id}`,
-          code: body.code,
           product_id: body.product_id,
         }
       })

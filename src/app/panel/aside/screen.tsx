@@ -14,9 +14,16 @@ import { NotificationContext } from "@/hooks/notification";
 import { Input } from "@/components";
 
 import { Container, Forms, Items, Header, Content, ButtonToAdd, Options } from './styles';
+import { revalidateSetting } from "./action";
 
 const schema = yup.object().shape({
+  id: yup.string().notRequired(),
   title: yup.string().required('Required fields'),
+  categoriesSelecteded: yup.array().of(
+    yup.object({
+      id: yup.string().required()
+    })
+  ).notRequired(),
 });
 
 type SchemaProps = yup.InferType<typeof schema>;
@@ -31,40 +38,58 @@ export default function Screen({ aside, categories }: Props) {
 
   const { setNotification } = useContext(NotificationContext);
 
-  const { control, setValue, handleSubmit, formState: { isLoading } } = useForm<SchemaProps>({
+  const { control, getValues, setValue, setFocus, handleSubmit, formState: { isLoading } } = useForm<SchemaProps>({
     resolver: yupResolver(schema),
   });
 
-  const relation = async (aside: AsideProps, category: CategoryProps) => {
-    const res = await fetch(`/api/aside`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        aside,
-        category,
-      }),
-    });
-
-    if (!res.ok) {
+  const relation = async (aside: AsideProps, categoryId: string) => {
+    try {
+      fetch(`/api/aside?id=${aside.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          title: aside.title,
+          categories: [{id:categoryId}]
+        }),
+      });
+      
+      revalidateSetting();
+      return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
+    } catch (error) {
       return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the form', active: `${Math.random()}_show` });
     };
+  };
+  
+  
+  const submit = async (event: SchemaProps) => {
+    try {
+      const { id, categoriesSelecteded } = getValues();
 
-    return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
+      fetch(`/api/aside${!!id ? '?id='+id : ''}`, {
+        method: !!id ? 'PUT' : 'POST',
+        body: JSON.stringify({
+          title: event.title,
+          categories: []
+        }),
+      });
+
+      revalidateSetting();
+      setValue('title', '');
+      setValue('id', undefined);
+      return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
+
+    } catch (error) {
+      return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the form', active: `${Math.random()}_show` });
+    };
   };
 
-  const submit = async (event: { title: string }) => {
-    const res = await fetch(`/api/aside`, {
-      method: 'POST',
-      body: JSON.stringify({
-        title: event.title,
-      }),
-    });
-
-    if (!res.ok) {
+  const exclude = async (id: string) => {
+    try {
+      fetch(`/api/aside?id=${id}`, { method: 'DELETE' });
+      revalidateSetting();
+      return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
+    } catch (error) {
       return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the form', active: `${Math.random()}_show` });
-    };
-
-    setValue('title', '');
-    return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
+    }
   };
 
   return (
@@ -79,7 +104,7 @@ export default function Screen({ aside, categories }: Props) {
               <Input.Input
                 value={value ?? ''}
                 placeholder="Title"
-                onChange={value =>{
+                onChange={value => {
                   setValue('title', value.target.value)
                   onChange(value)
                 }}
@@ -90,14 +115,26 @@ export default function Screen({ aside, categories }: Props) {
       </Forms>
 
       <Items>
-        {aside.map((g, i) => (
+        {aside.map((asi, i) => (
           <Content key={i}>
             <Header>
-              <p>{g.title}</p>
-              <button>
+              <p>{asi.title}</p>
+              <button
+                onClick={() => {
+                  submit(asi);
+                  setValue('id', asi.id)
+                }}
+              >
+                <Success width={18} height={18} stroke='#395FF5' strokeWidth={2} />
+              </button>
+              <button onClick={e => {
+                setFocus('title')
+                setValue('id', asi.id)
+                setValue('title', asi.title)
+              }}>
                 <Edit width={18} height={18} stroke='yellow' strokeWidth={2} />
               </button>
-              <button>
+              <button onClick={() => exclude(asi.id)}>
                 <Trash width={18} height={18} stroke='red' strokeWidth={2} />
               </button>
             </Header>
@@ -106,11 +143,12 @@ export default function Screen({ aside, categories }: Props) {
                 <ButtonToAdd
                   key={i}
                   style={{
-                    backgroundColor: theme.colors[g.categories.find(e => e.id === f.id) ? 'primary' : 'white'],
-                    color: theme.colors[g.categories.find(e => e.id === f.id) ? 'white' : 'text'],
+                    backgroundColor: theme.colors[asi.categories.find(e => e.id === f.id) ? 'primary' : 'white'],
+                    color: theme.colors[asi.categories.find(e => e.id === f.id) ? 'white' : 'text'],
+                    fontWeight: theme.font.weight[asi.categories.find(e => e.id === f.id) ? 600 : 400],
                   }}
-                  onClick={() => relation(g, f)}
-                >{f.name}</ButtonToAdd>)
+                  onClick={() => relation(asi, f.id)}
+                >{f.title}</ButtonToAdd>)
               }
             </Options>
           </Content>

@@ -6,17 +6,21 @@ import Image from 'next/image';
 import { ProductsProps } from '@/global/interfaces';
 import { Product, Button } from '@/components';
 
-import { Add, Block, Success } from '@/assets/svg/icons';
+import { Add, Block, Success, Tag } from '@/assets/svg/icons';
 import { NotificationContext } from '@/hooks/notification';
 
-import { Container, Modal, UploadMore } from './styles';
+import { Container, Modal, UploadMore, Navigations, ProductEmpty } from './styles';
 import { revalidateTag } from 'next/cache';
+import { useTheme } from 'styled-components';
+import { DotLottiePlayer } from '@dotlottie/react-player';
 
 type Props = {
   products: ProductsProps[]
 }
 
 const Panel: React.FC<Props> = ({ products }) => {
+  const theme = useTheme();
+
   const { setNotification } = useContext(NotificationContext);
   const [product, setProduct] = useState<ProductsProps | null>(null);
   
@@ -46,21 +50,36 @@ const Panel: React.FC<Props> = ({ products }) => {
     zIndex: product? 6 : -1,
   };
 
+  const lottie_styles  = {
+    display: 'flex',
+    maxWidth: "300px"
+  };
+
   return (
     <Fragment>
       <Container>
-        <UploadMore href='/panel/product'>
-          <Add width={20} height={20} stroke='#303030' strokeWidth={1.8} />
-          <p>Products</p>
-        </UploadMore>
-        <UploadMore href='/panel/category'>
-          <Add width={20} height={20} stroke='#303030' strokeWidth={1.8} />
-          <p>Category</p>
-        </UploadMore>
         {products.map((product, index) =>
           <Product key={index.toString()} isEdit product={product} href={`/panel/product?id=${product.id}`} onDelete={() => handleDelete(product)} />
         )}
+        {products.length === 0 && (
+          <ProductEmpty>
+            <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
+            <p>Product Not Found</p>
+          </ProductEmpty>
+        )}
       </Container>
+
+      <Navigations>
+        <UploadMore href='/panel/product'>
+          <Add width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
+        </UploadMore>
+        <UploadMore href='/panel/category'>
+          <Tag width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
+        </UploadMore>
+        <UploadMore href='/panel/aside'>
+          <Add width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
+        </UploadMore>
+      </Navigations>
 
       <Modal style={styles}>
         {product?.id && (

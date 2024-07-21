@@ -17,15 +17,9 @@ import { formats } from "@/helpers/format";
 
 import { Container, Forms, Options, Selects, ButtonCategoriesRemove } from './styles';
 
-type Props = {
-  isUpdate: boolean;
-  product: ProductsProps | null;
-  categories: CategoryProps[];
-};
-
 const schema = yup.object().shape({
   id: yup.string(),
-  name: yup.string().required('Required fields'),
+  title: yup.string().required('Required fields'),
   price: yup.string().required('Required fields'),
   description: yup.string().required('Required fields'),
   category: yup.array().of(
@@ -37,20 +31,17 @@ const schema = yup.object().shape({
   files: yup.array().of(
     yup.object({
       file: yup.mixed(),
-      // file: yup.mixed({
-      //   lastModified: yup.number().required(),
-      //   lastModifiedDate : yup.date().required(),
-      //   name: yup.string().required(),
-      //   size: yup.number().required(),
-      //   type: yup.string().required(),
-      //   webkitRelativePath: yup.string().required(),
-      // }).required(),
       url: yup.string().required()
     })
   ).required('Required fields')
 });
 
 type SchemaProps = yup.InferType<typeof schema>;
+type Props = {
+  isUpdate: boolean;
+  product: ProductsProps | null;
+  categories: CategoryProps[];
+};
 
 export default function Register({ isUpdate, product, categories }: Props) {
   const themes = useTheme();
@@ -64,7 +55,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
   const { getValues, setValue, handleSubmit, control, formState: { isLoading, isSubmitting, isSubmitted, errors } } = useForm<SchemaProps>({
     defaultValues: {
       id: product?.id ?? '',
-      name: product?.name ?? '',
+      title: product?.title ?? '',
       description: product?.description ?? '',
       price: product?.price ?? '',
       category: product?.categories ?? [],
@@ -82,7 +73,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
   
   const Submit = async (event: SchemaProps) => {
     try {
-      const { name, description, price, category } = event;
+      const { title, description, price, category } = event;
 
       const prefix = {
         url: `/api/product${isUpdate ? `?id=${product!.id}` : ''}`,
@@ -92,7 +83,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
       const res = await fetch(prefix.url, {
         method: prefix.method,
         body: JSON.stringify({
-          name,
+          title,
           description,
           price: `${Number(Number(price.replace(/[,.R$ ]/g, '')) / 100).toFixed(2)}`,
           category: selects
@@ -158,7 +149,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
               setFiles={evt => {
                 setValue('files', evt);
                 if (evt.length === 0) {
-                  setValue('name', '');
+                  setValue('title', '');
                   setValue('price', '');
                   setValue('description', '');
                   setValue('category', []);
@@ -173,7 +164,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
 
       <Forms>
         <Controller
-          name="name"
+          name="title"
           control={control}
           render={({ field: { onChange, onBlur, value }  }) => (
             <Input.Root>
@@ -183,7 +174,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
                 placeholder="Name Product"
                 defaultValue={value}
                 onChange={evt => {
-                  setValue('name', evt.target.value)
+                  setValue('title', evt.target.value)
                   onChange(evt);
                 }}
               />
@@ -233,13 +224,13 @@ export default function Register({ isUpdate, product, categories }: Props) {
             <ButtonCategoriesRemove
               key={index}
               style={{
-                backgroundColor: themes.colors[selects.find(e => e.name === options.name) ? 'primary' : 'white'],
-                color: themes.colors[selects.find(e => e.name === options.name) ? 'white' : 'text'],
+                backgroundColor: themes.colors[selects.find(e => e.title === options.title) ? 'primary' : 'white'],
+                color: themes.colors[selects.find(e => e.title === options.title) ? 'white' : 'text'],
               }}
               onClick={e => onSelect(e, options)}
             >
-              {options.name} &nbsp;
-              <Tag width={12} height={12} stroke={themes.colors[selects.find(e => e.name === options.name) ? 'white' : 'text']} strokeWidth={1.8} />
+              {options.title} &nbsp;
+              <Tag width={12} height={12} stroke={themes.colors[selects.find(e => e.title === options.title) ? 'white' : 'text']} strokeWidth={1.8} />
             </ButtonCategoriesRemove>
           ))}
         </Options>
@@ -250,7 +241,7 @@ export default function Register({ isUpdate, product, categories }: Props) {
           }
 
           {selects.length !== 0 &&
-            selects.map(r => <ButtonCategoriesRemove key={r.id} onClick={e => onRemove(e, r)}>{r.name}</ButtonCategoriesRemove>)
+            selects.map(r => <ButtonCategoriesRemove key={r.id} onClick={e => onRemove(e, r)}>{r.title}</ButtonCategoriesRemove>)
           }
         </Selects>
 

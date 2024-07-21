@@ -9,10 +9,25 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
 
-  const product = await prisma.product.findFirst({
-    where: {
-      id: id!
-    },
+  if (id) {
+    const product = await prisma.product.findFirst({
+      where: {
+        id: id!
+      },
+      include: {
+        files: true,
+        categories: true,
+      }
+    });
+  
+    if (!product) {
+      throw new Error('Product Server Error');
+    };
+
+    return NextResponse.json(product);
+  };
+
+  const product = await prisma.product.findMany({
     include: {
       files: true,
       categories: true,
@@ -20,7 +35,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!product) {
-    return NextResponse.json([]);
+    throw new Error('Product Server Error');
   };
 
   return NextResponse.json(product);
@@ -31,7 +46,7 @@ export async function POST(request: NextRequest) {
 
   const product = await prisma.product.create({
     data: {
-      name: body.name,
+      title: body.title,
       description: body.description,
       price: body.price,
       categories: {
@@ -67,7 +82,7 @@ export async function PUT(request: NextRequest) {
       id: `${id}`
     },
     data: {
-      name: body.name,
+      title: body.title,
       description: body.description,
       price: body.price,
       categories: {

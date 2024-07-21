@@ -17,6 +17,7 @@
     "cloudinary": "^2.2.0",
     "next": "14.2.4",
     "next-plugin-svgr": "^1.1.10",
+    "pagarme": "^4.35.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",

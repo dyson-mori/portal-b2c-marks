@@ -31,7 +31,7 @@ const Product: React.FC<Props> = ({ product, href, isEdit, onDelete }) => {
       )}
 
       <Footer>
-        <span id='title'>{product.name}</span>
+        <span id='title'>{product.title}</span>
         <span id='price'>R$ {formats.money(product.price)}</span>
       </Footer>
     </Container>

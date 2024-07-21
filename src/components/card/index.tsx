@@ -63,7 +63,7 @@ export const Card: React.FC<CardProps> = ({ data, title, icon: Icon, selects, se
                 prev.find(t => t.id === item.id) ? prev.filter(d => d.id !== item.id) : [...prev, item]
               )
             }}
-          >{item.name}</Button>
+          >{item.title}</Button>
         ))}
       </DropDown>
     </Container>

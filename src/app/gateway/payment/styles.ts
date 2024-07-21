@@ -28,3 +28,26 @@ export const Banner = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  position: absolute;
+
+  width: 500px;
+
+  transform: 1s;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const BannerProduct = styled.div`
+  display: flex;
+  position: relative;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+`;

@@ -50,7 +50,7 @@ export default function Products({ products, cards }: Props) {
         }
       </Aside>
 
-      {products.filter(e => e.name.toLowerCase().includes(label.toLowerCase())).length === 0 && (
+      {products.filter(e => e.title.toLowerCase().includes(label.toLowerCase())).length === 0 && (
         <ProductEmpty>
           <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
           <p>Product Not Found</p>
@@ -58,11 +58,11 @@ export default function Products({ products, cards }: Props) {
       )}
 
       {
-        products.filter(e => e.name.toLowerCase().includes(label.toLowerCase())).length !== 0 && (
+        products.filter(e => e.title.toLowerCase().includes(label.toLowerCase())).length !== 0 && (
         <ProductsStyled>
           {
             products.filter(pro =>
-              label.length > 0 ? pro.name.toLowerCase().includes(label.toLowerCase()) :
+              label.length > 0 ? pro.title.toLowerCase().includes(label.toLowerCase()) :
               selects.every(eve => pro.categories.some(cat => cat.id === eve.id))
             )
               .map((item, index) =>
