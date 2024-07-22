@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/services/prisma";
-import { Aside, Category } from "@prisma/client";
+import { Category } from "@prisma/client";
 
 export async function GET() {
   const product = await prisma.category.findMany({

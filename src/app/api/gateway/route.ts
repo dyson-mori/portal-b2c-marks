@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 };
 
 export async function POST(request: NextRequest) {
-  const body = await request.json() as Address & Product & { products: any[] };
+  const body = await request.json() as Address & Product & { products: any[], address: string };
 
   const address = await prisma.address.create({
     data: {

@@ -19,13 +19,14 @@ export async function generateMetadata({ searchParams }: ProductParams): Promise
 
   const res = await fetch(`${process.env.NEXT_URL}/api/product?id=${productId}`, {
     method: 'GET',
+    cache: 'no-store',
     next: {
       revalidate: 3600
     }
   });
 
   if (!res.ok) {
-    throw new Error('Product by Id')
+    throw new Error('Get Product by Id in Params')
   };
 
   const product = await res.json();
@@ -43,13 +44,14 @@ export async function generateMetadata({ searchParams }: ProductParams): Promise
 const getProductById = async (id: string): Promise<ProductsProps> => {
   const res = await fetch(`${process.env.NEXT_URL}/api/product?id=${id}`, {
     method: 'GET',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json'
     }
   });
 
   if (!res.ok) {
-    throw new Error('Product by Id')
+    throw new Error('Get Product by Id')
   };
 
   const data = await res.json();

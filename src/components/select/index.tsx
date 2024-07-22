@@ -45,10 +45,10 @@ const Select: React.FC<DropDownProps> = ({ data, multiple, LeftIcon, defaultValu
   };
 
   const handleSelect = (kso: CategoryProps) => {
-    inputRef.current!.value = kso.name;
+    inputRef.current!.value = kso.title;
     inputRef.current!.blur()
     setOpen(false);
-    return onChangeValue(kso.name)
+    return onChangeValue(kso.title)
 
     // const items = values.find(e => e.id === kso.id);
 
@@ -106,8 +106,8 @@ const Select: React.FC<DropDownProps> = ({ data, multiple, LeftIcon, defaultValu
 
       <DropDown style={styles}>
         {data?.filter(op =>
-            op.name.toLowerCase() === search.toLowerCase() ||
-            op.name?.toLowerCase().includes(
+            op.title.toLowerCase() === search.toLowerCase() ||
+            op.title?.toLowerCase().includes(
               search?.split(',').reverse()[0].replace(' ', '').toLowerCase()
             )
           )
@@ -127,7 +127,7 @@ const Select: React.FC<DropDownProps> = ({ data, multiple, LeftIcon, defaultValu
                 handleSelect(kso);
               }}
             >
-              <p>{kso.name}</p>
+              <p>{kso.title}</p>
             </Button>
           ))
         }
