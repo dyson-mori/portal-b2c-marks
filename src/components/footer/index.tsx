@@ -19,7 +19,8 @@ export const Footer: React.FC<FooterProps> = ({ primary = true, secondary = fals
       {!secondary && primary && (
         <>
           <Image src={Logo} width={200} height={50} alt='logo' />
-          <p>Store in Progress...</p>
+          <p>Illustrative images, I do not aim to sell third-party products, <br /> while this project is under development, <br /> I will use their images: <a href='https://swarovski.com.br'>swarovski</a> & <a href='https://www.vivara.com.br/'>vivara</a></p>
+          <p>I repeat, <br /> <strong>illustrative images with no intention of resale</strong></p>
           {/* <PaymentCheck width={100} height={40} /> */}
         </>
       )}
@@ -36,7 +37,7 @@ export const Footer: React.FC<FooterProps> = ({ primary = true, secondary = fals
         </>
       )}
 
-      <p>Made by <strong>Sérgio Leal</strong></p>
+      <p>Made by <strong>Sérgio Leal</strong> contact: <strong>(31) 9 7556 4133</strong></p>
       {/* <p>Made with ❤ by <strong>Sérgio Leal</strong></p> */}
     </Container>
   );
