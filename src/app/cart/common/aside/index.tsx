@@ -27,8 +27,9 @@ export default function Aside() {
   const { storage } = useContext(CartContext);
   const { setNotification } = useContext(NotificationContext);
 
-  const sumPrices: number = storage?.reduce((total: any, item: any) => {
-    const formattedPrice = item?.price ? parseFloat(item.price.replace('.', '').replace(',', '.')) : 0;
+  const sumPrices: number = storage?.reduce((total, item) => {
+    const formattedPrice = item?.price ? parseFloat(String(item.price).replace(',', '')) : 0;
+
     return total + formattedPrice;
   }, 0);
 
@@ -36,7 +37,7 @@ export default function Aside() {
     resolver: yupResolver(schema),
     defaultValues: {
       products: storage,
-      price: String(sumPrices / 100),
+      price: sumPrices,
 
       //   method: '',
       //   full_name: 'Sergio Junio Leal',
@@ -145,10 +146,10 @@ export default function Aside() {
             <div style={{ height: '100%' }} />
 
             <CheckOuts>
-              {storage.length !== 0 ? storage.map((e: any, i: number) => (
+              {storage.length !== 0 ? storage.map((e, i: number) => (
                 <div key={i}>
                   <p>{e.title}</p>
-                  <p id='price'>{formats.money(e.price)}</p>
+                  <p id='price'>{formats.money(Number(e.price))}</p>
                 </div>
               )): (
                 <div id='lottie'>

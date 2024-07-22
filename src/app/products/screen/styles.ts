@@ -43,25 +43,30 @@ export const Aside = styled.aside`
 `;
 
 export const Products = styled.section`
-  /* display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(calc(50% / 2), 0fr)); */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-  align-items: start;
+  display: grid;
 
   width: 100%;
 
   margin-left: 5px;
 
-  @media (max-width: 600px) {
-    ${({ theme }) => css`
-      @media (max-width: ${theme.settings.responsive.maxWidth}){
-        grid-template-columns: repeat(auto-fill, minmax(calc(75% / 2), 1fr));
-        margin-left: 0px;
-      };
-    `};
-  };
+  ${({ theme }) => css`
+    @media (min-width: 1600px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 5), 1fr));
+    };
+
+    @media (max-width: 1600px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 4), 1fr));
+    };
+
+    @media (max-width: 1350px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), 1fr));
+    };
+
+    @media (max-width: 1080px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2), 1fr));
+      margin-left: 0px;
+    };
+  `};
 `;
 
 export const ProductEmpty = styled.div`

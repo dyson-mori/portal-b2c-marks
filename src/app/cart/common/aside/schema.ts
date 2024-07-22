@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 export const schema = yup.object().shape({
   method: yup.string().required(),
-  price: yup.string().required(),
+  price: yup.number().required(),
   products: yup.array().of(
     yup.object({
       id: yup.string()

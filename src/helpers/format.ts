@@ -3,8 +3,11 @@ const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
 export const formats = {
   money: (value: number) => {
     const verify = String(value).split('.')[1]?.length === 1;
+    let v = String(value);
 
-    let v = String(value).replace(/\D/g, '') + `${verify ? '0' : ''}`;
+    if (Number.isInteger(value)) v = Number(v).toFixed(2);
+
+    v = v.replace(/\D/g, '') + `${verify ? '0' : ''}`;
     v = String((Number(v) / 100).toFixed(2));
     v = v.replace('.', ',');
     v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');

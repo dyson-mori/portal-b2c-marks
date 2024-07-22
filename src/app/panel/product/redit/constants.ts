@@ -10,7 +10,7 @@ export const schema = yup.object().shape({
   title: yup.string().required('Required fields'),
 
   price: yup.number()
-    .test('is-decimal','invalid decimal', value => !!String(value).includes('.'))
+    // .test('is-decimal','invalid decimal', value => !!String(value).includes('.'))
     .required('Required fields'),
 
   description: yup.string().required('Required fields'),
