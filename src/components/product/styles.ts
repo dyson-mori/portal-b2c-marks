@@ -7,14 +7,14 @@ export const Container = styled(Link)`
   justify-content: center;
   align-items: center;
 
-  width: calc(300px / 1.3);
-  height: calc(300px / 1.3);
+  width: calc(300px / 1.26);
+  height: calc(300px / 1.26);
 
   margin: 0 5px 5px 0;
 
   img {
-    width: calc(300px / 1.3);
-    height: calc(300px / 1.3);
+    width: calc(300px / 1.26);
+    height: calc(300px / 1.26);
   }
 
   ${({ theme }) => css`
@@ -23,13 +23,13 @@ export const Container = styled(Link)`
     border-radius: ${theme.settings.radius.small};
 
     @media (max-width: ${theme.settings.responsive.maxWidth}) {
-      width: calc(250px / 1.3);
-      height: calc(250px / 1.3);
+      width: calc(100% / 1.015);
+      height: calc(100% / 1.015);
 
       img {
-        width: calc(250px / 1.3);
-        height: calc(250px / 1.3);
-      }
+        width: 100%;
+        height: 100%;
+      };
     };
   `};
 `;

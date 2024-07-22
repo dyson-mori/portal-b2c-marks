@@ -26,7 +26,6 @@ const Product: React.FC<Props> = ({ product, href, onDelete }) => {
           borderRadius: 3
         }}
       />
-
       {!!onDelete && (
         <Delete onClick={e => {
           e.stopPropagation();

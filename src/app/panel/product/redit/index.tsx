@@ -106,13 +106,16 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
 
   useEffect(() => {
     if (!isUpdate && !isLoading) {
+      console.log(isUpdate);
+      console.log(isLoading);
+
       setValue('id', undefined);
       setValue('title', '');
       setValue('price', 0);
       setValue('description', '');
       setValue('category', []);
     };
-  }, [isLoading])
+  }, [isLoading]);
 
   return (
     <Container onSubmit={handleSubmit(Submit)}>
@@ -128,13 +131,6 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
               setLoading={() => setValue('isLoading', false)}
               isUpdate={isUpdate}
               setFiles={evt => {
-                if (evt.length === 0) {
-                  setValue('title', '');
-                  setValue('price', 0);
-                  setValue('description', '');
-                  setValue('category', []);
-                  setValue('id', undefined);
-                };
                 onChange(evt)
               }}
             />
@@ -185,6 +181,8 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
                 value={formats.money(value)}
                 onChange={evt => {
                   evt.target.value = formats.formatDecimal(evt.target.value);
+                  console.log(evt.target.value);
+
                   onChange(evt);
                 }}
               />

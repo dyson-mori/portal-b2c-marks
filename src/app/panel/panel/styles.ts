@@ -2,16 +2,28 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
 export const Container = styled.article`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
 
   margin: 10px 50px;
 
   min-height: 80vh;
 
   ${({ theme }) => css`
-    @media (max-width: ${theme.settings.responsive.maxWidth}){
-      margin: ${theme.settings.responsive.margin};
+    @media (min-width: 1600px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 5), 1fr));
+    };
+
+    @media (max-width: 1600px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 5), 1fr));
+    };
+
+    @media (max-width: 1350px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 4), 1fr));
+    };
+
+    @media (max-width: 1080px){
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), 1fr));
+      margin-left: 0px;
     };
   `};
 `;

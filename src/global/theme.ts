@@ -50,6 +50,24 @@ const themes = {
     }
   },
   settings: {
+    grid: {
+      template: {
+        columns: {
+          products: {
+            1600: {
+              minPixels: '1600px',
+              grid: 'repeat(auto-fill, minmax(calc(100% / 5), 1fr))',
+            },
+            1400: {
+              minPixels: '1400px',
+              grid: 'repeat(auto-fill, minmax(calc(100% / 4), 1fr))',
+            },
+          }
+        },
+      },
+      gridTemplateColumnsProducts: 'repeat(auto-fill, minmax(calc(100% / 5), 1fr))',
+      gridTemplateColumnsPanel: 'repeat(auto-fill, minmax(calc(100% / 5), 1fr))',
+    },
     padding: {
       button: '0 10px'
     },

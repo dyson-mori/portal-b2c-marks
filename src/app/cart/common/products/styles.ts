@@ -21,25 +21,17 @@ export const Container = styled.section`
     background-color: ${theme.colors.white};
 
     @media (max-width: ${theme.settings.responsive.maxWidth}){
-      height: 50vh;
+      min-height: 40vh;
       margin-bottom: 10px;
       justify-content: space-evenly;
 
-      padding: 0;
+      padding: 1.5px 0;
 
       a {
-        margin: 0;
-        width: calc(245px / 1.3);
+        margin: 1.5px 0;
+        width: calc(240px / 1.26);
+        height: calc(240px / 1.26);
       };
-
-      footer {
-        width: calc(245px / 1.3);
-      };
-
-      img {
-        width: calc(245px / 1.3);
-        height: calc(245px / 1.3);
-      }
     };
   `};
 `;
