@@ -2,7 +2,12 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.section`
   width: 100%;
-  padding: 0 70px;
+  padding: 0 40px;
+
+  pre {
+    white-space: pre-wrap;
+    width: 100%;
+  }
 
   ${({ theme }) => css`
     h1 {

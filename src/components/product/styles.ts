@@ -2,17 +2,12 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
 export const Container = styled(Link)`
-  /* flex: 1 1 50%; */
-
   position: relative;
 
   width: calc(300px / 1.3);
   height: calc(300px / 1.3);
 
-  padding: 0;
-  margin: 0;
-
-  margin-bottom: 10px;
+  margin: 0 5px 5px 0;
 
   img {
     width: calc(300px / 1.3);
@@ -38,6 +33,7 @@ export const Container = styled(Link)`
 
 export const Footer = styled.footer`
   position: absolute;
+  left: 0;
   bottom: 0;
 
   display: flex;
@@ -76,10 +72,9 @@ export const Footer = styled.footer`
   }
 `;
 
-export const Actions = styled.button`
+export const Delete = styled.button`
   position: absolute;
 
-  top: 0;
   right: 0;
   border: 0;
 

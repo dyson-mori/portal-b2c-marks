@@ -1,14 +1,15 @@
 const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
 
 export const formats = {
-  money: (value: string) => {
-    let v = value.replace(/\D/g, '');
+  money: (value: number ) => {
+    let v = String(value).replace(/\D/g, '');
     v = `${(Number(v) / 100).toFixed(2)}`;
     v = v.replace('.', ',');
     v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');
     v = v.replace(/(\d)(\d{3}),/g, '$1.$2,');
-    return `${v}`;
+    return `R$ ${v}`;
   },
+
   cpf: (e: string) => {
     const digits = e?.replace(/\D/g, '') || '';
 
@@ -27,9 +28,7 @@ export const formats = {
   formatDecimal(value: string){
     let v = value.replace(/\D/g, '');
     v = `${(Number(v) / 100).toFixed(2)}`;
-    v = v.replace('.', ',');
-    v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');
-    v = v.replace(/(\d)(\d{3}),/g, '$1.$2,');
+    v = v.replace(/(\d)(\d{3}),/g, '$1.$2');
     return v;
   },
 

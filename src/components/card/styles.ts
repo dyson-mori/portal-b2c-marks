@@ -70,7 +70,7 @@ export const Button = styled.button`
   margin: 1px;
   padding: 2px 4px;
 
-  height: 40px;
+  height: 35px;
 
   ${({ theme }) => css`
     border-radius: ${theme.settings.radius.small};

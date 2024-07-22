@@ -10,7 +10,8 @@ const uploadToCloudinary = async (fileUri: string, fileName: string) => {
       invalidate: true,
       resource_type: "auto",
       filename_override: fileName,
-      folder: `community/upload-test`, // any sub-folder name in your cloud
+      folder: `marks-joias/`, // any sub-folder name in your cloud
+      // folder: `community/upload-test`, // any sub-folder name in your cloud
       use_filename: true,
     });
 
@@ -51,7 +52,6 @@ export async function POST(request: NextRequest) {
           width: `${image.width}`,
           height: `${image.height}`,
           cloudinary_id: `${image.public_id}`,
-          code: body.code,
           product_id: body.product_id,
         }
       })
@@ -105,7 +105,6 @@ export async function PUT(request: NextRequest){
           width: `${image.width}`,
           height: `${image.height}`,
           cloudinary_id: `${image.public_id}`,
-          code: body.code,
           product_id: body.product_id,
         }
       })

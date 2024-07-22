@@ -1,6 +1,7 @@
 import { ReactComponent as ArrowDown} from './arrow_down.svg';
 import { ReactComponent as ArrowLeft } from './arrow-left.svg';
 
+import { ReactComponent as Box} from './box.svg';
 import { ReactComponent as Delivery} from './delivery.svg';
 import { ReactComponent as Close} from './close.svg';
 import { ReactComponent as User} from './user.svg';
@@ -44,5 +45,6 @@ export {
   ArrowLeft,
   Block,
   Success,
-  Tag
+  Tag,
+  Box
 };

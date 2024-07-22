@@ -30,7 +30,7 @@ const Info: React.FC<Props> = ({ data }) => {
 
   return (
     <Container>
-      <h1>{data.name}</h1>
+      <h1>{data.title}</h1>
 
       <div style={{ height: 10 }} />
 
@@ -38,7 +38,7 @@ const Info: React.FC<Props> = ({ data }) => {
 
       <div style={{ height: 10 }} />
 
-      <h2>R$ {formats.money(data.price)}</h2>
+      <h2>{formats.money(Number(data.price))}</h2>
 
       <DeliveryStyled>
         <Delivery width={20} height={20} fill="#47C747" /> &nbsp;&nbsp;

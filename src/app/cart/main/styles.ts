@@ -99,10 +99,12 @@ export const HeaderForm = styled.header`
 
   width: 100%;
 
+  margin-bottom: 20px;
+
   button {
     border: 0;
     background-color: transparent;
-    opacity: 0;
+    cursor: pointer;
   };
 
   ${({ theme }) => css`
@@ -114,6 +116,14 @@ export const HeaderForm = styled.header`
   `};
 `;
 
+export const AsideContent = styled.div`
+  display: flex;
+
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+`;
 
 export const Methods = styled.button`
   border: 0;

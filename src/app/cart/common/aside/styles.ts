@@ -1,38 +1,27 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.aside`
+export const ContainerForm = styled.form`
   display: flex;
 
   align-items: center;
   flex-direction: column;
 
-  padding: 30px 0 10px 0;
+  padding: 30px 10px 10px 10px;
 
   width: 34%;
-
-  #address {
-    margin-top: 10px;
-    width: 95%;
-  }
 
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
     border-radius: ${theme.settings.radius.small};
     background-color: ${theme.colors.white};
 
-    h1 {
-      font-size: ${theme.font.size.large};
-      font-weight: ${theme.font.weight[700]};
-    };
-
-    @media (max-width: ${theme.settings.responsive.maxWidth}){
-      padding: 30px 0 10px 0;
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
       width: 100%;
-    };
+    }
   `};
 `;
 
-export const Header = styled.div`
+export const HeaderForm = styled.header`
   display: flex;
 
   align-items: center;
@@ -40,10 +29,12 @@ export const Header = styled.div`
 
   width: 100%;
 
+  margin-bottom: 20px;
+
   button {
     border: 0;
     background-color: transparent;
-    opacity: 0;
+    cursor: pointer;
   };
 
   ${({ theme }) => css`
@@ -53,6 +44,15 @@ export const Header = styled.div`
       margin-right: 8px;
     };
   `};
+`;
+
+export const AsideContent = styled.div`
+  display: flex;
+
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
 `;
 
 export const Methods = styled.button`

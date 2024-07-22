@@ -2,125 +2,20 @@
 
 import React, { useContext } from 'react';
 
-import { useForm } from 'react-hook-form';
-import { useTheme } from 'styled-components';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import * as yup from 'yup';
-
-import { Button } from '@/components';
-
-import Products from '../common/products';
-
-import { Container, Aside, HeaderForm, CheckOuts, Methods, Product, Result } from './styles';
-import { ArrowLeft } from '@/assets/svg/icons';
-import { DotLottiePlayer } from '@dotlottie/react-player';
-import { formats } from '@/helpers/format';
-import { Cards, Pix } from '@/assets/svg';
 import { CartContext } from '@/contexts/cart';
 
-const methodsPayments = [
-  'Credit Cart',
-  'Pix'
-];
+import Products from '../common/products';
+import Payments from '../common/aside';
 
-const schema = yup.object().shape({
-  // name: yup.string().required('Required fields'),
-  // step: yup.number().notRequired()
-  method: yup.string().required('')
-});
+import { Container } from './styles';
 
-type schemaProps = yup.InferType<typeof schema>;
-
-const Main: React.FC = () => {
-  const theme = useTheme();
-
+export default function Main() {
   const { storage } = useContext(CartContext);
-
-  const lottie_styles  = {
-    display: 'flex',
-    maxWidth: "150px"
-  };
-
-  const sumPrices = storage?.reduce((total: any, item: any) => {
-    const formattedPrice = item?.price ? parseFloat(item.price.replace('.', '').replace(',', '.')) : 0;
-    return total + formattedPrice;
-  }, 0);
-
-  const { control, handleSubmit, getValues, setValue, formState: { isLoading } } = useForm<schemaProps>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      method: ''
-    }
-  });
-
-  const { method } = getValues();
 
   return (
     <Container>
       <Products data={storage} />
-
-      <Aside>
-        <HeaderForm>
-          <button>
-            <ArrowLeft width={20} height={20} stroke={theme.colors.primary} strokeWidth={2}/>
-          </button>
-          <h4>Payment Info</h4>
-          <p>1/3</p>
-        </HeaderForm>
-
-        <div style={{ width: '95%', margin: '20px 0 5px 0' }}>
-          <p style={{ fontSize: 12, fontWeight: 500 }}>Choose payment method</p>
-        </div>
-
-        {methodsPayments.map((meth, i) => (
-          <Methods
-            key={i}
-            style={{ boxShadow: method === meth ? theme.settings.box.defaultHoverPrimary : '' }}
-            disabled={storage?.length === 0}
-            onClick={(evt) => {
-              evt.preventDefault();
-              setValue('method', meth);
-            }}
-          >
-            {meth === 'Credit Cart' && (
-              <Cards
-                width={20}
-                height={20}
-                strokeWidth={1.5}
-                stroke={theme.colors[storage?.length === 0 ? 'primary_disabled' : 'primary']}
-              />
-            )}
-            {meth === 'Pix' && <Pix width={20} height={20} />}
-            <p>{meth}</p>
-            {meth === 'Pix' && (<><div style={{ width: '50%' }} /><p id='discount'>5% discount</p></>)}
-          </Methods>
-        ))}
-
-        <div style={{ height: '100%' }} />
-
-        <CheckOuts>
-          {storage.length !== 0 ? storage.map((e: any, i: number) => (
-            <div key={i}>
-              <p>{e.name}</p>
-              <p id='price'>R$ {formats.money(e.price)}</p>
-            </div>
-          )): (
-            <div id='lottie'>
-              <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
-            </div>
-          )}
-        </CheckOuts>
-        <Result>
-          <p>Total</p>
-          <p id='price'>R$ {formats.money(String(sumPrices))}</p>
-        </Result>
-
-        <Button id='address' disabled={storage?.length === 0}>Next</Button>
-      </Aside>
-
+      <Payments />
     </Container>
   )
 }
-
-export default Main;

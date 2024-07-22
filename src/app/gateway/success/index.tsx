@@ -7,9 +7,9 @@ import { DotLottiePlayer } from '@dotlottie/react-player';
 
 import { PurchaseProps } from '@/global/interfaces';
 import Purchase from '@/assets/svg/purchase.svg';
+import { Footer } from '@/components';
 
 import { Container, Banner } from './styles';
-import { Footer } from '@/components';
 
 interface Props {
   purchase: PurchaseProps;

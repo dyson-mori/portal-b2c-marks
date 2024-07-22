@@ -3,27 +3,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
 
+import { CategoryProps } from '@/global/interfaces';
 import { Container, Title, DropDown, Button } from './styles';
-import { Category } from '@prisma/client';
 
 interface CardProps {
-  maxHeight: number;
   title: string;
-  data: Category[];
+  data: CategoryProps[];
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  selects: Category[];
+  selects: CategoryProps[];
   setSelect(f: any): void;
 };
 
-export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon, selects, setSelect }) => {
+export const Card: React.FC<CardProps> = ({ data, title, icon: Icon, selects, setSelect }) => {
   const theme = useTheme();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const containerButtonsRef = useRef<HTMLDivElement>(null);
 
   const handleOpen = (event: any) => {
     if (dropdownRef.current && dropdownRef.current.contains(event.target)) {
-      dropdownRef.current.style.height = `${maxHeight}px`
+      dropdownRef.current.style.height = `${containerButtonsRef.current?.getBoundingClientRect().height! + 40}px`
     };
   };
 
@@ -44,17 +44,13 @@ export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon, 
     };
   }, []);
 
-  // useEffect(() => {
-  //   setSelect(selects)
-  // }, [selects]);
-
   return (
     <Container ref={dropdownRef}>
       <Title ref={buttonRef} onClick={event => event.preventDefault()}>
         <Icon width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
         <p>{title}</p>
       </Title>
-      <DropDown>
+      <DropDown ref={containerButtonsRef}>
         {data.map((item, index) => (
           <Button
             style={{
@@ -63,11 +59,11 @@ export const Card: React.FC<CardProps> = ({ data, title, maxHeight, icon: Icon, 
             }}
             key={index.toString()}
             onClick={() => {
-              setSelect((prev: Category[]) =>
+              setSelect((prev: CategoryProps[]) =>
                 prev.find(t => t.id === item.id) ? prev.filter(d => d.id !== item.id) : [...prev, item]
               )
             }}
-          >{item.name}</Button>
+          >{item.title}</Button>
         ))}
       </DropDown>
     </Container>

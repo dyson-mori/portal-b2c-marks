@@ -6,17 +6,17 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./pegi_eighteen.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Product {
-  id          String  @id @default(uuid())
-  category_id String?
+  id String @id @default(uuid())
 
-  name        String
+  title       String
   description String
-  price       String
+  price       Decimal
+  // price       Decimal  @db.Decimal(10, 2)
 
   created_at DateTime @default(now())
 
@@ -36,7 +36,6 @@ model Files {
   url    String
   width  String
   height String
-  code   String
 
   product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
@@ -47,7 +46,7 @@ model Files {
 model Aside {
   id String @id @default(cuid())
 
-  title String
+  title String @unique
 
   categories Category[]
 
@@ -57,8 +56,9 @@ model Aside {
 }
 
 model Category {
-  id   String @id @default(cuid())
-  name String @unique
+  id String @id @default(cuid())
+
+  title String @unique
 
   product Product[]
   aside   Aside[]
@@ -71,20 +71,15 @@ model Category {
 model Address {
   id String @id @default(cuid())
 
-  code_address String // code for cookies
-
-  firstname   String
-  lastname    String
-  description String?
-  // status      String // start and finish
-
-  neighborhood String // Eldorado
-  city         String // Contagem
-  street       String // Rua Acacias
-  cep          String // 32310370
-  state        String // MG
+  cep          String // cep: 32310370
+  state        String // estado: MG
+  city         String // cidade: Contagem
+  neighborhood String // bairro: Eldorado
+  street       String // logradouro: Rua Acacias
   number       String // 920
   phone        String // (00) 0 0000 0000
+  description  String
+  status       String? // start and finish
 
   purchase Purchase[]
 
@@ -95,10 +90,8 @@ model Purchase {
   id String @id @default(cuid())
 
   address_id String
-  address    Address @relation(fields: [address_id], references: [id])
-
-  product_id String
-  product    Product @relation(fields: [product_id], references: [id])
+  address    Address   @relation(fields: [address_id], references: [id])
+  product    Product[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

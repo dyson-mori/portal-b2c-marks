@@ -4,6 +4,8 @@ export const Container = styled.div`
   position: relative;
   display: flex;
 
+  align-items: center;
+
   width: 100%;
   min-height: 45px;
 
@@ -14,10 +16,6 @@ export const Container = styled.div`
   `};
 
   svg {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-
     margin: 0 10px;
   };
 `;
@@ -51,15 +49,3 @@ export const TextArea = styled.textarea`
   `};
 `;
 
-export const Icon = styled.div`
-  width: 45px;
-  height: 45px;
-
-  svg {
-    position: relative;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-  };
-`;

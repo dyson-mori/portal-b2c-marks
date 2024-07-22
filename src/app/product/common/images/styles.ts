@@ -1,17 +1,30 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.section`
+export const ContainerDesktop = styled.section`
   display: flex;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.settings.responsive.maxWidth}) {
-      width: 390px;
-      height: 390px;
+      display: none;
+    };
+  `};
+`;
 
-      img {
-        width: 390px;
-        height: 390px;
-      };
+export const ContainerMobile = styled.section`
+  display: none;
+
+  width: 100%;
+  aspect-ratio: 2/1;
+  margin: auto;
+  border: solid black 2px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
+      display: flex;
     };
   `};
 `;

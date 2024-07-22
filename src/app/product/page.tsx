@@ -43,7 +43,6 @@ export async function generateMetadata({ searchParams }: ProductParams): Promise
 const getProductById = async (id: string): Promise<ProductsProps> => {
   const res = await fetch(`${process.env.NEXT_URL}/api/product?id=${id}`, {
     method: 'GET',
-    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json'
     }
