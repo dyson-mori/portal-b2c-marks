@@ -30,6 +30,7 @@ const Product: React.FC<Props> = ({ product, href, onDelete }) => {
       {!!onDelete && (
         <Delete onClick={e => {
           e.stopPropagation();
+          e.preventDefault();
           onDelete(product)
         }}>
           <Trash width={20} height={20} stroke='red' strokeWidth={2} />

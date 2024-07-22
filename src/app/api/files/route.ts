@@ -10,7 +10,8 @@ const uploadToCloudinary = async (fileUri: string, fileName: string) => {
       invalidate: true,
       resource_type: "auto",
       filename_override: fileName,
-      folder: `community/upload-test`, // any sub-folder name in your cloud
+      folder: `marks-joias/`, // any sub-folder name in your cloud
+      // folder: `community/upload-test`, // any sub-folder name in your cloud
       use_filename: true,
     });
 

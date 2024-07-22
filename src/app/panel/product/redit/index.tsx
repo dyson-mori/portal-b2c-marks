@@ -13,6 +13,7 @@ import { CategoryProps } from "@/global/interfaces";
 
 import { Container, Forms, Options, Selects, ButtonCategoriesRemove } from './styles';
 import { RegisterEditProps, SchemaProps, schema } from "./constants";
+import { revalidatePanelProduct } from "../../actions";
 
 export default function Register({ isUpdate, product, categories }: RegisterEditProps) {
   const themes = useTheme();
@@ -64,7 +65,7 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     };
 
     const result = await res.json();
-
+    revalidatePanelProduct()
     setValue('id', result?.id);
   };
 

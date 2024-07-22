@@ -49,35 +49,6 @@ export const UploadMore = styled(Link)`
   `};
 `;
 
-export const Modal = styled.div`
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100vh;
-
-  background-color: #dededeaa;
-  /* background-color: #292D32aa; */
-
-  transition: .5s;
-
-  div {
-    width: 300px;
-  };
-
-  button {
-    margin-top: 10px;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px 0px;
-  }
-`;
-
 export const Navigation = styled.div`
   position: absolute;
   display: flex;

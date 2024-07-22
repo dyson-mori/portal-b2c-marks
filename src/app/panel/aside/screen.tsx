@@ -14,7 +14,7 @@ import { NotificationContext } from "@/hooks/notification";
 import { Input } from "@/components";
 
 import { Container, Forms, Items, Header, Content, ButtonToAdd, Options } from './styles';
-import { revalidateSetting } from "./action";
+import { revalidatePanelAside } from "../actions";
 
 const schema = yup.object().shape({
   id: yup.string().notRequired(),
@@ -52,7 +52,7 @@ export default function Screen({ aside, categories }: Props) {
         }),
       });
       
-      revalidateSetting();
+      revalidatePanelAside();
       return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
     } catch (error) {
       return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the form', active: `${Math.random()}_show` });
@@ -72,7 +72,7 @@ export default function Screen({ aside, categories }: Props) {
         }),
       });
 
-      revalidateSetting();
+      revalidatePanelAside();
       setValue('title', '');
       setValue('id', undefined);
       return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
@@ -85,7 +85,7 @@ export default function Screen({ aside, categories }: Props) {
   const exclude = async (id: string) => {
     try {
       fetch(`/api/aside?id=${id}`, { method: 'DELETE' });
-      revalidateSetting();
+      revalidatePanelAside();
       return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
     } catch (error) {
       return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the form', active: `${Math.random()}_show` });

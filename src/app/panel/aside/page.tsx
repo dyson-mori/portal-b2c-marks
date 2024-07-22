@@ -2,7 +2,7 @@ import React from 'react';
 
 import Screen from './screen';
 
-import { getAside, getCategories } from './action';
+import { getAside, getCategories } from '../actions';
 
 export default async function Page() {
   const aside = await getAside();

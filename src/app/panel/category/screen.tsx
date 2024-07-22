@@ -14,7 +14,7 @@ import { CategoryProps } from "@/global/interfaces";
 import { Input} from "@/components";
 
 import { Container, Items, Forms, Option } from './styles';
-import { revalidateSetting } from "./action";
+import { revalidatePanelCategory } from "../actions";
 
 const schema = yup.object().shape({
   id: yup.string().notRequired(),
@@ -50,7 +50,7 @@ export default function Screen({ categories }: Props) {
       });
 
       setValue('title', '');
-      revalidateSetting();
+      revalidatePanelCategory();
       return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
     } catch (error) {
       return setNotification({ icon: Block, type: 'failed', message: 'Failed to send the form', active: `${Math.random()}_show` });
@@ -60,7 +60,7 @@ export default function Screen({ categories }: Props) {
   const exclude = async (id: string) => {
     try {
       await fetch(`/api/category?id=${id}`, { method: 'DELETE' })
-      revalidateSetting();
+      revalidatePanelCategory();
       return setNotification({ icon: Success, type: 'success', message: 'Delete successfully', active: `${Math.random()}_show` });
     } catch (error) {
       return setNotification({ icon: Block, type: 'failed', message: 'Failed to delete', active: `${Math.random()}_show` });

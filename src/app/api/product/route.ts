@@ -28,6 +28,9 @@ export async function GET(request: NextRequest) {
   };
 
   const product = await prisma.product.findMany({
+    orderBy: {
+      created_at: 'desc'
+    },
     include: {
       files: true,
       categories: true,

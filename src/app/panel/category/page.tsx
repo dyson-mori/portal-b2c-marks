@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Screen from './screen';
-import { getCategories } from './action';
+import { getCategories } from '../actions';
 
 export default async function Page() {
   const categories = await getCategories();
