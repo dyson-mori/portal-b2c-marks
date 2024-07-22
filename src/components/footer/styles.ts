@@ -7,6 +7,8 @@ export const Container = styled.footer<FooterProps>`
 
     display: flex;
 
+    text-align: center;
+
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
@@ -14,7 +16,7 @@ export const Container = styled.footer<FooterProps>`
     width: 100%;
     height: 200px;
 
-    padding: 20px;
+    padding: 10px;
 
     @media (max-width: 600px){
       flex-direction: column;
