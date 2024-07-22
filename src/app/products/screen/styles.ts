@@ -65,8 +65,14 @@ export const Products = styled.section`
     @media (max-width: 1080px){
       grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2), 1fr));
       margin-left: 0px;
+      a {
+        margin: 1.5px 0;
+        width: calc(240px / 1.26);
+        height: calc(240px / 1.26);
+      };
     };
   `};
+
 `;
 
 export const ProductEmpty = styled.div`
