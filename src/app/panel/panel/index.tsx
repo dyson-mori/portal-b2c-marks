@@ -10,7 +10,7 @@ import { useTheme } from 'styled-components';
 import { ProductsProps } from '@/global/interfaces';
 import { Product, Button } from '@/components';
 
-import { Add, Block, Success, Tag } from '@/assets/svg/icons';
+import { Box, Block, Success, Tag, TextAlignLeft } from '@/assets/svg/icons';
 import { NotificationContext } from '@/hooks/notification';
 
 import { Container, Modal, UploadMore, Navigation, ProductEmpty } from './styles';
@@ -72,13 +72,13 @@ const Panel: React.FC<Props> = ({ products }) => {
 
       <Navigation>
         <UploadMore href='/panel/product'>
-          <Add width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
+          <Box width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
         </UploadMore>
         <UploadMore href='/panel/category'>
           <Tag width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
         </UploadMore>
         <UploadMore href='/panel/aside'>
-          <Add width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
+          <TextAlignLeft width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
         </UploadMore>
       </Navigation>
 

@@ -74,7 +74,7 @@ export const ButtonCategoriesRemove = styled.button`
 
   margin: 2px;
   padding: 8px;
-  height: 50px;
+  height: 40px;
 
   border-radius: 3px;
 
