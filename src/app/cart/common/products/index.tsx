@@ -29,7 +29,7 @@ const Products: React.FC<Props> = ({ data }) => {
         </CartEmpty>
       )}
       {data.map((item, index) => (
-        <Product key={index.toString()} product={item} href={`/product?id=${item.id}`} isEdit onDelete={e => setStorage(e)} />
+        <Product key={index.toString()} product={item} href={`/product?id=${item.id}`} onDelete={e => setStorage(e)} />
       ))}
     </Container>
   )

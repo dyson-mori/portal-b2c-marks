@@ -11,4 +11,3 @@ export * from './loading';
 export * from './notification';
 export * from './splash';
 export * from './typography';
-export * from './aside';
