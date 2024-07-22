@@ -2,16 +2,13 @@
   I ON FIRE, I REALLY NEED DO IT
 
 ## tasks
-  [Sunday] <br />
-  [done] Header Cart <br />
-  [done] Add to Cart <br />
-  [done] Payment Multi Form <br />
-  [done] Filter Products <br />
-  [done] Search Products <br />
-  [done] Quick recharge after deleting a product
-
   [Monday] <br />
-  
+  [] Decimal Number in Register Product
+  [] Search Input stuck
+  [] When trying to edit an image, the upload button freezes
+  [] request when entering the update screen
+  [] Wrong price formatting on the product screen
+  [] Notification after Purchase
 
 
 ## Prisma
