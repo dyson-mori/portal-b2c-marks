@@ -2,13 +2,12 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
 export const Container = styled.article`
-  /* display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); */
+  display: flex;
+  flex-wrap: wrap;
+
   margin: 10px 50px;
 
   min-height: 80vh;
-
-  height: 100%;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.settings.responsive.maxWidth}){

@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled(Link)`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   width: calc(300px / 1.3);
   height: calc(300px / 1.3);
@@ -38,15 +41,15 @@ export const Footer = styled.footer`
 
   display: flex;
 
-  width: 100%;
-
+  align-items: center;
   justify-content: space-between;
 
+  width: 100%;
   padding: 10px;
 
   border-radius: 0 0 5px 5px;
 
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(180deg, rgba(48,48,48,0) 0%, rgba(48,48,48,1) 100%, rgba(0,212,255,1) 100%);
 
   #title {
     ${({ theme }) => css`
@@ -64,17 +67,31 @@ export const Footer = styled.footer`
       font-size: ${theme.font.size.medium};
       color: ${theme.colors.white};
       font-weight: ${theme.font.weight[600]};
-    `}
+    `};
+
     text-align: end;
-    width: 160px;
+    width: 130px;
     font-weight: 500;
     font-style: italic;
-  }
+  };
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}) {
+      #title {
+        font-size: ${theme.font.size.normal};
+      };
+
+      #price {
+        font-size: ${theme.font.size.normal};
+      };
+    };
+  `};
 `;
 
 export const Delete = styled.button`
   position: absolute;
 
+  top: 0;
   right: 0;
   border: 0;
 

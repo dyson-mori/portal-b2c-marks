@@ -2,6 +2,9 @@ import { CategoryProps, ProductsProps } from '@/global/interfaces';
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
+  isLoading: yup.boolean().notRequired(),
+  haveNewFile: yup.boolean().notRequired(),
+
   id: yup.string(),
 
   title: yup.string().required('Required fields'),
@@ -16,6 +19,7 @@ export const schema = yup.object().shape({
 
   files: yup.array().of(
     yup.object({
+      id: yup.string(),
       file: yup.mixed(),
       url: yup.string().required()
     })

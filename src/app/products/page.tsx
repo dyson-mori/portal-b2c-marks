@@ -25,7 +25,7 @@ export default async function Page() {
     <>
       <Header />
       <Products products={products} cards={categories} />
-      <Footer secondary />
+      <Footer primary />
     </>
   );
 };

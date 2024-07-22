@@ -20,6 +20,7 @@ export const MultiFiles = styled.div`
   display: flex;
 
   justify-content: space-between;
+  align-items: center;
 
   width: 400px;
   height: 400px;
@@ -32,10 +33,8 @@ export const MultiFiles = styled.div`
     justify-content: center;
     align-items: center;
 
-    width: calc(400px / 3.1);
-    height: calc(400px / 3.1);
-
-    color: #303030;
+    width: calc(400px / 3.05);
+    height: calc(400px / 3.05);
 
     cursor: pointer;
 

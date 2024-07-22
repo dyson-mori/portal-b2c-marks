@@ -14,17 +14,14 @@ export const ContainerMobile = styled.section`
   display: none;
 
   width: 100%;
-  aspect-ratio: 2/1;
-  margin: auto;
-  border: solid black 2px;
   overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
+
   scroll-snap-type: x mandatory;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.settings.responsive.maxWidth}) {
       display: flex;
+      border-radius: ${theme.settings.radius.small};
     };
   `};
 `;

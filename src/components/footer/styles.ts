@@ -9,10 +9,12 @@ export const Container = styled.footer<FooterProps>`
 
     align-items: center;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 
     width: 100%;
     height: 200px;
+
+    padding: 20px;
 
     @media (max-width: 600px){
       flex-direction: column;

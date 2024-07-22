@@ -7,15 +7,18 @@ import Image from 'next/image';
 import { ProductsProps } from '@/global/interfaces';
 
 import { ContainerDesktop, ContainerMobile, Button, Options } from './styles';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 type Props = {
   data: ProductsProps
 };
 
 const Images: React.FC<Props> = ({ data }) => {
+  const { width } = useWindowDimensions();
+
   const [select, setSelect] = useState(0);
 
-  const width = Number(data.files[select].width) / 2;
+  // const width = Number(data.files[select].width) / 2;
 
   return (
     <Fragment>
@@ -55,14 +58,15 @@ const Images: React.FC<Props> = ({ data }) => {
         {data.files.map((item, index) => (
           <Image
             key={index}
-            width={350}
-            height={350}
+            width={width - 20}
+            height={width - 20}
             src={item.url}
             alt={item.url}
             style={{
-              margin: '0 5px',
+              marginRight: 5,
               objectFit: 'cover',
               borderRadius: 3,
+              scrollSnapAlign: 'start'
             }}
           />
         ))}

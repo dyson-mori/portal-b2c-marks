@@ -54,8 +54,9 @@ export const Card: React.FC<CardProps> = ({ data, title, icon: Icon, selects, se
         {data.map((item, index) => (
           <Button
             style={{
-              backgroundColor: theme.colors[selects.find(t => t.id === item.id) ? 'select' : 'white'],
+              backgroundColor: theme.colors[selects.find(t => t.id === item.id) ? 'primary' : 'white'],
               color: theme.colors[selects.find(t => t.id === item.id) ? 'white' : 'text'],
+              fontWeight: theme.font.weight[selects.find(t => t.id === item.id) ? 600 : 500],
             }}
             key={index.toString()}
             onClick={() => {
