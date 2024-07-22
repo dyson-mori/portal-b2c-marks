@@ -3,12 +3,12 @@
 
 ## tasks
   [Monday] <br />
-  [] Decimal Number in Register Product
-  [] Search Input stuck
-  [] When trying to edit an image, the upload button freezes
-  [] request when entering the update screen
-  [] Wrong price formatting on the product screen
-  [] Notification after Purchase
+  [done] Decimal Number in Register Product
+  [done] Search Input stuck in Mobile
+  [done] When trying to edit an image, the upload button freezes
+  [done] request when entering the update screen
+  [done] Wrong price formatting on the product screen
+  [done] Notification after Purchase
 
 
 ## Prisma

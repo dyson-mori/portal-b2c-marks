@@ -40,12 +40,12 @@ export default function Products({ products, cards }: Props) {
       <Aside>
         <Input.Root>
           <Tag width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
-          <Input.Input placeholder='Search' onChange={handleInput} />
+          <Input.Input placeholder='Product Name' onChange={handleInput} />
         </Input.Root>
         <span style={{ height: 10 }} />
         {
           cards.map(({ title, categories }, index) =>
-            <Card key={index} title={title} icon={Tag} data={categories} selects={[]} setSelect={setSelects} />
+            <Card key={index} title={title} icon={Tag} data={categories} selects={selects} setSelect={setSelects} />
           )
         }
       </Aside>
@@ -62,8 +62,9 @@ export default function Products({ products, cards }: Props) {
         <ProductsStyled>
           {
             products.filter(pro =>
-              label.length > 0 ? pro.title.toLowerCase().includes(label.toLowerCase()) :
-              selects.every(eve => pro.categories.some(cat => cat.id === eve.id))
+              label.length > 0
+                ? pro.title.toLowerCase().includes(label.toLowerCase())
+                : selects.every(eve => pro.categories.some(cat => cat.id === eve.id))
             )
               .map((item, index) =>
 

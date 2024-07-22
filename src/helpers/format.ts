@@ -1,12 +1,15 @@
 const brazilianPhoneRegExp = /^\(?(\d{2})\)?\s?(\d{4,5})[- ]?(\d{4})$/;
 
 export const formats = {
-  money: (value: number ) => {
-    let v = String(value).replace(/\D/g, '');
-    v = `${(Number(v) / 100).toFixed(2)}`;
+  money: (value: number) => {
+    const verify = String(value).split('.')[1]?.length === 1;
+
+    let v = String(value).replace(/\D/g, '') + `${verify ? '0' : ''}`;
+    v = String((Number(v) / 100).toFixed(2));
     v = v.replace('.', ',');
     v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');
     v = v.replace(/(\d)(\d{3}),/g, '$1.$2,');
+
     return `R$ ${v}`;
   },
 
@@ -20,18 +23,6 @@ export const formats = {
     return e;
   },
 
-  numberCurrencyDecimal(p: string): string {
-    p = p.replace(/[R$ ]/g, '').replaceAll('.', '').replace(',', '.');
-    return p;
-  },
-
-  formatDecimal(value: string){
-    let v = value.replace(/\D/g, '');
-    v = `${(Number(v) / 100).toFixed(2)}`;
-    v = v.replace(/(\d)(\d{3}),/g, '$1.$2');
-    return v;
-  },
-
   cep: (e: string) => {
     const digits = e?.replace(/\D/g, '') || '';
 
@@ -40,6 +31,13 @@ export const formats = {
     };
 
     return e;
+  },
+
+  formatDecimal(value: string){
+    let v = value.replace(/\D/g, '');
+    v = `${(Number(v) / 100).toFixed(2)}`;
+    v = v.replace(/(\d)(\d{3}),/g, '$1.$2');
+    return v;
   },
 
   phoneNumber: (e: string) => {

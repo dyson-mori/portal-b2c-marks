@@ -35,27 +35,26 @@ export default function Aside() {
   const { control, handleSubmit, getValues, setValue, reset, trigger, formState } = useForm<schemaProps>({
     resolver: yupResolver(schema),
     defaultValues: {
-      method: 'Pix',
       products: storage,
       price: String(sumPrices / 100),
 
-      full_name: 'Sergio Junio Leal',
-      phone: '31975564133',
-      cpf: '14243099642',
+      //   method: '',
+      //   full_name: 'Sergio Junio Leal',
+      //   phone: '31975564133',
+      //   cpf: '14243099642',
 
-      // cep: '32310370',
-      cep: '',
-      neighborhood: '',
-      city: '',
-      street: '',
-      state: '',
+      //   cep: '',
+      //   neighborhood: '',
+      //   city: '',
+      //   street: '',
+      //   state: '',
 
-      address: '',
-      description: 'Casa 1',
+      //   address: '',
+      //   description: 'Casa 1',
 
-      credit_card_name: 'Sergio Junio Leal',
-      expiration_date: '125',
-      document_number: '5050363695857546'
+      //   credit_card_name: 'Sergio Junio Leal',
+      //   expiration_date: '125',
+      //   document_number: '5050363695857546'
     }
   });
 
@@ -92,7 +91,7 @@ export default function Aside() {
 
   const next = async () => {
     const fields = steps[currentStep].fields
-    const output = await trigger(fields as FieldName[], { shouldFocus: true })
+    const output = await trigger(fields as FieldName[], { shouldFocus: true });
 
     if (!output) return;
 
@@ -249,7 +248,7 @@ export default function Aside() {
                           setValue('street', address.logradouro);
                           setValue('cep', address.cep);
 
-                          setValue('address', `${address.estado} - ${address.cidade} - ${address.bairro} - ${address.logradouro} - `);
+                          // setValue('address', `${address.estado} - ${address.cidade} - ${address.bairro} - ${address.logradouro} - `);
                         })
                       };
                       onChange(e);
@@ -364,7 +363,9 @@ export default function Aside() {
 
       <Button
         id='address'
-        disabled={storage?.length === 0}
+        disabled={
+          storage?.length === 0
+        }
         onClick={evt => {
           evt.preventDefault();
           next()

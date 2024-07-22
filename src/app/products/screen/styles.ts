@@ -16,6 +16,13 @@ export const Container = styled.main`
 `;
 
 export const Aside = styled.aside`
+  ${({ theme }) => css`
+    @media (max-width: ${theme.settings.responsive.maxWidth}){
+      position: relative;
+      top: 0px;
+    };
+  `};
+
   position: -webkit-sticky;
   position: sticky;
 
@@ -36,8 +43,12 @@ export const Aside = styled.aside`
 `;
 
 export const Products = styled.section`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(calc(50% / 2), 0fr));
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(50% / 2), 0fr)); */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: start;
 
   width: 100%;
 

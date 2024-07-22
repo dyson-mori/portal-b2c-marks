@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { NotificationContext } from "@/hooks/notification";
 import { Button, Input, Upload } from "@/components";
-import { Text, Devolution, TextAlignLeft, Block, Tag } from '@/assets/svg/icons';
+import { Text, Devolution, TextAlignLeft, Block, Tag, Success } from '@/assets/svg/icons';
 import { formats } from "@/helpers/format";
 import { CategoryProps } from "@/global/interfaces";
 
@@ -23,7 +23,7 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const { getValues, setValue, handleSubmit, control, formState: { isLoading, isSubmitting, isSubmitted, errors } } = useForm<SchemaProps>({
+  const { getValues, setValue, handleSubmit, control,  formState: { isSubmitting, isSubmitted, errors, isSubmitSuccessful } } = useForm<SchemaProps>({
     defaultValues: {
       id: product?.id ?? '',
       title: product?.title ?? '',
@@ -35,7 +35,8 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     resolver: yupResolver(schema),
   });
 
-  const { id: productId } = getValues();
+  
+  const { id: productId, isLoading, haveNewFile } = getValues();
 
   const styles = {
     opacity: open ? 1 : 0,
@@ -43,7 +44,9 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
   };
   
   const Submit = async (event: SchemaProps) => {
-    const { title, description, price, category } = event;
+    setValue('isLoading', true);
+
+    const { title, description, price, category, files } = event;
 
     const prefix = {
       url: `/api/product${isUpdate ? `?id=${product!.id}` : ''}`,
@@ -65,8 +68,17 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     };
 
     const result = await res.json();
-    revalidatePanelProduct()
-    setValue('id', result?.id);
+    revalidatePanelProduct();
+
+    const isValid = product?.files.length! > files.length || !files.find(fin => fin?.id);
+
+    if (isValid) {
+      setValue('id', result?.id);
+      return setValue('haveNewFile', true);
+    };
+
+    setValue('isLoading', false);
+    return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
   };
 
   const onAdd = (e: any) => {
@@ -82,9 +94,7 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     setValue('category', categories.find(t => t.id === obj.id) ? categories.filter(d => d.id !== obj.id) : [...categories, obj]);
 
   const handleClickOutside = (event: any) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setOpen(false)
-    }
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) setOpen(false);
   };
 
   useEffect(() => {
@@ -94,20 +104,30 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     };
   }, []);
 
+  useEffect(() => {
+    if (!isUpdate && !isLoading) {
+      setValue('id', undefined);
+      setValue('title', '');
+      setValue('price', 0);
+      setValue('description', '');
+      setValue('category', []);
+    };
+  }, [isLoading])
+
   return (
     <Container onSubmit={handleSubmit(Submit)}>
       <Controller
         name="files"
         control={control}
-        render={({ field: { onChange, onBlur, value, disabled }  }) => {
+        render={({ field: { onChange, value }  }) => {
           return (
             <Upload
               productId={productId}
               files={value}
-              isSubmitted={isSubmitted}
+              isLoading={!!isLoading && !!haveNewFile}
+              setLoading={() => setValue('isLoading', false)}
               isUpdate={isUpdate}
               setFiles={evt => {
-                setValue('files', evt);
                 if (evt.length === 0) {
                   setValue('title', '');
                   setValue('price', 0);
@@ -217,7 +237,7 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
           )}
         />
 
-        <Button type="submit" primary disabled={isLoading}>
+        <Button type="submit" primary disabled={!!isLoading}>
           {isLoading ? 'Sending...' : isUpdate ? 'Update' : 'Upload'}
         </Button>
       </Forms>

@@ -18,16 +18,17 @@ interface UploadProps {
 
   isUpdate: boolean;
   productId?: string | null;
-  isSubmitted: boolean;
+  isLoading?: boolean;
+  setLoading: () => void;
   // setFiles: (f: File[]) => void;
 };
 
-const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, isSubmitted }) => {
+const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, isLoading, setLoading }) => {
   const { setNotification } = useContext(NotificationContext);
 
   const styles = {
-    opacity: isSubmitted ? 0.5 : 1,
-    cursor: isSubmitted ? 'default' : 'pointer'
+    opacity: isLoading ? 0.5 : 1,
+    cursor: isLoading ? 'default' : 'pointer'
   };
 
   const handleFileChange = (evt: any) => {
@@ -63,11 +64,11 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
   };
 
   useEffect(() => {
-    if (!!productId && isSubmitted) {
+    if (isLoading) {
       (async () => {
         const formData = new FormData();
 
-        formData.append("product_id", productId);
+        formData.append("product_id", productId!);
         formData.append("code", `${parseInt(String(Math.random() * (Math.random() * 100)))}`);
 
         files.forEach((file: any, i: number) => {
@@ -91,12 +92,14 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
           setFiles([]);
         };
 
+        setLoading();
+
         return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
       })();
     };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId, isSubmitted])
+  }, [isLoading])
 
   return (
     <Container>
@@ -104,7 +107,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
         {
           files?.map((file: any, index: number) => (
             <label style={styles} key={index} onClick={() => handleRemoveImage(index)}>
-              <Image width={400 / 3.1} height={400 / 3.1} src={file.url!} alt="img" style={{ objectFit: 'cover' }} />
+              <Image width={400 / 3.05} height={400 / 3.05} src={file.url!} alt="img" style={{ objectFit: 'cover' }} />
             </label>
           ))
         }
@@ -122,7 +125,7 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
         type="file"
         name='file'
         onChange={handleFileChange}
-        disabled={!!productId || isSubmitted }
+        // disabled={!!productId || isSubmitted }
         multiple
       />
     </Container>
