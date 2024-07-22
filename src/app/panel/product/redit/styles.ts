@@ -25,12 +25,12 @@ export const Selects = styled.button`
   border: 0;
 
   display: flex;
-
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
   width: 100%;
-  height: 50px;
+  min-height: 50px;
 
   cursor: pointer;
 
@@ -43,12 +43,14 @@ export const Selects = styled.button`
 
 export const Options = styled.div`
   display: flex;
-
-  align-items: start;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 
   position: absolute;
 
-  flex-wrap: wrap;
+  top: 50%;
+  transform: translateY(-50%);
 
   width: 100%;
   height: 100%;
@@ -68,11 +70,11 @@ export const ButtonCategoriesRemove = styled.button`
   cursor: pointer;
 
   display: flex;
-
   align-items: center;
 
-  margin: 8px 5px;
-  padding: 10px;
+  margin: 2px;
+  padding: 8px;
+  height: 50px;
 
   border-radius: 3px;
 

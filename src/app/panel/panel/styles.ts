@@ -78,7 +78,7 @@ export const Modal = styled.div`
   }
 `;
 
-export const Navigations = styled.div`
+export const Navigation = styled.div`
   position: absolute;
   display: flex;
 

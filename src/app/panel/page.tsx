@@ -1,15 +1,15 @@
+import { Fragment } from 'react';
+
 import { ProductsProps } from '@/global/interfaces';
 import { Header } from '@/components/header';
 
 import Panel from './panel';
 
 async function getProducts(): Promise<ProductsProps[]> {
-  const res = await fetch(`${process.env.NEXT_URL}/api/products`, {
+  const res = await fetch(`${process.env.NEXT_URL}/api/product`, {
     method: 'GET',
-    // cache: 'no-cache',
     cache: 'no-store',
     // next: {
-    //   revalidate: 3600,
     //   tags: ['products']
     // },
     headers: {
@@ -29,5 +29,10 @@ async function getProducts(): Promise<ProductsProps[]> {
 export default async function Page() {
   const data = await getProducts();
 
-  return <Panel products={data} />;
+  return (
+    <Fragment>
+      <Header />
+      <Panel products={data} />
+    </Fragment>
+  );
 }

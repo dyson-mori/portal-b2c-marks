@@ -10,10 +10,11 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
 
-    "public": false,
+    "public": true,
+    "mocks": true,
     "next-env.d.ts": true,
     "node_modules": true,
-    ".editorconfig": false,
+    ".editorconfig": true,
     ".gitignore": true,
     ".eslintrc.json": true,
     "next.config.mjs": true,

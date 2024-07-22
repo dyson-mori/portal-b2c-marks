@@ -14,12 +14,7 @@ export const schema = yup.object().shape({
   cep: yup
     .string()
     .required('Field Required')
-    // .transform((value) => {
-    //   console.log({ value });
-    // })
     .test('address', 'address not found', async (value) => {
-      // const res = await fetch(`https://api.postmon.com.br/v1/cep/${value}`, { method: 'GET' });
-      // const success = await res.json();
       return true
     }),
 

@@ -1,7 +1,11 @@
 "use client"
 
 import React, { useState, Fragment, useContext } from 'react';
+import { revalidateTag } from 'next/cache';
 import Image from 'next/image';
+
+import { DotLottiePlayer } from '@dotlottie/react-player';
+import { useTheme } from 'styled-components';
 
 import { ProductsProps } from '@/global/interfaces';
 import { Product, Button } from '@/components';
@@ -9,10 +13,7 @@ import { Product, Button } from '@/components';
 import { Add, Block, Success, Tag } from '@/assets/svg/icons';
 import { NotificationContext } from '@/hooks/notification';
 
-import { Container, Modal, UploadMore, Navigations, ProductEmpty } from './styles';
-import { revalidateTag } from 'next/cache';
-import { useTheme } from 'styled-components';
-import { DotLottiePlayer } from '@dotlottie/react-player';
+import { Container, Modal, UploadMore, Navigation, ProductEmpty } from './styles';
 
 type Props = {
   products: ProductsProps[]
@@ -59,17 +60,17 @@ const Panel: React.FC<Props> = ({ products }) => {
     <Fragment>
       <Container>
         {products.map((product, index) =>
-          <Product key={index.toString()} isEdit product={product} href={`/panel/product?id=${product.id}`} onDelete={() => handleDelete(product)} />
+          <Product key={index.toString()} product={product} href={`/panel/product?id=${product.id}`} onDelete={() => handleDelete(product)} />
         )}
         {products.length === 0 && (
           <ProductEmpty>
             <DotLottiePlayer style={lottie_styles} src="/lottie/marks-empty-card.lottie" autoplay />
-            <p>Product Not Found</p>
+            <p>Create a product by clicking more</p>
           </ProductEmpty>
         )}
       </Container>
 
-      <Navigations>
+      <Navigation>
         <UploadMore href='/panel/product'>
           <Add width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
         </UploadMore>
@@ -79,7 +80,7 @@ const Panel: React.FC<Props> = ({ products }) => {
         <UploadMore href='/panel/aside'>
           <Add width={20} height={20} stroke={theme.colors.primary} strokeWidth={1.8} />
         </UploadMore>
-      </Navigations>
+      </Navigation>
 
       <Modal style={styles}>
         {product?.id && (

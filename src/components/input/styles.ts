@@ -4,6 +4,8 @@ export const Container = styled.div`
   position: relative;
   display: flex;
 
+  align-items: center;
+
   width: 100%;
   min-height: 45px;
 
@@ -14,10 +16,6 @@ export const Container = styled.div`
   `};
 
   svg {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-
     margin: 0 10px;
   };
 `;

@@ -24,7 +24,7 @@ export async function GET() {
     {
       href: '/tracking',
       label: 'Rastreamento',
-      public: true
+      public: false
     }
   ];
 

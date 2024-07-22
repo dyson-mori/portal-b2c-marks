@@ -81,7 +81,9 @@ export default function Aside() {
       return setNotification({ icon: Block, message: 'Faield', type: 'failed', active: `${Math.random() * 100}` });
     };
 
-    route.push('/gateway');
+    const gateway = await res.json();
+
+    route.push(`/gateway?id=${gateway.id}`);
     localStorage.setItem('@marks: cart', JSON.stringify([]));
     reset();
   };
@@ -121,7 +123,7 @@ export default function Aside() {
           <>
             <p style={{ fontSize: 12, fontWeight: 500 }}>Choose payment method</p>
             {methodsPayments.map((meth, i) => (
-              <Controller name='method' control={control}
+              <Controller key={i} name='method' control={control}
                 render={({ field: { name, value } }) => (
                   <Methods key={i} disabled={storage?.length === 0}
                     style={{ boxShadow: value === meth ? theme.settings.box.defaultHoverPrimary : '' }}
@@ -146,8 +148,8 @@ export default function Aside() {
             <CheckOuts>
               {storage.length !== 0 ? storage.map((e: any, i: number) => (
                 <div key={i}>
-                  <p>{e.name}</p>
-                  <p id='price'>R$ {formats.money(e.price)}</p>
+                  <p>{e.title}</p>
+                  <p id='price'>{formats.money(e.price)}</p>
                 </div>
               )): (
                 <div id='lottie'>
@@ -157,7 +159,7 @@ export default function Aside() {
             </CheckOuts>
             <Result>
               <p>Total</p>
-              <p id='price'>R$ {formats.money(String(sumPrices))}</p>
+              <p id='price'>{formats.money(sumPrices)}</p>
             </Result>
           </>
         )}

@@ -1,4 +1,3 @@
-// redit: register and edit
 import { ProductsProps, CategoryProps } from '@/global/interfaces';
 
 import Redit from './redit';

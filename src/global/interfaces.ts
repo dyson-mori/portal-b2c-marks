@@ -19,3 +19,7 @@ export interface AsideProps extends Aside {
 export interface FilesProps extends Files {};
 
 export interface PurchaseProps extends Purchase {};
+
+export interface GatewayProps extends Purchase {
+  product: ProductsProps[];
+};

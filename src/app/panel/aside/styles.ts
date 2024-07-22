@@ -74,9 +74,7 @@ export const ButtonToAdd = styled.button`
 
   flex-grow: 1;
 
-  display: flex;
-
-  align-items: center;
+  text-align: center;
 
   margin: 1px 2px;
   padding: 10px;

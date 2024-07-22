@@ -6,9 +6,24 @@ const data: any = [];
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
-  const id = url.searchParams.get("id");
+  const id = url.searchParams.get("id") as string;
 
-  return NextResponse.json([]);
+  const purchase = await prisma.purchase.findFirst({
+    where: { id },
+    include: {
+      product: {
+        include: {
+          files: true
+        }
+      }
+    }
+  });
+
+  if (!purchase) {
+    throw new Error('Product Server Error');
+  };
+
+  return NextResponse.json(purchase);
 };
 
 export async function POST(request: NextRequest) {
@@ -24,17 +39,12 @@ export async function POST(request: NextRequest) {
       description: body.description,
       phone: body.phone,
       number: body.address,
-      firstname: '',
-      lastname: '',
-      code_address: `${Math.random() * 100}-${Math.random() * 100}-${Math.random() * 100}-${Math.random() * 100}`
     }
   });
 
   if (!address) {
     throw new Error('Product Server Error');
   };
-
-  console.log(body.products);
 
   const purchase = await prisma.purchase.create({
     data: {
@@ -49,5 +59,5 @@ export async function POST(request: NextRequest) {
     throw new Error('Product Server Error');
   };
 
-  return NextResponse.json(true);
+  return NextResponse.json(purchase);
 };

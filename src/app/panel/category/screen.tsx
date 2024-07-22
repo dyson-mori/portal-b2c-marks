@@ -48,7 +48,7 @@ export default function Screen({ categories }: Props) {
           title: event.title,
         }),
       });
-      
+
       setValue('title', '');
       revalidateSetting();
       return setNotification({ icon: Success, type: 'success', message: 'Form sent successfully', active: `${Math.random()}_show` });
