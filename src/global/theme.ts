@@ -87,7 +87,10 @@ const themes = {
       margin: '10px 20px',
       padding: '10px 20px',
       paddingHeader: '0 20px',
-      maxWidth: '600px'
+      maxWidth: '600px',
+
+      maxScreen: '1920px',
+      tablet: '1090px'
     }
   }
 };

@@ -29,9 +29,14 @@ export const Container = styled.section`
 
       a {
         margin: 1.5px 0;
-        width: calc(240px / 1.26);
-        height: calc(240px / 1.26);
+        width: calc(100% / 2);
+        height: calc(100% / 2);
       };
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     };
   `};
 `;

@@ -4,18 +4,7 @@ import styled, { css } from 'styled-components';
 export const Container = styled(Link)`
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  width: calc(300px / 1.26);
-  height: calc(300px / 1.26);
-
-  margin: 0 5px 5px 0;
-
-  img {
-    width: calc(300px / 1.26);
-    height: calc(300px / 1.26);
-  }
 
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};
@@ -23,13 +12,8 @@ export const Container = styled(Link)`
     border-radius: ${theme.settings.radius.small};
 
     @media (max-width: ${theme.settings.responsive.maxWidth}) {
-      width: calc(100% / 1.015);
-      height: calc(100% / 1.015);
-
-      img {
-        width: 100%;
-        height: 100%;
-      };
+      width: calc(100%);
+      height: calc(100vw / 5);
     };
   `};
 `;
@@ -53,8 +37,8 @@ export const Footer = styled.footer`
 
   #title {
     ${({ theme }) => css`
-      font-size: ${theme.font.size.medium};
       color: ${theme.colors.white};
+      font-size: ${theme.font.size.normal};
       font-weight: ${theme.font.weight[500]};
     `};
 
@@ -64,14 +48,13 @@ export const Footer = styled.footer`
 
   #price {
     ${({ theme }) => css`
-      font-size: ${theme.font.size.medium};
       color: ${theme.colors.white};
-      font-weight: ${theme.font.weight[600]};
+      font-size: ${theme.font.size.normal};
+      font-weight: ${theme.font.weight[500]};
     `};
 
+    width: 120px;
     text-align: end;
-    width: 130px;
-    font-weight: 500;
     font-style: italic;
   };
 

@@ -19,6 +19,10 @@ export const Container = styled.header`
     @media (max-width: ${theme.settings.responsive.maxWidth}){
       padding: ${theme.settings.responsive.paddingHeader};
     };
+
+    @media (max-width: 1090px){
+      padding: 0 20px;
+    };
   `};
   
   z-index: 1;

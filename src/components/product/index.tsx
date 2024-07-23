@@ -14,6 +14,8 @@ type Props = {
 };
 
 const Product: React.FC<Props> = ({ product, href, onDelete }) => {
+  const url = window.location.pathname;
+
   return (
     <Container href={href}>
       <Image
@@ -23,7 +25,7 @@ const Product: React.FC<Props> = ({ product, href, onDelete }) => {
         alt={product.title}
         style={{
           objectFit: 'cover',
-          borderRadius: 3
+          borderRadius: 3,
         }}
       />
       {!!onDelete && (
