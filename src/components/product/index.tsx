@@ -14,8 +14,6 @@ type Props = {
 };
 
 const Product: React.FC<Props> = ({ product, href, onDelete }) => {
-  const url = window.location.pathname;
-
   return (
     <Container href={href}>
       <Image

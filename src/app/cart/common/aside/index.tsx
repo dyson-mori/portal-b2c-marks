@@ -17,8 +17,11 @@ import { CartContext } from '@/contexts/cart';
 import { NotificationContext } from '@/hooks/notification';
 import { ArrowLeft, Block, Delivery, Mobile, Routing, TextAlignLeft, User } from '@/assets/svg/icons';
 
-import { ContainerForm, HeaderForm, CheckOuts, Methods, Result, AsideContent } from './styles';
+import { ContainerForm, HeaderForm, CheckOuts, Methods, Result, AsideContent, LoadingScreen, ContainerPix } from './styles';
 import { schemaProps, schema, methodsPayments, steps } from './schema';
+
+import QRcode from '@/assets/svg/Qrcode.svg';
+import Image from 'next/image';
 
 export default function Aside() {
   const route = useRouter();
@@ -36,6 +39,7 @@ export default function Aside() {
   const { control, handleSubmit, getValues, setValue, reset, trigger, formState } = useForm<schemaProps>({
     resolver: yupResolver(schema),
     defaultValues: {
+      loading: false,
       products: storage,
       price: sumPrices,
 
@@ -59,6 +63,10 @@ export default function Aside() {
     }
   });
 
+  console.log(formState.errors);
+
+  const { loading, method } = getValues();
+
   const [currentStep, setCurrentStep] = useState(0);
 
   const lottie_styles  = {
@@ -66,8 +74,14 @@ export default function Aside() {
     maxWidth: "150px"
   };
 
+  const loading_lottie_styles  = {
+    width: 250,
+    height: 250,
+  };
+
   const processForm: SubmitHandler<schemaProps> = async data => {
     const productsIds = data.products.map(({ id }) => ({ id }));
+    setValue('loading', true);
 
     const res = await fetch('/api/gateway', {
       method: 'POST',
@@ -83,15 +97,16 @@ export default function Aside() {
 
     const gateway = await res.json();
 
+    reset();
     route.push(`/gateway?id=${gateway.id}`);
     localStorage.setItem('@marks: cart', JSON.stringify([]));
-    reset();
   };
 
   type FieldName = keyof schemaProps;
 
   const next = async () => {
-    const fields = steps[currentStep].fields
+    const fields = currentStep === 2 ? steps.find(e => e.id === method)?.fields : steps[currentStep].fields
+    // const fields = steps[currentStep].fields
     const output = await trigger(fields as FieldName[], { shouldFocus: true });
 
     if (!output) return;
@@ -114,9 +129,15 @@ export default function Aside() {
         >
           <ArrowLeft width={20} height={20} stroke={theme.colors.primary} strokeWidth={2}/>
         </button>
-        <h4>{steps[currentStep].name}</h4>
+        <h4>{
+          currentStep === 2 ? steps.find(e => e.id === method)?.name : steps[currentStep].name
+        }</h4>
         <p>{currentStep + 1}/3</p>
       </HeaderForm>
+
+      <LoadingScreen style={{ opacity: loading ? 1 : 0, zIndex: loading ? 1 : -1 }}>
+        <DotLottiePlayer style={loading_lottie_styles} src="/lottie/marks-loading.lottie" loop autoplay />
+      </LoadingScreen>
 
       <AsideContent>
         {currentStep === 0 && (
@@ -126,18 +147,23 @@ export default function Aside() {
               <Controller key={i} name='method' control={control}
                 render={({ field: { name, value } }) => (
                   <Methods key={i} disabled={storage?.length === 0}
-                    style={{ boxShadow: value === meth ? theme.settings.box.defaultHoverPrimary : '' }}
+                    style={{ boxShadow: value === meth.id ? theme.settings.box.defaultHoverPrimary : '' }}
                     onClick={(evt) => {
                       evt.preventDefault();
-                      setValue('method', meth);
+                      setValue('method', meth.id);
                     }}
                   >
-                    {meth === 'Credit Cart' && (
+                    {meth.id === 'clyp6mut5000ay4iw0rcg2vve' && (
                       <Cards width={20} height={20} strokeWidth={1.5} stroke={theme.colors[storage?.length === 0 ? 'primary_disabled' : 'primary']} />
                     )}
-                    {meth === 'Pix' && <Pix width={20} height={20} />}
-                    <p>{meth}</p>
-                    {meth === 'Pix' && (<><div style={{ width: '50%' }} /><p id='discount'>5% discount</p></>)}
+                    {meth.id === 'clyrlct24000ka4h0qjmxm39i' && <Pix width={20} height={20} />}
+                    <p>{meth.title}</p>
+                    {meth.id === 'clyrlct24000ka4h0qjmxm39i' && (
+                      <>
+                        <div style={{ width: '50%' }} />
+                        <p id='discount'>5% discount</p>
+                      </>
+                    )}
                   </Methods>
                 )}
               />
@@ -191,12 +217,11 @@ export default function Aside() {
                 <Input.Root>
                   <Mobile width={15} height={20} stroke={theme.colors.primary} strokeWidth={2} />
                   <Input.Input
-                    value={formats.phoneNumber(value!)}
+                    value={formats.phoneNumber(value)}
                     placeholder='(00) 0 0000 0000'
                     onBlur={onBlur}
                     onChange={e => {
-                      if (e.target.value.replace(/-/g, '').length >= 15) return;
-                      setValue('phone', e.target.value);
+                      if (e.target.value.replace(/\D/g, '').length >= 12) return;
                       onChange(e);
                     }}
                   />
@@ -212,12 +237,11 @@ export default function Aside() {
                   <User width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
                   <Input.Input
                     name='cpf'
-                    value={formats.cpf(value!)}
+                    value={formats.cpf(value ?? '')}
                     placeholder='000.000.000-00'
                     onBlur={onBlur}
                     onChange={e => {
-                      if (e.target.value.replace(/-/g, '').length >= 12) return;
-                      setValue('cpf', e.target.value);
+                      if (e.target.value.replace(/\D/g, '').length >= 12) return;
                       onChange(e);
                     }}
                   />
@@ -237,21 +261,18 @@ export default function Aside() {
                     placeholder='00000-000'
                     onBlur={onBlur}
                     onChange={e => {
-                      if (e.target.value.replace(/-/g, '').length >= 9) return;
-
-                      if (e.target.value.replace(/-/g, '').length === 8) {
-                        return fetch(`https://api.postmon.com.br/v1/cep/${e.target.value}`)
-                        .then(jsn => jsn.json())
-                        .then((address) => {
-                          setValue('state', address.estado);
-                          setValue('city', address.cidade);
-                          setValue('neighborhood', address.bairro);
-                          setValue('street', address.logradouro);
-                          setValue('cep', address.cep);
-
-                          // setValue('address', `${address.estado} - ${address.cidade} - ${address.bairro} - ${address.logradouro} - `);
+                      if (e.target.value.replace(/\D/g, '').length >= 9) return;
+                      if (e.target.value.replace(/\D/g, '').length === 8) {
+                          fetch(`https://api.postmon.com.br/v1/cep/${e.target.value}`)
+                          .then(jsn => jsn.json())
+                          .then((address) => {
+                            setValue('state', address.estado);
+                            setValue('city', address.cidade);
+                            setValue('neighborhood', address.bairro);
+                            setValue('street', address.logradouro);
+                            setValue('cep', address.cep);
                         })
-                      };
+                      }
                       onChange(e);
                     }}
                   />
@@ -262,19 +283,10 @@ export default function Aside() {
             <Controller
               name="address"
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <Input.Root>
                   <Routing width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
-                  <Input.Input
-                    defaultValue={value ?? ''}
-                    value={value}
-                    placeholder='Address'
-                    onBlur={onBlur}
-                    onChange={e => {
-                      setValue('address', e.target.value);
-                      onChange(e);
-                    }}
-                  />
+                  <Input.Input value={value ?? ''} placeholder='Number' onChange={onChange} />
                 </Input.Root>
               )}
             />
@@ -282,40 +294,24 @@ export default function Aside() {
             <Controller
               name="description"
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <Input.Root>
                   <TextAlignLeft width={20} height={20} stroke={theme.colors.primary} strokeWidth={2} />
-                  <Input.Input
-                    value={value}
-                    placeholder='Description'
-                    onBlur={onBlur}
-                    onChange={e => {
-                      setValue('description', e.target.value);
-                      onChange(e);
-                    }}
-                  />
+                  <Input.Input value={value} placeholder='Description' onChange={onChange} />
                 </Input.Root>
               )}
             />
           </>
         )}
-        {currentStep === 2 && (
+        {currentStep === 2 && method === 'clyp6mut5000ay4iw0rcg2vve' && (
           <>
             <Controller
               name="credit_card_name"
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <Input.Root>
                   <User width={20} height={20} stroke={theme.colors.primary} />
-                  <Input.Input
-                    value={value}
-                    placeholder='Name on the card'
-                    onBlur={onBlur}
-                    onChange={e => {
-                      setValue('credit_card_name', e.target.value);
-                      onChange(e);
-                    }}
-                  />
+                  <Input.Input value={value ?? ''} placeholder='Name on the card' onChange={onChange} />
                 </Input.Root>
               )}
             />
@@ -323,18 +319,10 @@ export default function Aside() {
             <Controller
               name="expiration_date"
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <Input.Root>
                   <User width={20} height={20} stroke={theme.colors.primary} />
-                  <Input.Input
-                    value={value}
-                    placeholder='000'
-                    onBlur={onBlur}
-                    onChange={e => {
-                      setValue('expiration_date', e.target.value);
-                      onChange(e);
-                    }}
-                  />
+                  <Input.Input value={value ?? ''} placeholder='000' onChange={onChange} />
                 </Input.Root>
               )}
             />
@@ -346,12 +334,11 @@ export default function Aside() {
                 <Input.Root>
                   <User width={20} height={20} stroke={theme.colors.primary} />
                   <Input.Input
-                    value={formats.document_number(value)}
+                    value={formats.document_number(value ?? '')}
                     placeholder='0000-0000-0000-0000'
                     onBlur={onBlur}
                     onChange={e => {
-                      if (e.target.value.replace(/-/g, '').length >= 17) return;
-                      setValue('document_number', e.target.value);
+                      if (e.target.value.replace(/\D/g, '').length >= 17) return;
                       onChange(e);
                     }}
                   />
@@ -360,18 +347,23 @@ export default function Aside() {
             />
           </>
         )}
+        {currentStep === 2 && method === 'clyrlct24000ka4h0qjmxm39i' && (
+          <ContainerPix>
+            <Image src={QRcode} width={250} height={250} alt='qrcode'/>
+          </ContainerPix>
+        )}
       </AsideContent>
 
-      <Button
-        id='address'
-        disabled={
-          storage?.length === 0
-        }
-        onClick={evt => {
-          evt.preventDefault();
-          next()
-        }}
-      >{currentStep === 2 ? 'Complete' : 'Next'}</Button>
+      {/* {currentStep !== 2 || method !== 'clyrlct24000ka4h0qjmxm39i' ? ( */}
+        <Button id='address' primary disabled={storage?.length === 0}
+          onClick={evt => {
+            evt.preventDefault();
+            next();
+          }}
+        >
+          {currentStep === 2 ? 'Complete' : 'Next'}
+        </Button>
+      {/* ) : null } */}
     </ContainerForm>
   )
 }

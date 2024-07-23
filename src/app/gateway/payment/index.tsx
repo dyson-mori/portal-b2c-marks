@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { DotLottiePlayer } from '@dotlottie/react-player';
@@ -9,7 +9,8 @@ import Purchase from '@/assets/svg/purchase.svg';
 
 import { GatewayProps } from '@/global/interfaces';
 
-import { Container, Banner, Loading, BannerProduct } from './styles';
+import { Container, Banner, BannerProduct } from './styles';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 interface PaymentProps {
   gateway: GatewayProps;
@@ -17,8 +18,10 @@ interface PaymentProps {
 
 export default function Payment({ gateway }: PaymentProps) {
   const route = useRouter();
+  const { width } = useWindowDimensions();
 
   const [creditToProduct, setCreditToProduct] = useState(!!gateway.id);
+  const [step, setStep] = useState(-1);
 
   const loading_lottie_styles: CSSProperties  = {
     opacity: gateway?.id ? 0 : 1,
@@ -34,9 +37,13 @@ export default function Payment({ gateway }: PaymentProps) {
     height: gateway?.id && !creditToProduct ? 300 : 0,
   };
 
-  const banner_styles: CSSProperties  = {
+  const banner_styles: CSSProperties = {
     transition: '1s',
-    width: creditToProduct ? 300 : 0
+  };
+
+  const banner_marks_lottie: CSSProperties = {
+    position: 'absolute',
+    transition: '1s',
   };
 
   const image_styles: CSSProperties  = {
@@ -44,8 +51,6 @@ export default function Payment({ gateway }: PaymentProps) {
     borderRadius: 150,
     objectFit: 'cover',
     transition: '1s',
-    width: creditToProduct ? 250 : 0,
-    height: creditToProduct ? 250 : 0,
   };
 
   // useEffect(() => {
@@ -58,40 +63,36 @@ export default function Payment({ gateway }: PaymentProps) {
   //   }, 9000);
   // } , []);
 
+  useEffect(() => {
+    gateway.product.forEach((item, index) => {
+
+      setTimeout(() => {
+        setStep(index);
+      }, Number(`${index+5}00`));
+    });
+  } , []);
+
   return (
     <Container>
 
-      <Banner>
-        <Loading>
-          <DotLottiePlayer style={cart_lottie_styles} src="/lottie/card.lottie" loop autoplay />
-          <DotLottiePlayer style={loading_lottie_styles} src="/lottie/marks-loading.lottie" loop autoplay />
-          <h1 style={{ display: (gateway.id && creditToProduct) ? 'none' : 'flex' }}>
-            {
-              gateway.id ? 'Payment received' : 'Payment in Progress'
-            }
-          </h1>
-          <p style={{ display: (gateway.id && creditToProduct) ? 'none' : 'flex' }}>
-            {
-              gateway.id ? 'Success, we will send the code to your WhatsApp' : 'We are waiting for payment confirmation'
-            }
-          </p>
-        </Loading>
+      <h1 style={{ fontSize: step === 2 ? 25 : 0, transition: '1s' }}>Obrigado pela compra</h1>
 
+      <Banner>
         {gateway.product.map((prods, i) => (
           <BannerProduct key={i}>
-            <Image style={banner_styles} src={Purchase} width={300} height={300} alt='banner' />
+            <DotLottiePlayer style={{ ...banner_marks_lottie, width: step >= i ? 400 : 0 }} src="/lottie/banner-marks.lottie" loop autoplay />
             <Image
-              width={300}
-              height={300}
-              style={image_styles}
+              width={250}
+              height={250}
+              style={{ ...image_styles, width: step >= i ? 250 : 0, height: step >= i ? 250 : 0 }}
               alt={prods.files[0].url}
               src={prods.files[0].url}
             />
           </BannerProduct>
         ))}
-
       </Banner>
-      {/* <p>a</p> */}
+
+      <p style={{ fontSize: step === 2 ? 20 : 0, transition: '1s' }}>Você receberá uma mensagem no Whatsapp informando mais sobre a compra</p>
     </Container>
   )
 };

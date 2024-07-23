@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
+  loading: yup.boolean().notRequired(),
+
   method: yup.string().required(),
   price: yup.number().required(),
   products: yup.array().of(
@@ -22,24 +24,32 @@ export const schema = yup.object().shape({
   city: yup.string(),
   street: yup.string(),
   state: yup.string(),
-
+  
   address: yup.string().required('Field Required'),
   description: yup.string().required('Field Required'),
+
   credit_card_name: yup.string().required('Field Required'),
   expiration_date: yup.string().required('Field Required'),
-  document_number: yup.string().required('Field Required').max(16, 'Must be exactly 16 characters').test('len', 'Must be exactly 16 characters', val => val.length === 16),
+  document_number: yup.string().required('Field Required')
+    // .max(16, 'Must be exactly 16 characters').test('len', 'Must be exactly 16 characters', val => val.length === 16),
 });
 
 export type schemaProps = yup.InferType<typeof schema>;
 
 export const methodsPayments = [
-  'Credit Cart',
-  'Pix'
+  {
+    id: 'clyp6mut5000ay4iw0rcg2vve',
+    title: 'Credit Cart'
+  },
+  {
+    id: 'clyrlct24000ka4h0qjmxm39i',
+    title: 'Pix'
+  }
 ];
 
 export const steps = [
   {
-    id: 'Step 1',
+    id: 'clyp5g9v30000y4iwb6dw4wfn',
     name: 'Payment Method',
     fields: [
       'method',
@@ -47,7 +57,7 @@ export const steps = [
     ]
   },
   {
-    id: 'Step 2',
+    id: 'clyp5wne60009y4iwjkfeobj5',
     name: 'Address',
     fields: [
       'full_name',
@@ -58,7 +68,14 @@ export const steps = [
       'description'
     ]
   },
-  { id: 'Step 3', name: 'Credit Cart',
+  {
+    id: 'clyrlct24000ka4h0qjmxm39i',
+    name: 'Pix',
+    fields: []
+  },
+  {
+    id: 'clyp6mut5000ay4iw0rcg2vve',
+    name: 'Credit Cart',
     fields: [
       'credit_card_name',
       'expiration_date',

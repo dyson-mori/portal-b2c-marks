@@ -55,9 +55,7 @@ export async function POST(request: NextRequest) {
     }
   });
 
-  if (!purchase) {
-    throw new Error('Product Server Error');
-  };
+  if (!purchase) throw new Error('Product Server Error');
 
   return NextResponse.json(purchase);
 };
