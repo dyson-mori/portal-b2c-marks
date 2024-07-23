@@ -18,12 +18,7 @@ export const formats = {
 
   cpf: (e: string) => {
     const digits = e?.replace(/\D/g, '') || '';
-
-    if (digits.length === 11) {
-      return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    };
-
-    return e;
+    return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   },
 
   cep: (e: string) => {
@@ -45,18 +40,7 @@ export const formats = {
 
   phoneNumber: (e: string) => {
     const digits = e?.replace(/\D/g, '') || '';
-
-    let result = e;
-
-    if (digits.length === 2) {
-      result = digits.replace(/(\d{2})/, '($1)');
-    } else if (digits.length === 10) {
-      result = digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-    } else if (digits.length === 11) {
-      result = digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-    };
-  
-    return result;
+    return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
 	},
 
   document_number: (e: string) => {

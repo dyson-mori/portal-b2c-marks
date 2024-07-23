@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const ContainerForm = styled.form`
   display: flex;
+  position: relative;
 
   align-items: center;
   flex-direction: column;
@@ -153,4 +154,36 @@ export const Result = styled.div`
       font-weight: ${theme.font.weight[600]};
     };
   `};
+`;
+
+export const LoadingScreen = styled.div`
+  display: flex;
+  position: absolute;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  top: 0;
+  bottom: 0;
+
+  backdrop-filter: blur(1px);
+
+  transition: .5s;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.background}aa;
+    border-radius: ${theme.settings.radius.small};
+  `}
+`;
+
+export const ContainerPix = styled.div`
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
 `;

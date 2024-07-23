@@ -8,6 +8,10 @@ export const Container = styled.form`
   height: 100vh;
 
   overflow: hidden;
+
+  @media (max-width: 520px){
+    flex-direction: column;
+  };
 `;
 
 export const Forms = styled.div`
@@ -16,6 +20,12 @@ export const Forms = styled.div`
   justify-content: space-between;
   flex-direction: column;
   margin: 0 10px;
+
+  @media (max-width: 520px){
+    margin: 10px;
+    padding: 0 15px;
+    width: 100%;
+  };
 
   width: 450px;
   height: 398px;
@@ -56,6 +66,10 @@ export const Options = styled.div`
   height: 100%;
 
   transition: .3s;
+
+  @media (max-width: 520px){
+    width: 93%;
+  };
 
   ${({ theme }) => css`
     box-shadow: ${theme.settings.box.simple};

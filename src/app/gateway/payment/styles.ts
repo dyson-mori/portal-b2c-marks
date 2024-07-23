@@ -10,6 +10,10 @@ export const Container = styled.article`
   width: 100%;
   height: 90vh;
 
+  text-align: center;
+
+  justify-content: space-evenly;
+
   h1 {
     margin: 10px;
     ${({ theme }) => css`
@@ -17,38 +21,36 @@ export const Container = styled.article`
       font-size: ${theme.font.size.large};
       font-weight: ${theme.font.weight[600]};
     `};
-  }
+  };
 `;
 
 export const Banner = styled.div`
-  position: relative;
-
   display: flex;
 
-  justify-content: center;
-  align-items: center;
-`;
+  @media (min-width: 1000px) {
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-x: hidden;
+    margin-bottom: 20px;
+  };
 
-export const Loading = styled.div`
-  display: flex;
-  position: absolute;
+  width: 100%;
 
-  width: 500px;
-
-  transform: 1s;
-
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
 `;
 
 export const BannerProduct = styled.div`
   display: flex;
   position: relative;
 
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  margin: 10px;
+  width: 300px;
+  height: 350px;
+
+  @media (max-width: 600px) {
+    min-width: 100%;
+  };
 `;

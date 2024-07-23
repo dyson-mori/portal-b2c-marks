@@ -20,7 +20,7 @@ export const Container = styled.div`
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
 
-    @media (max-width: ${theme.settings.responsive.maxWidth}){
+    @media (max-width: 710px){
       display: none;
     };
   `};

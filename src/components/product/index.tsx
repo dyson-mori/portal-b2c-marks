@@ -23,7 +23,7 @@ const Product: React.FC<Props> = ({ product, href, onDelete }) => {
         alt={product.title}
         style={{
           objectFit: 'cover',
-          borderRadius: 3
+          borderRadius: 3,
         }}
       />
       {!!onDelete && (
