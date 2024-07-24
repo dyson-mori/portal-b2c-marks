@@ -10,12 +10,70 @@ export const Container = styled(Link)`
     box-shadow: ${theme.settings.box.simple};
     background-color: ${theme.colors.white};
     border-radius: ${theme.settings.radius.small};
-
-    @media (max-width: ${theme.settings.responsive.maxWidth}) {
-      width: calc(100%);
-      height: calc(100vw / 5);
-    };
   `};
+
+  width: calc(97%);
+  margin: 0 5px 5px 0;
+
+  img {
+    width: 100%;
+  };
+
+  @media (min-width: 1920px){
+    height: calc(100vw / 7);
+
+    img {
+      height: calc(100vw / 7);
+    };
+  };
+
+  @media (max-width: 1920px){
+    height: calc(100vw / 7);
+
+    img {
+      height: calc(100vw / 7);
+    };
+  };
+
+  @media (max-width: 1280px){
+    height: calc(100vw / 6);
+
+    img {
+      height: calc(100vw / 6);
+    };
+  };
+
+  @media (max-width: 1090px){
+    height: calc(100vw / 4.5);
+
+    img {
+      height: calc(100vw / 4.5);
+    };
+  };
+
+  @media (max-width: 900px){
+    height: calc(100vw / 3.5);
+
+    img {
+      height: calc(100vw / 3.5);
+    };
+  };
+
+  @media (max-width: 710px){
+    height: calc(100vw / 3);
+
+    img {
+      height: calc(100vw / 3);
+    };
+  };
+
+  @media (max-width: 520px){
+    height: calc(100vw / 2);
+
+    img {
+      height: calc(100vw / 2);
+    };
+  };
 `;
 
 export const Footer = styled.footer`

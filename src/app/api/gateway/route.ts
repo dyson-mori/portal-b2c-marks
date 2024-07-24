@@ -2,11 +2,23 @@ import { prisma } from "@/services/prisma";
 import { Address, Product } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-const data: any = [];
-
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id") as string;
+
+  if (!id) {
+    const purchase = await prisma.purchase.findMany({
+      include: {
+        product: true
+      }
+    });
+  
+    if (!purchase) {
+      throw new Error('Product Server Error');
+    };
+  
+    return NextResponse.json(purchase);
+  }
 
   const purchase = await prisma.purchase.findFirst({
     where: { id },

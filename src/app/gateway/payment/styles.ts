@@ -30,14 +30,22 @@ export const Banner = styled.div`
   @media (min-width: 1000px) {
     justify-content: space-evenly;
     align-items: center;
+    flex-wrap: wrap;
+
     overflow-x: hidden;
     margin-bottom: 20px;
   };
 
-  width: 100%;
+  @media (max-width: 520px) {
+    height: auto;
 
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  };
+
+  width: 100%;
+  height: 60%;
+
 `;
 
 export const BannerProduct = styled.div`
@@ -46,9 +54,6 @@ export const BannerProduct = styled.div`
 
   justify-content: center;
   align-items: center;
-
-  width: 300px;
-  height: 350px;
 
   @media (max-width: 600px) {
     min-width: 100%;

@@ -23,7 +23,7 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const { getValues, setValue, handleSubmit, control,  formState: { isSubmitting, isSubmitted, errors, isSubmitSuccessful } } = useForm<SchemaProps>({
+  const { getValues, setValue, handleSubmit, control, reset, formState: { errors } } = useForm<SchemaProps>({
     defaultValues: {
       id: product?.id ?? '',
       title: product?.title ?? '',
@@ -35,7 +35,6 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     resolver: yupResolver(schema),
   });
 
-  
   const { id: productId, isLoading, haveNewFile } = getValues();
 
   const styles = {
@@ -71,9 +70,11 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
     revalidatePanelProduct();
 
     const isValid = product?.files.length! > files.length || !files.find(fin => fin?.id);
+    console.log(result);
+
+    setValue('id', result?.id);
 
     if (isValid) {
-      setValue('id', result?.id);
       return setValue('haveNewFile', true);
     };
 
@@ -106,14 +107,13 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
 
   useEffect(() => {
     if (!isUpdate && !isLoading) {
-      console.log(isUpdate);
-      console.log(isLoading);
-
-      setValue('id', undefined);
-      setValue('title', '');
-      setValue('price', 0);
-      setValue('description', '');
-      setValue('category', []);
+      // setValue('id', undefined);
+      // setValue('title', '');
+      // setValue('price', 0);
+      // setValue('description', '');
+      // setValue('category', []);
+      // setValue('files', []);
+      reset();
     };
   }, [isLoading]);
 
@@ -125,14 +125,12 @@ export default function Register({ isUpdate, product, categories }: RegisterEdit
         render={({ field: { onChange, value }  }) => {
           return (
             <Upload
-              productId={productId}
               files={value}
+              setFiles={onChange}
+              productId={productId}
               isLoading={!!isLoading && !!haveNewFile}
               setLoading={() => setValue('isLoading', false)}
               isUpdate={isUpdate}
-              setFiles={evt => {
-                onChange(evt)
-              }}
             />
           )
         }}

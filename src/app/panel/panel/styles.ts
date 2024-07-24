@@ -6,63 +6,43 @@ export const Container = styled.article`
 
   margin: 10px 50px;
 
-  min-height: 80vh;
+  height: 100%;
+
+  @media (min-width: 1920px){
+    grid-template-columns: repeat(auto-fill, minmax(calc(100% / 5), 1fr));
+    img {
+      height: calc(100vw / 7);
+    };
+  };
 
   @media (max-width: 1920px){
     grid-template-columns: repeat(auto-fill, minmax(calc(100% / 5), 1fr));
     a {
-      margin: 0 5px 5px 0;
-      width: calc(97%);
-      height: calc(100vw / 5);
-    };
-
+      height: calc(100vw / 5.5);
+    }
     img {
-      width: 100%;
-      height: calc(100vw / 5);
+      height: calc(100vw / 5.5);
     };
   };
 
   @media (max-width: 1280px){
     grid-template-columns: repeat(auto-fill, minmax(calc(100% / 4), 1fr));
-    a {
-      margin: 0 5px 5px 0;
-      width: calc(97%);
-      height: calc(100vw / 4);
-    };
-
-    img {
-      width: 100%;
-      height: calc(100vw / 4);
-    };
   };
-
+  
   @media (max-width: 1090px){
     grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), 1fr));
-    a {
-      margin: 0 5px 5px 0;
-      width: calc(97%);
-      height: calc(100vw / 3);
-    };
-
-    img {
-      width: 100%;
-      height: calc(100vw / 3);
-    };
   };
 
   @media (max-width: 900px){
     grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2), 1fr));
-    margin: 10px;
-    a {
-      margin: 0 5px 5px 0;
-      width: calc(97%);
-      height: calc(100vw / 2);
-    };
+  };
 
-    img {
-      width: 100%;
-      height: calc(100vw / 2);
-    };
+  @media (max-width: 710px){
+    grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), 1fr));
+  };
+
+  @media (max-width: 520px){
+    grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2), 1fr));
   };
 `;
 

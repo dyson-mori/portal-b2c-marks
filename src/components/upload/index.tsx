@@ -68,8 +68,9 @@ const Upload: React.FC<UploadProps> = ({ files, setFiles, productId, isUpdate, i
       (async () => {
         const formData = new FormData();
 
+        console.log(productId);
+
         formData.append("product_id", productId!);
-        formData.append("code", `${parseInt(String(Math.random() * (Math.random() * 100)))}`);
 
         files.forEach((file: any, i: number) => {
           if (!file.id) {

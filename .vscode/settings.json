@@ -15,7 +15,7 @@
     "next-env.d.ts": true,
     "node_modules": true,
     ".editorconfig": true,
-    ".gitignore": true,
+    ".gitignore": false,
     ".eslintrc.json": true,
     "next.config.mjs": true,
     "tsconfig.json": true,

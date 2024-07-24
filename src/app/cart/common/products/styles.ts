@@ -1,18 +1,35 @@
 import styled, { css } from 'styled-components';
 
 export const Container = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
 
   width: 100%;
 
   padding: 0 2.5px;
   margin-right: 5px;
 
-  a {
-    margin: 0 2.5px;
+  @media (max-width: 1920px){
+    grid-template-columns: repeat(auto-fill, minmax(calc(100% / 4), 1fr));
+    a {
+      margin: 2.5px;
+      width: 98%;
+      height: calc(100vw / 6.2);
+    };
+    img {
+      height: calc(100vw / 6.2);
+    };
+  };
+
+  @media (max-width: 520px){
+    grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2), 1fr));
+    a {
+      margin: 2.5px;
+      width: 98%;
+      height: calc(100vw / 2.2);
+    };
+    img {
+      height: calc(100vw / 2.2);
+    };
   };
 
   ${({ theme }) => css`
@@ -26,17 +43,6 @@ export const Container = styled.section`
       justify-content: space-evenly;
 
       padding: 1.5px 0;
-
-      a {
-        margin: 1.5px 0;
-        width: calc(100% / 2);
-        height: calc(100% / 2);
-      };
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
     };
   `};
 `;
@@ -46,4 +52,6 @@ export const CartEmpty = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  width: 100%;
 `;
